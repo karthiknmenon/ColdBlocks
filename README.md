@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="460" height="300" src="./logo/logo.png">
+</p>
+
 # ColdBlocks
 Final year project repository. <br />
 ___
