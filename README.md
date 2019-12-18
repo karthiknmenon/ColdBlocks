@@ -15,13 +15,17 @@ ___
     * Check if branch is created successfully using `git branch`
     * If you are in the correct branch specified as ( *branch_name), then proceed
 * To commit changes into the repo (Make sure you are in your branch)
+    *  Navigate to your repository in your machine using command `cd`
     * `git add .`
-    * `git commit -m "add a commit message"`
+    * `git commit -m "add a commit message"`, give a meaningful commit message
     * `git push`
 * Checking for conflicts - 
     * When performing `git pull` there might be conflicts 
     * Review code changes and then perform `git merge master` from your branch
+* For more information on git commands - go to [GitHub Command](https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html)
 
+<br />
+:v: :fist:
 ___
 
 
