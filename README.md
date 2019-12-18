@@ -1,4 +1,4 @@
-![ColdBlocks](/logo/logo.png)
+![ColdBlocks](logo.png)
 
 # ColdBlocks
 Final year project repository. <br />
