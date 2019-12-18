@@ -1,6 +1,4 @@
-<p align="center">
-  <img width="460" height="300" src="./logo/logo.png">
-</p>
+![ColdBlocks](./logo/logo.png)
 
 # ColdBlocks
 Final year project repository. <br />
