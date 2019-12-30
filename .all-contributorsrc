@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "deniltitus",
+      "name": "deniltitus",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/54170237?v=4",
+      "profile": "https://github.com/deniltitus",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "ColdBlocks",
+  "projectOwner": "mojojojo20",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
