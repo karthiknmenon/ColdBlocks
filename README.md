@@ -45,7 +45,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/deniltitus"><img src="https://avatars2.githubusercontent.com/u/54170237?v=4" width="100px;" alt=""/><br /><sub><b>deniltitus</b></sub></a><br /><a href="https://github.com/mojojojo20/ColdBlocks/commits?author=deniltitus" title="Documentation">📖</a></td>
+
     <td align="center"><a href="https://github.com/iamkt23"><img src="https://avatars0.githubusercontent.com/u/41678640?v=4" width="100px;" alt=""/><br /><sub><b>iamkt23</b></sub></a><br /><a href="https://github.com/mojojojo20/ColdBlocks/commits?author=iamkt23" title="Code">💻</a></td>
+
+    <td align="center"><a href="https://karthikmenon.me/"><img src="https://avatars1.githubusercontent.com/u/41678651?v=4" width="100px;" alt=""/><br /><sub><b>Karthik Menon</b></sub></a><br /><a href="https://github.com/mojojojo20/ColdBlocks/commits?author=mojojojo20" title="Code">💻</a></td>
   </tr>
 </table>
 
