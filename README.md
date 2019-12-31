@@ -1,6 +1,6 @@
 ![ColdBlocks](https://user-images.githubusercontent.com/41678651/71070470-d75e8000-21a0-11ea-9a20-0853cdaa476b.jpg)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Rules for pushing files into repo 
@@ -45,6 +45,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/deniltitus"><img src="https://avatars2.githubusercontent.com/u/54170237?v=4" width="100px;" alt=""/><br /><sub><b>deniltitus</b></sub></a><br /><a href="https://github.com/mojojojo20/ColdBlocks/commits?author=deniltitus" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://karthikmenon.me/"><img src="https://avatars1.githubusercontent.com/u/41678651?v=4" width="100px;" alt=""/><br /><sub><b>Karthik Menon</b></sub></a><br /><a href="https://github.com/mojojojo20/ColdBlocks/commits?author=mojojojo20" title="Code">💻</a></td>
   </tr>
 </table>
 

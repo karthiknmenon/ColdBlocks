@@ -13,6 +13,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "mojojojo20",
+      "name": "Karthik Menon",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/41678651?v=4",
+      "profile": "https://karthikmenon.me/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
