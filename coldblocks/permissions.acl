@@ -12,54 +12,32 @@
  * limitations under the License.
  */
 
+'use strict';
 /**
- * Sample access control list.
+ * Write your transction processor functions here
  */
-rule EverybodyCanReadEverything {
-    description: "Allow all participants read access to all resources"
-    participant: "org.coldblocks.mynetwork.SampleParticipant"
-    operation: READ
-    resource: "org.coldblocks.mynetwork.*"
-    action: ALLOW
-}
 
-rule EverybodyCanSubmitTransactions {
-    description: "Allow all participants to submit transactions"
-    participant: "org.coldblocks.mynetwork.SampleParticipant"
-    operation: CREATE
-    resource: "org.coldblocks.mynetwork.SampleTransaction"
-    action: ALLOW
-}
+/**
+ * Sample transaction
+ * @param {org.coldblocks.mynetwork.SampleTransaction} sampleTransaction
+ * @transaction
+ */
+async function sampleTransaction(tx) {
+    // Save the old value of the asset.
+    const oldValue = tx.asset.value;
 
-rule OwnerHasFullAccessToTheirAssets {
-    description: "Allow all participants full access to their assets"
-    participant(p): "org.coldblocks.mynetwork.SampleParticipant"
-    operation: ALL
-    resource(r): "org.coldblocks.mynetwork.SampleAsset"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
-    action: ALLOW
-}
+    // Update the asset with the new value.
+    tx.asset.value = tx.newValue;
 
-rule SystemACL {
-  description:  "System ACL to permit all access"
-  participant: "org.hyperledger.composer.system.Participant"
-  operation: ALL
-  resource: "org.hyperledger.composer.system.**"
-  action: ALLOW
-}
+    // Get the asset registry for the asset.
+    const assetRegistry = await getAssetRegistry('org.coldblocks.mynetwork.SampleAsset');
+    // Update the asset in the asset registry.
+    await assetRegistry.update(tx.asset);
 
-rule NetworkAdminUser {
-    description: "Grant business network administrators full access to user resources"
-    participant: "org.hyperledger.composer.system.NetworkAdmin"
-    operation: ALL
-    resource: "**"
-    action: ALLOW
-}
-
-rule NetworkAdminSystem {
-    description: "Grant business network administrators full access to system resources"
-    participant: "org.hyperledger.composer.system.NetworkAdmin"
-    operation: ALL
-    resource: "org.hyperledger.composer.system.**"
-    action: ALLOW
+    // Emit an event for the modified asset.
+    let event = getFactory().newEvent('org.coldblocks.mynetwork', 'SampleEvent');
+    event.asset = tx.asset;
+    event.oldValue = oldValue;
+    event.newValue = tx.newValue;
+    emit(event);
 }
