@@ -26,19 +26,19 @@ asset TransitPackage identified by packageID {
 
 // Particpant list in the scenario
 participant Supplier identified by supplierID {
-  o String supplierID
+  o String supplierID regex=/[S][0-9]/
   o String supplierName
 }
 participant Manufacturer identified by manufacturerID {
-  o String manufacturerID
+  o String manufacturerID regex=/[M][0-9]/
   o String manufacturerName
 }
 participant Distributor identified by distributorID {
-  o String distributorID
+  o String distributorID regex=/[D][0-9]/
   o String distributorName
 }
 participant Consumer identified by consumerID {
-  o String consumerID
+  o String consumerID regex=/[C][0-9]/
   o String consumerName
 }
 
