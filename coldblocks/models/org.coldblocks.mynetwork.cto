@@ -12,31 +12,58 @@
  * limitations under the License.
  */
 
+// participant SampleParticipant identified by participantId {
+//   o String participantId
+//   o String firstName
+//   o String lastName
+// }
+
+// asset SampleAsset identified by assetId {
+//   o String assetId
+//   --> SampleParticipant owner
+//   o String value
+// }
+
+// transaction SampleTransaction {
+//   --> SampleAsset asset
+//   o String newValue
+// }
+
+// event SampleEvent {
+//   --> SampleAsset asset
+//   o String oldValue
+//   o String newValue
+// }
 /**
  * Write your model definitions here
  */
 
 namespace org.coldblocks.mynetwork
 
-participant SampleParticipant identified by participantId {
-  o String participantId
-  o String firstName
-  o String lastName
+// Details of the consignment being transported
+asset TransitPackage identified by packageID {
+  o String packageID
+  o String location
+  o String temperature
+  o String destination
+  o String holder
+  o String status
 }
 
-asset SampleAsset identified by assetId {
-  o String assetId
-  --> SampleParticipant owner
-  o String value
+// Particpant list in the scenario
+participant Supplier identified by supplierID {
+  o String supplierID
+  o String supplierName
 }
-
-transaction SampleTransaction {
-  --> SampleAsset asset
-  o String newValue
+participant Manufacturer identified by manufacturerID {
+  o String manufacturerID
+  o String manufacturerName
 }
-
-event SampleEvent {
-  --> SampleAsset asset
-  o String oldValue
-  o String newValue
+participant Distributor identified by distributorID {
+  o String distributorID
+  o String distributorName
+}
+participant Consumer identified by consumerID {
+  o String consumerID
+  o String consumerName
 }
