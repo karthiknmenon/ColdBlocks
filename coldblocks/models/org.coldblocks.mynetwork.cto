@@ -56,8 +56,8 @@ event TemperatureDropEvent {
 
 // Transactions associated with the package
 transaction HolderChange {
-  o String oldOwner
-  o String newOwner
+  o String oldHolder
+  o String newHolder
 }
 transaction TemperatureDrop {
   o String oldTemperature

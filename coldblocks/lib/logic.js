@@ -22,22 +22,43 @@
  * @param {org.coldblocks.mynetwork.HolderChange} HolderChange
  * @transaction
  */
-async function HolderChange(holderChange) {
-    // Save the old value of the asset.
-    const oldValue = holderChange.TrasnitPackage.holder;
+// async function HolderChange(holderChange) {
+//     // Save the old value of the asset.
+//     const oldHolder = holderChange.asset.holder;
 
+//     // Update the asset with the new value.
+//     holderChange.asset.holder = holderChange.newHolder;
+
+//     // Get the asset registry for the asset.
+//     const assetRegistry = await getAssetRegistry('org.coldblocks.mynetwork.TransitPackage');
+//     // Update the asset in the asset registry.
+//     await assetRegistry.update(holderChange.asset);
+
+//     // Emit an event for the modified asset.
+//     let event = getFactory().newEvent('org.coldblocks.mynetwork', 'HolderChangeEvent');
+//     event.asset = holderChange.asset;
+//     event.oldHolder = oldHolder;
+//     event.newHolder = holderChange.newHolder;
+//     emit(event);
+// }
+
+async function holderChange(tx) {
+    // Save the old value of the asset.
+    const oldHolder = tx.asset.holder;
+    
     // Update the asset with the new value.
-    holderChange.asset.holder = holderChange.newHolder;
+    tx.asset.holder = tx.newHolder;
+   
 
     // Get the asset registry for the asset.
     const assetRegistry = await getAssetRegistry('org.coldblocks.mynetwork.TransitPackage');
     // Update the asset in the asset registry.
-    await assetRegistry.update(holderChange.asset);
+    await assetRegistry.update(tx.asset);
 
     // Emit an event for the modified asset.
     let event = getFactory().newEvent('org.coldblocks.mynetwork', 'HolderChangeEvent');
-    event.asset = holderChange.asset;
+    event.asset = tx.asset;
     event.oldHolder = oldHolder;
-    event.newHolder = holderChange.newHolder;
+    event.newHolder = tx.newHolder;
     emit(event);
 }
