@@ -67,3 +67,29 @@ participant Consumer identified by consumerID {
   o String consumerID
   o String consumerName
 }
+
+// Events associated with package
+event HolderChangeEvent {
+  o String newHolder
+  o String oldHolder
+  --> TransitPackage asset
+}
+event TemperatureDropEvent {
+  o String dropTemperature
+  o String dropLocation
+  --> TransitPackage asset
+}
+
+// Transactions associated with the package
+transaction HolderChange {
+  o String oldOwner
+  o String newOwner
+}
+transaction TemperatureDrop {
+  o String oldTemperature
+  o String newTemperature
+  o String newLocation
+  o String oldLocation
+  o String newStatus
+  --> TransitPackage asset
+}
