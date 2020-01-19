@@ -1,3 +1,0 @@
-# coldblocks
-
-ColdBlocks blockchain

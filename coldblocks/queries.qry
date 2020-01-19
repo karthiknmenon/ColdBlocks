@@ -10,6 +10,7 @@ query PackageId{
         SELECT org.coldblocks.mynetwork.TransitPackage
         WHERE (packageID ==_$packageid)
 }
+
 query PackageDestination{
   description: "Select all Packages wrt Destination"
     statement:
@@ -30,6 +31,7 @@ query PackageHolder{
         SELECT org.coldblocks.mynetwork.TransitPackage
         WHERE (holder ==_$packageHolder)
 }
+
 query PackageLocation{
   description: "Select all Packages wrt Location"
     statement:
