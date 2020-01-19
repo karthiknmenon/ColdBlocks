@@ -1,0 +1,38 @@
+query AllPackages {
+    description: "Select all Packages"
+    statement:
+        SELECT org.coldblocks.mynetwork.TransitPackage
+}
+
+query PackageId{
+  description: "Select all Packages wrt Id"
+    statement:
+        SELECT org.coldblocks.mynetwork.TransitPackage
+        WHERE (packageID ==_$packageid)
+}
+query PackageDestination{
+  description: "Select all Packages wrt Destination"
+    statement:
+        SELECT org.coldblocks.mynetwork.TransitPackage
+        WHERE (destination ==_$packageDestination)
+}
+
+query PackageStatus{
+  description: "Select all Packages wrt Status"
+    statement:
+        SELECT org.coldblocks.mynetwork.TransitPackage
+        WHERE (status ==_$packageStatus)
+}
+
+query PackageHolder{
+  description: "Select all Packages wrt Holder"
+    statement:
+        SELECT org.coldblocks.mynetwork.TransitPackage
+        WHERE (holder ==_$packageHolder)
+}
+query PackageLocation{
+  description: "Select all Packages wrt Location"
+    statement:
+        SELECT org.coldblocks.mynetwork.TransitPackage
+        WHERE (location ==_$packageLocation)
+}
