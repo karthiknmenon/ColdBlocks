@@ -22,9 +22,8 @@
  * @param {org.coldblocks.mynetwork.HolderChange} HolderChange
  * @transaction
  */
-
-//  function to detect change of holder for package
 async function HolderChange(holderChange) {
+    //  function to detect change of holder for package
     // Save the old value of the asset.
     const oldHolder = holderChange.asset.holder;
 
@@ -48,8 +47,8 @@ async function HolderChange(holderChange) {
  * @param {org.coldblocks.mynetwork.TemperatureDrop} TemperatureDrop
  * @transaction
  */
-// function to detect temperature change
 async function TemperatureDrop(temperatureDrop) {
+    // function to detect temperature change
     // Save the old value of the asset.
     const oldTemperature = temperatureDrop.asset.temperature;
 
