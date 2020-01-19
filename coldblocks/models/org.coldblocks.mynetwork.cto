@@ -56,14 +56,15 @@ event TemperatureDropEvent {
 
 // Transactions associated with the package
 transaction HolderChange {
+  --> TransitPackage asset
   o String oldHolder
   o String newHolder
 }
 transaction TemperatureDrop {
+  --> TransitPackage asset
   o String oldTemperature
   o String newTemperature
   o String newLocation
   o String oldLocation
   o String newStatus
-  --> TransitPackage asset
 }
