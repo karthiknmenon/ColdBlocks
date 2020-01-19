@@ -18,10 +18,12 @@
  */
 
 /**
- * Sample transaction
+ * Holder Change transaction
  * @param {org.coldblocks.mynetwork.HolderChange} HolderChange
  * @transaction
  */
+
+//  function to detect change of holder for package
 async function HolderChange(holderChange) {
     // Save the old value of the asset.
     const oldHolder = holderChange.asset.holder;
@@ -41,4 +43,28 @@ async function HolderChange(holderChange) {
     event.newHolder = holderChange.newHolder;
     emit(event);
 }
+/**
+ * Temperature Drop transaction
+ * @param {org.coldblocks.mynetwork.TemperatureDrop} TemperatureDrop
+ * @transaction
+ */
+// function to detect temperature change
+async function TemperatureDrop(temperatureDrop) {
+    // Save the old value of the asset.
+    const oldTemperature = temperatureDrop.asset.temperature;
 
+    // Update the asset with the new value.
+    temperatureDrop.asset.holder = temperatureDrop.newHolder;
+
+    // Get the asset registry for the asset.
+    const assetRegistry = await getAssetRegistry('org.coldblocks.mynetwork.TransitPackage');
+    // Update the asset in the asset registry.
+    await assetRegistry.update(temperatureDrop.asset);
+
+    // Emit an event for the modified asset.
+    let event = getFactory().newEvent('org.coldblocks.mynetwork', 'TemperatureDropEvent');
+    event.asset = temperatureDrop.asset;
+    event.oldTemperature = oldTemperature;
+    event.newTemperature = temperatureDrop.newTemperature;
+    emit(event);
+}
