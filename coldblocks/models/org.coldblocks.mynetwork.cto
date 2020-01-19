@@ -12,37 +12,11 @@
  * limitations under the License.
  */
 
-// participant SampleParticipant identified by participantId {
-//   o String participantId
-//   o String firstName
-//   o String lastName
-// }
-
-// asset SampleAsset identified by assetId {
-//   o String assetId
-//   --> SampleParticipant owner
-//   o String value
-// }
-
-// transaction SampleTransaction {
-//   --> SampleAsset asset
-//   o String newValue
-// }
-
-// event SampleEvent {
-//   --> SampleAsset asset
-//   o String oldValue
-//   o String newValue
-// }
-/**
- * Write your model definitions here
- */
-
 namespace org.coldblocks.mynetwork
 
 // Details of the consignment being transported
 asset TransitPackage identified by packageID {
-  o String packageID
+  o String packageID regex=/[A-Z][0-9]/
   o String location
   o String temperature
   o String destination
