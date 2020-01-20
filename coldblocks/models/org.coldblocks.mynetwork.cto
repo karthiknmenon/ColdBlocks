@@ -1,0 +1,70 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace org.coldblocks.mynetwork
+
+// Details of the consignment being transported
+asset TransitPackage identified by packageID {
+  o String packageID regex=/[A-Z][0-9]/
+  o String location
+  o String temperature
+  o String destination
+  o String holder
+  o String status
+}
+
+// Particpant list in the scenario
+participant Supplier identified by supplierID {
+  o String supplierID regex=/[S][0-9]/
+  o String supplierName
+}
+participant Manufacturer identified by manufacturerID {
+  o String manufacturerID regex=/[M][0-9]/
+  o String manufacturerName
+}
+participant Distributor identified by distributorID {
+  o String distributorID regex=/[D][0-9]/
+  o String distributorName
+}
+participant Consumer identified by consumerID {
+  o String consumerID regex=/[C][0-9]/
+  o String consumerName
+}
+
+// Events associated with package
+event HolderChangeEvent {
+  o String newHolder
+  o String oldHolder
+  --> TransitPackage asset
+}
+event TemperatureDropEvent {
+  o String dropTemperature
+  o String dropLocation
+  --> TransitPackage asset
+}
+
+// Transactions associated with the package
+transaction HolderChange {
+  --> TransitPackage asset
+  o String oldHolder
+  o String newHolder
+}
+transaction TemperatureDrop {
+  --> TransitPackage asset
+  o String oldTemperature
+  o String newTemperature
+  o String newLocation
+  o String oldLocation
+  o String newStatus
+}
