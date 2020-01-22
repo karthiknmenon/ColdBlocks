@@ -3,6 +3,11 @@
 const accountSid = 'ACe72fa712ccadfebda35cfee9aeb3c9d4';
 const authToken = '13b758715b01c14a7be78f911495c0d2';
 const client = require('twilio')(accountSid, authToken);
+// express and axios
+const express = require('express');
+const axios = require('axios');
+
+const app = express();
 
 // function to send messages via whatsapp
 function sendWhatsapp() {
@@ -25,3 +30,11 @@ function sendWhatsapp() {
 
 // }
 // sendSMS();
+
+// API to print all consumers
+
+app.get("/", (request,resposne)=>{
+    resposne.send("hello world");
+})
+
+app.listen(4000);
