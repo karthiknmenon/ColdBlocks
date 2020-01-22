@@ -14,14 +14,14 @@ function sendWhatsapp() {
 }
 
 // functon to send SMS
-function sendSMS() {
-    client.messages
-        .create({
-            body: 'Your package is at Delhi, temperature 25*C',
-            from: '+14155238886',
-            to: '+919586976787'
-        })
-        .then(message => console.log(message.sid));
+// function sendSMS() {
+//     client.messages
+//         .create({
+//             body: 'Your package is at Delhi, temperature 25*C',
+//             from: '+14155238886',
+//             to: '+919586976787'
+//         })
+//         .then(message => console.log(message.sid));
 
-}
-sendSMS();
+// }
+// sendSMS();
