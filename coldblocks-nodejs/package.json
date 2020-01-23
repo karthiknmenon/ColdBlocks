@@ -1,0 +1,26 @@
+{
+  "name": "coldblocks",
+  "version": "1.0.0",
+  "description": "ColdBlocks - A Temperature Guided Route Optimization Algorithm with Secure Transactions Using Blockchain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mojojojo20/ColdBlocks.git"
+  },
+  "author": "mojojojo20",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mojojojo20/ColdBlocks/issues"
+  },
+  "homepage": "https://github.com/mojojojo20/ColdBlocks#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "twilio-client": "^1.9.7"
+  }
+}
