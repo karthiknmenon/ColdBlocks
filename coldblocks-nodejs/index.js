@@ -60,11 +60,21 @@ app.get('/api', function(req, res) {
             //   for(var i=0;i<2;i++)
             //   {res.send(jsonResponse[2]['consumerID']);}
             // console.log(jsonResponse.length);
-            var arr = new Array();
+            // var arrID = new Array();
+            // var arrClass = new Array();
+            var JSONobj = [{}];            
+            // var JSONobj = new object();            
+
             for(var i=0;i<jsonResponse.length;i++){
-                arr.push(jsonResponse[i]['consumerID'].replace(/\"/g, ""));
+                let x = jsonResponse[i]['consumerID'];
+                JSONobj = [i:
+                {
+                    "id" : x,
+                }
+                ];
             }
-            res.send(arr);
+            // res.send(arrID);
+            console.log(JSONobj);
           }
 
             // var obj = JSON.parse(jsonResponse);
