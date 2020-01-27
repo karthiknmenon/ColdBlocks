@@ -49,21 +49,32 @@ async function HolderChange(holderChange) {
  */
 async function TemperatureDrop(temperatureDrop) {
     // function to detect temperature change
-    // Save the old value of the asset.
-    const oldTemperature = temperatureDrop.asset.temperature;
+    // Save the old value of the asset.const oldTemperature = temperatureDrop.asset.temperature;
+    const oldLocation = temperatureDrop.asset.location;
+    const oldStatus = temperatureDrop.asset.status;
 
     // Update the asset with the new value.
-    temperatureDrop.asset.holder = temperatureDrop.newHolder;
+    temperatureDrop.asset.temperature = temperatureDrop.newTemperature;
+    temperatureDrop.asset.location = temperatureDrop.newLocation;
+  	temperatureDrop.asset.status = temperatureDrop.newStatus;
+    // const oldTemperature = temperatureDrop.asset.temperature;
 
-    // Get the asset registry for the asset.
-    const assetRegistry = await getAssetRegistry('org.coldblocks.mynetwork.TransitPackage');
-    // Update the asset in the asset registry.
-    await assetRegistry.update(temperatureDrop.asset);
+    // Update the asset with the new value.
+    // temperatureDrop.asset.holder = temperatureDrop.newHolder;
 
-    // Emit an event for the modified asset.
-    let event = getFactory().newEvent('org.coldblocks.mynetwork', 'TemperatureDropEvent');
-    event.asset = temperatureDrop.asset;
-    event.oldTemperature = oldTemperature;
-    event.newTemperature = temperatureDrop.newTemperature;
-    emit(event);
+     // Get the asset registry for the asset.
+     const assetRegistry = await getAssetRegistry('org.coldblocks.mynetwork.TransitPackage');
+     // Update the asset in the asset registry.
+     await assetRegistry.update(temperatureDrop.asset);
+ 
+     // Emit an event for the modified asset.
+     let event = getFactory().newEvent('org.coldblocks.mynetwork', 'TemperatureDropEvent');
+     event.asset = temperatureDrop.asset;
+     event.oldTemperature = oldTemperature;
+     event.oldLocation = oldLocation;
+     event.oldStatus = oldStatus;
+     event.newStatus = temperatureDrop.asset.status;
+     event.newTemperature = temperatureDrop.newTemperature;
+     event.newLocation = temperatureDrop.newLocation;
+     emit(event);
 }
