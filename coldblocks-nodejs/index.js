@@ -1,86 +1,84 @@
-// twilio 
-// sandbox - join flag-sharp
+// twilio sandbox - join flag-sharp
 const accountSid = 'ACe72fa712ccadfebda35cfee9aeb3c9d4';
 const authToken = '13b758715b01c14a7be78f911495c0d2';
 const client = require('twilio')(accountSid, authToken);
-// express and axios
 const express = require('express');
 const axios = require('axios');
+var bodyParser = require('body-parser');
+var url = require('url');
 
 const app = express();
 
 // function to send messages via whatsapp
-function sendWhatsapp() {
+function sendWhatsapp(temp) {
     client.messages.create({
         from: 'whatsapp:+14155238886',
-        body: 'Your package is at Delhi, temperature 25*C',
+        body: 'Your package is at Thrissur, temperature: '+temp+'.',
         to: 'whatsapp:+919586976787'
     }).then(message => console.log(message.sid));
 }
-
-// sendWhatsapp();
-
-// functon to send SMS
-// function sendSMS() {
-//     client.messages
-//         .create({
-//             body: 'Your package is at Delhi, temperature 25*C',
-//             from: '+14155238886',
-//             to: '+919586976787'
-//         })
-//         .then(message => console.log(message.sid));
-
-// }
-// sendSMS();
-
 // API to print all consumers
 
-app.get('/api', function(req, res) {
-    
-    
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-                
-            axios.get('http://localhost:3000/api/Consumer').then(function (response){
-                console.log(response.data);
-                jsonResponse = response.data;
-                // res.send(jsonResponse);
-                // var obj = jsonResponse['consumerID'];
-                console.log(jsonResponse[0]['consumerID']);
-                // res.send(jsonResponse[0]['consumerID']);
-            }).then(function (response){
-                // res.send(jsonResponse[0]['consumerID']);
-                showID();
-            }).catch(function (error) {
-            console.log(error);
-          });
+app.get('/api', function (req, res) {
 
-          function showID(){
-            //   for(var i=0;i<2;i++)
-            //   {res.send(jsonResponse[2]['consumerID']);}
-            // console.log(jsonResponse.length);
-            // var arrID = new Array();
-            // var arrClass = new Array();
-            var JSONobj = [{}];            
-            // var JSONobj = new object();            
 
-            for(var i=0;i<jsonResponse.length;i++){
-                let x = jsonResponse[i]['consumerID'];
-                JSONobj = [i:
-                {
-                    "id" : x,
-                }
-                ];
-            }
-            // res.send(arrID);
-            console.log(JSONobj);
-          }
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-            // var obj = JSON.parse(jsonResponse);
-            // console.log(obj.consumerID);
-            
+    axios.get('http://localhost:3000/api/Consumer').then(function (response) {
+        console.log(response.data);
+        jsonResponse = response.data;
+        // res.send(jsonResponse);
+        // var obj = jsonResponse['consumerID'];
+        console.log(jsonResponse[0]['consumerID']);
+        // res.send(jsonResponse[0]['consumerID']);
+    }).then(function (response) {
+        // res.send(jsonResponse[0]['consumerID']);
+        showID();
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+    function showID() {
+        var JSONobj = {};
+        var key = 1;
+        JSONobj[key] = [];
+        // var JSONobj = new object();            
+
+        for (var i = 0; i < jsonResponse.length; i++) {
+            let x = jsonResponse[i]['consumerID'];
+            JSONobj[key].push(x);
+
+        }
+        // res.send(arrID);
+        console.log(JSONobj);
+    }
+
+    // var obj = JSON.parse(jsonResponse);
+    // console.log(obj.consumerID);
+
 });
-
+app.get('/', function (req, res) {
+    res.send("Server");
+})
+app.get('/data', function (req, res) {
+    res.send("Data");
+    // res.send(JSON.stringify(req.body));
+})
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+// app.use(express.json());
+app.post('/data', function (req, res) {
+    // res.send(JSON.stringify(req.body));
+    console.log(JSON.stringify(req.body));
+    var temp = req.body.Temperature;
+    // console.log("log temp: "+ temp);
+    if(temp>25){
+        sendWhatsapp(temp);
+    }
+})
 
 app.listen(4000);
