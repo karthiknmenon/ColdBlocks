@@ -8,12 +8,18 @@ var bodyParser = require('body-parser');
 var url = require('url');
 
 const app = express();
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+// URL to composer-rest-server
+const restUrl = 'http://localhost:3000/';
 
 // function to send messages via whatsapp
 function sendWhatsapp(temp) {
     client.messages.create({
         from: 'whatsapp:+14155238886',
-        body: 'Your package is at Thrissur, temperature: '+temp+'.',
+        body: 'Your package is at Thrissur, temperature: ' + temp + '.',
         to: 'whatsapp:+919586976787'
     }).then(message => console.log(message.sid));
 }
@@ -26,12 +32,11 @@ app.get('/api', function (req, res) {
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-    axios.get('http://localhost:3000/api/Consumer').then(function (response) {
-        console.log(response.data);
+    axios.get(restUrl + 'api/Consumer').then(function (response) {
         jsonResponse = response.data;
-        // res.send(jsonResponse);
-        // var obj = jsonResponse['consumerID'];
-        console.log(jsonResponse[0]['consumerID']);
+        console.log(response.data);
+        res.send(response.data);
+        // console.log(jsonResponse[0]['consumerID']);
         // res.send(jsonResponse[0]['consumerID']);
     }).then(function (response) {
         // res.send(jsonResponse[0]['consumerID']);
@@ -52,6 +57,7 @@ app.get('/api', function (req, res) {
 
         }
         // res.send(arrID);
+        JSON.stringify(JSONobj);
         console.log(JSONobj);
     }
 
@@ -66,19 +72,15 @@ app.get('/data', function (req, res) {
     res.send("Data");
     // res.send(JSON.stringify(req.body));
 })
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
-// app.use(express.json());
+// read nodeMCU temperature data
 app.post('/data', function (req, res) {
     // res.send(JSON.stringify(req.body));
     console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
     // console.log("log temp: "+ temp);
-    if(temp>25){
-        sendWhatsapp(temp);
-    }
+    // if (temp > 25) {
+    //     sendWhatsapp(temp);
+    // }
 })
 
 app.listen(4000);
