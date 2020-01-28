@@ -56,7 +56,8 @@ async function TemperatureDrop(temperatureDrop) {
     // Update the asset with the new value.
     temperatureDrop.asset.temperature = temperatureDrop.newTemperature;
     temperatureDrop.asset.location = temperatureDrop.newLocation;
-  	temperatureDrop.asset.status = temperatureDrop.newStatus;
+    temperatureDrop.asset.status = temperatureDrop.newStatus;
+    temperatureDrop.asset.status = oldStatus;
     // const oldTemperature = temperatureDrop.asset.temperature;
 
     // Update the asset with the new value.

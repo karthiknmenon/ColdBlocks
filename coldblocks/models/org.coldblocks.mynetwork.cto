@@ -48,10 +48,15 @@ event HolderChangeEvent {
   o String oldHolder
   --> TransitPackage asset
 }
+
 event TemperatureDropEvent {
-  o String dropTemperature
-  o String dropLocation
   --> TransitPackage asset
+  o String newTemperature
+  o String newLocation
+  o String newStatus
+  o String oldTemperature
+  o String oldLocation
+  o String oldStatus
 }
 
 // Transactions associated with the package
@@ -62,9 +67,6 @@ transaction HolderChange {
 }
 transaction TemperatureDrop {
   --> TransitPackage asset
-  o String oldTemperature
   o String newTemperature
   o String newLocation
-  o String oldLocation
-  o String newStatus
 }
