@@ -4,6 +4,10 @@
 ### Angular ###
 ## Angular ##
 # compiled output
+<<<<<<< HEAD
+=======
+hardware/
+>>>>>>> blockchain
 dist/
 tmp/
 app/**/*.js
