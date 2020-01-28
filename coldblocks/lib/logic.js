@@ -49,7 +49,7 @@ async function HolderChange(holderChange) {
  */
 async function TemperatureDrop(temperatureDrop) {
     // function to detect temperature change
-    // Save the old value of the asset.const oldTemperature = temperatureDrop.asset.temperature;
+    const oldTemperature = temperatureDrop.asset.temperature;
     const oldLocation = temperatureDrop.asset.location;
     const oldStatus = temperatureDrop.asset.status;
 
@@ -79,3 +79,4 @@ async function TemperatureDrop(temperatureDrop) {
      event.newLocation = temperatureDrop.newLocation;
      emit(event);
 }
+
