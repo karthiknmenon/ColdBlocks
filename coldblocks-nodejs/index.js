@@ -81,6 +81,23 @@ app.post('/data', function (req, res) {
     // if (temp > 25) {
     //     sendWhatsapp(temp);
     // }
+    
+    
+    Request.post({
+    "headers": { "content-type": "application/json" },
+    "url": "http://localhost:3000/api/TemperatureDrop",
+    "body": JSON.stringify({
+        "asset": "resource:org.coldblocks.mynetwork.TrasnitPackage#A101",
+        "newTemperature": String(req.body.temperature),
+        "newLocation": "thrissur"
+    })
+}, (error, response, body) => {
+    if(error) {
+        return console.dir(error);
+    }
+    console.dir(JSON.parse(body));
+});
+    
 })
 
 app.listen(4000);
