@@ -5,7 +5,8 @@ const client = require('twilio')(accountSid, authToken);
 const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
-var url = require('url');
+var Request = require('request');
+var crypto = require('crypto')
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -78,26 +79,25 @@ app.post('/data', function (req, res) {
     console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
     // console.log("log temp: "+ temp);
-    // if (temp > 25) {
-    //     sendWhatsapp(temp);
-    // }
-    
-    
-    Request.post({
-    "headers": { "content-type": "application/json" },
-    "url": "http://localhost:3000/api/TemperatureDrop",
-    "body": JSON.stringify({
-        "asset": "resource:org.coldblocks.mynetwork.TrasnitPackage#A101",
-        "newTemperature": String(req.body.temperature),
-        "newLocation": "thrissur"
-    })
-}, (error, response, body) => {
-    if(error) {
-        return console.dir(error);
+    if (temp > 25) {
+        sendWhatsapp(temp);
+        // send API Post for TemperatureDrop Event
+        Request.post({
+            "headers": {
+                "content-type": "application/json"
+            },
+            "url": "http://localhost:3000/api/TemperatureDrop",
+            "body": JSON.stringify({
+                "asset": "resource:org.coldblocks.mynetwork.TrasnitPackage#A101",
+                "newTemperature": String(req.body.temperature),
+                "newLocation": "thrissur"
+            })
+        }, (error, response, body) => {
+            if (error) {
+                return console.dir(error);
+            }
+            console.dir(JSON.parse(body));
+        });
     }
-    console.dir(JSON.parse(body));
-});
-    
 })
-
 app.listen(4000);

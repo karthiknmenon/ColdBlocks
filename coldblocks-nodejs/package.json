@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mojojojo20/ColdBlocks#readme",
   "dependencies": {
     "axios": "^0.16.2",
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
     "nodemon": "^2.0.2",
     "twilio-client": "^1.9.7"
