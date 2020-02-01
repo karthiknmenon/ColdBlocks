@@ -17,16 +17,53 @@ app.use(bodyParser.json());
 const restUrl = 'http://localhost:3000/';
 
 // function to send messages via whatsapp
-function sendWhatsapp(temp) {
+function sendWhatsapp(temp, gpsLocation) {
     client.messages.create({
         from: 'whatsapp:+14155238886',
-        body: 'Your package is at Thrissur, temperature: ' + temp + '.',
+        body: 'Your package is at location: ' + gpsLocation + ' and at temperature: ' + temp + '.',
         to: 'whatsapp:+919586976787'
     }).then(message => console.log(message.sid));
 }
+
+// Admin to view all transactions
+
+app.get('/api/ListTransactions', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    axios.get(restUrl + 'api/system/historian').then(function (response) {
+        jsonResponse = response.data;
+        // console.log(response.data);
+        // res.send(response.data);
+    }).then(function (response) {
+        // res.send(jsonResponse[0]['consumerID']);
+        showID();
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+    function showID() {
+        var JSONobj = {};
+        var key = 1;
+        JSONobj[key] = [];
+        // var JSONobj = new object();            
+
+        for (var i = 0; i < jsonResponse.length; i++) {
+            let x = jsonResponse[i]['transactionId'];
+            JSONobj[key].push(x);
+        }
+        JSON.stringify(JSONobj);
+        console.log(JSONobj);
+        res.send(JSONobj)
+    }
+});
+
+// All Consumer API's
+
 // API to print all consumers
 
-app.get('/api', function (req, res) {
+app.get('/api/ListConsumers', function (req, res) {
 
 
     res.header("Access-Control-Allow-Origin", "*");
@@ -35,10 +72,8 @@ app.get('/api', function (req, res) {
 
     axios.get(restUrl + 'api/Consumer').then(function (response) {
         jsonResponse = response.data;
-        console.log(response.data);
+        // console.log(response.data);
         res.send(response.data);
-        // console.log(jsonResponse[0]['consumerID']);
-        // res.send(jsonResponse[0]['consumerID']);
     }).then(function (response) {
         // res.send(jsonResponse[0]['consumerID']);
         showID();
@@ -57,39 +92,45 @@ app.get('/api', function (req, res) {
             JSONobj[key].push(x);
 
         }
-        // res.send(arrID);
         JSON.stringify(JSONobj);
         console.log(JSONobj);
     }
-
-    // var obj = JSON.parse(jsonResponse);
-    // console.log(obj.consumerID);
-
 });
-app.get('/', function (req, res) {
-    res.send("Server");
-})
-app.get('/data', function (req, res) {
-    res.send("Data");
-    // res.send(JSON.stringify(req.body));
+// API to create a new consumer
+app.post('/api/CreateConsumer', function (req, res) {
+    Request.post({
+        "headers": {
+            "content-type": "application/json"
+        },
+        "url": restUrl + "api/CreateConsumer",
+        "body": JSON.stringify({
+            "$class": "org.coldblocks.mynetwork.Consumer",
+            "consumerID": "C103",
+            "consumerName": "Enfa"
+        })
+    }, (error, response, body) => {
+        if (error) {
+            return console.dir(error);
+        }
+        console.dir(JSON.parse(body));
+    });
 })
 // read nodeMCU temperature data
 app.post('/data', function (req, res) {
-    // res.send(JSON.stringify(req.body));
     console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
-    // console.log("log temp: "+ temp);
     if (temp > 25) {
         sendWhatsapp(temp);
+        console.log(temp);
         // send API Post for TemperatureDrop Event
         Request.post({
             "headers": {
                 "content-type": "application/json"
             },
-            "url": "http://localhost:3000/api/TemperatureDrop",
+            "url": restUrl + "api/TemperatureDrop",
             "body": JSON.stringify({
-                "asset": "resource:org.coldblocks.mynetwork.TrasnitPackage#A101",
-                "newTemperature": String(req.body.temperature),
+                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#A101",
+                "newTemperature": String(temp),
                 "newLocation": "thrissur"
             })
         }, (error, response, body) => {
@@ -99,5 +140,19 @@ app.post('/data', function (req, res) {
             console.dir(JSON.parse(body));
         });
     }
+});
+
+app.get('/temp', function (req, res) {
+    axios.get(restUrl + 'api/TemperatureDrop').then(function (response) {
+        jsonResponse = response.data;
+        // console.log(response.data);
+        res.send(response.data);
+    }).then(function (response) {
+        console.log("success");
+        // res.send(jsonResponse[0]['consumerID']);
+        // showID();
+    }).catch(function (error) {
+        console.log(error);
+    });
 })
 app.listen(4000);
