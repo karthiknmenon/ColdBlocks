@@ -25,6 +25,9 @@ function sendWhatsapp(temp, gpsLocation) {
     }).then(message => console.log(message.sid));
 }
 
+app.get("/", (req, res) => {
+    res.send("Server Running");
+})
 // Admin to view all transactions
 
 app.get('/api/ListTransactions', (req, res) => {
@@ -51,10 +54,13 @@ app.get('/api/ListTransactions', (req, res) => {
 
         for (var i = 0; i < jsonResponse.length; i++) {
             let x = jsonResponse[i]['transactionId'];
-            JSONobj[key].push(x);
+            let y = jsonResponse[i]['transactionTimestamp'];
+            // var obj = JSON.parse(x+y);
+            JSONobj[key].push(y);
+            key = i;
         }
         JSON.stringify(JSONobj);
-        console.log(JSONobj);
+        // console.log(JSONobj);
         res.send(JSONobj)
     }
 });
