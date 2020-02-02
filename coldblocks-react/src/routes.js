@@ -32,13 +32,13 @@ const dashboardRoutes = [
     component: Dashboard,
     layout: "/admin"
   },
-  {
-    path: "/user",
-    name: "User Profile",
-    icon: "pe-7s-user",
-    component: UserProfile,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/user",
+  //   name: "User Profile",
+  //   icon: "pe-7s-user",
+  //   component: UserProfile,
+  //   layout: "/admin"
+  // },
   {
     path: "/table",
     name: "Package Info",

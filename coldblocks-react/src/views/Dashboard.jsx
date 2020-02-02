@@ -53,86 +53,15 @@ class Dashboard extends Component {
           <Row>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Capacity"
-                statsValue="105GB"
+                bigIcon={<i className="fa fa-user text-warning" />}
+                statsText="Name"
+                statsValue="Name"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
             </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText="Revenue"
-                statsValue="$1,345"
-                statsIcon={<i className="fa fa-calendar-o" />}
-                statsIconText="Last day"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-graph1 text-danger" />}
-                statsText="Errors"
-                statsValue="23"
-                statsIcon={<i className="fa fa-clock-o" />}
-                statsIconText="In the last hour"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="fa fa-twitter text-info" />}
-                statsText="Followers"
-                statsValue="+45"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={8}>
-              <Card
-                statsIcon="fa fa-history"
-                id="chartHours"
-                title="Users Behavior"
-                category="24 Hours performance"
-                stats="Updated 3 minutes ago"
-                content={
-                  <div className="ct-chart">
-                    <ChartistGraph
-                      data={dataSales}
-                      type="Line"
-                      options={optionsSales}
-                      responsiveOptions={responsiveSales}
-                    />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendSales)}</div>
-                }
-              />
-            </Col>
-            <Col md={4}>
-              <Card
-                statsIcon="fa fa-clock-o"
-                title="Email Statistics"
-                category="Last Campaign Performance"
-                stats="Campaign sent 2 days ago"
-                content={
-                  <div
-                    id="chartPreferences"
-                    className="ct-chart ct-perfect-fourth"
-                  >
-                    <ChartistGraph data={dataPie} type="Pie" />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendPie)}</div>
-                }
-              />
-            </Col>
-          </Row>
-
-          <Row>
+          </Row>      
+          {/* <Row>
             <Col md={6}>
               <Card
                 id="chartActivity"
@@ -171,7 +100,7 @@ class Dashboard extends Component {
                 }
               />
             </Col>
-          </Row>
+          </Row> */}
         </Grid>
       </div>
     );
