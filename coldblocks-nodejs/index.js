@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+
 // URL to composer-rest-server
 const restUrl = 'http://localhost:3000/';
 
@@ -81,7 +82,6 @@ app.get('/api/ListConsumers', function (req, res) {
         // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
-        // res.send(jsonResponse[0]['consumerID']);
         showID();
     }).catch(function (error) {
         console.log(error);
@@ -91,7 +91,6 @@ app.get('/api/ListConsumers', function (req, res) {
         var JSONobj = {};
         var key = 1;
         JSONobj[key] = [];
-        // var JSONobj = new object();            
 
         for (var i = 0; i < jsonResponse.length; i++) {
             let x = jsonResponse[i]['consumerID'];
@@ -121,13 +120,18 @@ app.post('/api/CreateConsumer', function (req, res) {
         console.dir(JSON.parse(body));
     });
 })
+
 // read nodeMCU temperature data
+
 app.post('/data', function (req, res) {
     console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
+    var gpsLocation = req.body.Location;
+    // set threshold temperature
     if (temp > 25) {
         sendWhatsapp(temp);
         console.log(temp);
+
         // send API Post for TemperatureDrop Event
         Request.post({
             "headers": {
@@ -151,12 +155,9 @@ app.post('/data', function (req, res) {
 app.get('/temp', function (req, res) {
     axios.get(restUrl + 'api/TemperatureDrop').then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         console.log("success");
-        // res.send(jsonResponse[0]['consumerID']);
-        // showID();
     }).catch(function (error) {
         console.log(error);
     });
