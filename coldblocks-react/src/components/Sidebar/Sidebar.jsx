@@ -57,7 +57,7 @@ class Sidebar extends Component {
           )}
         <div className="logo">
           <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
+            href="https://www.coldblocks.tech/images/logo.png"
             className="simple-text logo-mini"
           >
             <div className="logo-img">
@@ -65,10 +65,10 @@ class Sidebar extends Component {
             </div>
           </a>
           <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
+            href="https://www.coldblocks.tech/images/logo.png"
             className="simple-text logo-normal"
           >
-            Creative Tim
+            ColdBlocks
           </a>
         </div>
         <div className="sidebar-wrapper">

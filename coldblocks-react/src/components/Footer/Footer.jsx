@@ -26,25 +26,20 @@ class Footer extends Component {
           <nav className="pull-left">
             <ul>
               <li>
-                <a href="#pablo">Home</a>
+                <a href="">Home</a>
               </li>
               <li>
-                <a href="#pablo">Company</a>
+                <a href="https://coldblocks.tech">Company</a>
               </li>
               <li>
-                <a href="#pablo">Portfolio</a>
-              </li>
-              <li>
-                <a href="#pablo">Blog</a>
+                <a href="https://docs.coldblocks.tech">Docs</a>
               </li>
             </ul>
           </nav>
           <p className="copyright pull-right">
             &copy; {new Date().getFullYear()}{" "}
-            <a href="http://www.creative-tim.com?ref=lbr-footer">
-              Creative Tim
-            </a>
-            , made with love for a better web
+            ColdDash by <a href="#"> ColdBlocks
+              </a>
           </p>
         </Grid>
       </footer>
