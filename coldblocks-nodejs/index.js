@@ -6,7 +6,7 @@ const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
-var crypto = require('crypto')
+var crypto = require('crypto');
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // URL to composer-rest-server
+
 const restUrl = 'http://localhost:3000/';
 
 // function to send messages via whatsapp
@@ -40,7 +41,6 @@ app.get('/api/ListTransactions', (req, res) => {
 
     axios.get(restUrl + 'api/system/historian').then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         // res.send(response.data);
     }).then(function (response) {
         // res.send(jsonResponse[0]['consumerID']);
@@ -80,7 +80,6 @@ app.get('/api/ListConsumers', function (req, res) {
 
     axios.get(restUrl + 'api/Consumer').then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -114,7 +113,6 @@ app.get('/api/ListConsumerId', function (req, res) {
 
     axios.get(restUrl + 'api/Consumer/' + queryID).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -172,7 +170,6 @@ app.get('/api/ListDistributors', function (req, res) {
 
     axios.get(restUrl + 'api/Distributor').then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -206,7 +203,6 @@ app.get('/api/ListDistributorsId', function (req, res) {
 
     axios.get(restUrl + 'api/Distributor/' + queryID).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -265,7 +261,6 @@ app.get('/api/ListManufacturers', function (req, res) {
 
     axios.get(restUrl + 'api/Manufacturer').then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -299,7 +294,6 @@ app.get('/api/ListManufacterersId', function (req, res) {
 
     axios.get(restUrl + 'api/Manufacturer/' + queryID).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -357,7 +351,6 @@ app.get('/api/ListSuppliers', function (req, res) {
 
     axios.get(restUrl + 'api/Supplier').then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -391,7 +384,6 @@ app.get('/api/ListSuppliersId', function (req, res) {
 
     axios.get(restUrl + 'api/Supplier/' + queryID).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -448,7 +440,6 @@ app.get('/api/ListPackages', function (req, res) {
 
     axios.get(restUrl + 'api/queries/AllPackages').then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -482,7 +473,6 @@ app.get('/api/ListPackagesByDestination', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageDestination?packageDestination=' + queryDestination).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -516,7 +506,6 @@ app.get('/api/ListPackagesByHolder', function (req, res) {
 
     axios.get(restUrl + 'api/queries/packageHolder?packageHolder=' + queryHolder).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -550,7 +539,6 @@ app.get('/api/ListPackagesById', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageId?packageid=' + queryID).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -584,7 +572,6 @@ app.get('/api/ListPackagesByLocation', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageLocation?packageLocation=' + queryLocation).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -618,7 +605,6 @@ app.get('/api/ListPackagesByStatus', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=' + queryStatus).then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -652,7 +638,6 @@ app.get('/api/ListTransitPackages', function (req, res) {
 
     axios.get(restUrl + 'api/TransitPackage').then(function (response) {
         jsonResponse = response.data;
-        // console.log(response.data);
         res.send(response.data);
     }).then(function (response) {
         showID();
@@ -678,12 +663,6 @@ app.get('/api/ListTransitPackages', function (req, res) {
 // API to create a new Transit Package
 
 app.post('/api/CreateTransitPackage', function (req, res) {
-    // var queryID = req.body.packageId;
-    // var queryLocation = req.body.pakcageLocation;
-    // var queryTemperature = req.body.packageTemperature;
-    // var queryDestination = req.body.packageDestination;
-    // var queryHolder = req.body.packageHolder;
-    // var queryStatus = req.body.packageStatus;
     Request.post({
         "headers": {
             "content-type": "application/json"
@@ -735,7 +714,6 @@ app.post('/data', function (req, res) {
             if (error) {
                 return console.dir(error);
             }
-            // console.dir(JSON.parse(body));
         });
     }
 });
