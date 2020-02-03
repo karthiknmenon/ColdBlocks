@@ -107,16 +107,17 @@ app.post('/api/CreateConsumer', function (req, res) {
         "headers": {
             "content-type": "application/json"
         },
-        "url": restUrl + "api/CreateConsumer",
+        "url": restUrl + "api/Consumer",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Consumer",
-            "consumerID": "C103",
-            "consumerName": "Enfa"
+            "consumerID": String(req.body.cID),
+            "consumerName": String(req.body.cName)
         })
     }, (error, response, body) => {
         if (error) {
             return console.dir(error);
         }
+        console.log("Success");
         console.dir(JSON.parse(body));
     });
 })
@@ -139,7 +140,7 @@ app.post('/data', function (req, res) {
             },
             "url": restUrl + "api/TemperatureDrop",
             "body": JSON.stringify({
-                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#A101",
+                "asset": "resource:org.coldblocks.mynpetwork.TransitPackage#A101",
                 "newTemperature": String(temp),
                 "newLocation": "thrissur"
             })
