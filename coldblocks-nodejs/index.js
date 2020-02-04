@@ -690,10 +690,11 @@ app.post('/api/CreateTransitPackage', function (req, res) {
 
 // read nodeMCU temperature data
 
-app.post('/data', function (req, res) {
+app.post('/tempData', function (req, res) {
     // console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
-    console.log(temp);
+    // console.log(temp);
+    var packageID = req.body.packageID;
     var gpsLocation = req.body.Location;
     // set threshold temperature
     if (temp > 25) {
@@ -707,7 +708,7 @@ app.post('/data', function (req, res) {
             },
             "url": restUrl + "api/TemperatureDrop",
             "body": JSON.stringify({
-                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#A101",
+                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
                 "newTemperature": String(req.body.Temperature),
                 "newLocation": "rajagiri"
             })
@@ -719,7 +720,42 @@ app.post('/data', function (req, res) {
     }
 });
 
-app.get('/temp', function (req, res) {
+// read nodeMCU location data
+
+// app.post('/locationData', function (req, res) {
+//     // console.log(JSON.stringify(req.body));
+//     var coLatitude = req.body.Latitude;
+//     var coLongitude = req.body.Latitude;
+//     // console.log(temp);
+//     var packageID = req.body.packageID;
+//     var gpsLocation = req.body.Location;
+//     // set threshold temperature
+//     if (temp > 25) {
+//         sendWhatsapp(temp);
+//         // console.log(temp);
+
+//         // send API Post for TemperatureDrop Event
+//         Request.post({
+//             "headers": {
+//                 "content-type": "application/json"
+//             },
+//             "url": restUrl + "api/TemperatureDrop",
+//             "body": JSON.stringify({
+//                 "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
+//                 "newTemperature": String(req.body.Temperature),
+//                 "newLocation": "rajagiri"
+//             })
+//         }, (error, response, body) => {
+//             if (error) {
+//                 return console.dir(error);
+//             }
+//         });
+//     }
+// });
+
+// Print Temperature Drop events
+
+app.get('/tempDrop', function (req, res) {
     axios.get(restUrl + 'api/TemperatureDrop').then(function (response) {
         jsonResponse = response.data;
         res.send(response.data);
