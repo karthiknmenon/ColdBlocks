@@ -693,6 +693,7 @@ app.post('/api/CreateTransitPackage', function (req, res) {
 app.post('/data', function (req, res) {
     // console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
+    console.log(temp);
     var gpsLocation = req.body.Location;
     // set threshold temperature
     if (temp > 25) {
@@ -706,9 +707,9 @@ app.post('/data', function (req, res) {
             },
             "url": restUrl + "api/TemperatureDrop",
             "body": JSON.stringify({
-                "asset": "resource:org.coldblocks.mynpetwork.TransitPackage#A101",
-                "newTemperature": String(temp),
-                "newLocation": "thrissur"
+                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#A101",
+                "newTemperature": String(req.body.Temperature),
+                "newLocation": "rajagiri"
             })
         }, (error, response, body) => {
             if (error) {
