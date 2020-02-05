@@ -722,27 +722,28 @@ app.post('/tempData', function (req, res) {
 
         // Update values of package when tampered
 
-        const options = {
-            url: 'http://localhost:3000/api/TransitPackage/A103',
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                "$class": "org.coldblocks.mynetwork.TransitPackage",
-                "packageID": "A103",
-                "location": "asd",
-                "temperature": String(temp),
-                "destination": "mum",
-                "holder": "den",
-                "status": "0"
-            })
-        };
+        // const options = {
+        //     url: 'http://localhost:3000/api/TransitPackage/A103',
+        //     method: 'PUT',
+        //     headers: {
+        //         'content-type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         "$class": "org.coldblocks.mynetwork.TransitPackage",
+        //         "packageID": "A103",
+        //         "location": "asd",
+        //         "temperature": String(temp),
+        //         "destination": "mum",
+        //         "holder": "den",
+        //         "status": "0"
+        //     })
+        // };
 
-        Request(options, function (err, res, body) {
-            // let json = JSON.parse(body);
-            console.log("PUT method");
-        });
+        // setTimeout(
+        //     Request(options, function (err, res, body) {
+        //         // let json = JSON.parse(body);
+        //         console.log("PUT method");
+        //     }), 3000);
     }
 });
 
