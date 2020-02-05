@@ -694,7 +694,7 @@ app.post('/tempData', function (req, res) {
     // console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
     console.log("Temperature: " + temp);
-    var packageID = req.body.PackageID;
+    var packageID = req.body.packageID;
     console.log("Package Id: " + packageID);
     var gpsLocation = req.body.Location;
     console.log("Location: " + gpsLocation);
@@ -720,60 +720,32 @@ app.post('/tempData', function (req, res) {
             }
         });
 
-        // app.put({
-        //     "headers": {
-        //         "content-type": "application/json"
-        //     },
-        //     "url": restUrl + "api/TransitPackage/H156",
-        //     "body": JSON.stringify({
-        //         "$class": "org.coldblocks.mynetwork.TransitPackage",
-        //         "packageID": "H156",
-        //         "location": "TVM",
-        //         "temperature": "23",
-        //         "destination": "KZK",
-        //         "holder": "Kev",
-        //         "status": "1"
-        //       })
-        // }, (error, response, body) => {
-        //     if (error) {
-        //         return console.dir(error);
-        //     }
-        // });
+        // Update values of package when tampered
+
+        const options = {
+            url: 'http://localhost:3000/api/TransitPackage/A103',
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.TransitPackage",
+                "packageID": "A103",
+                "location": "asd",
+                "temperature": String(temp),
+                "destination": "mum",
+                "holder": "den",
+                "status": "0"
+            })
+        };
+
+        Request(options, function (err, res, body) {
+            // let json = JSON.parse(body);
+            console.log("PUT method");
+        });
     }
 });
 
-// read nodeMCU location data
-
-// app.post('/locationData', function (req, res) {
-//     // console.log(JSON.stringify(req.body));
-//     var coLatitude = req.body.Latitude;
-//     var coLongitude = req.body.Latitude;
-//     // console.log(temp);
-//     var packageID = req.body.packageID;
-//     var gpsLocation = req.body.Location;
-//     // set threshold temperature
-//     if (temp > 25) {
-//         sendWhatsapp(temp);
-//         // console.log(temp);
-
-//         // send API Post for TemperatureDrop Event
-//         Request.post({
-//             "headers": {
-//                 "content-type": "application/json"
-//             },
-//             "url": restUrl + "api/TemperatureDrop",
-//             "body": JSON.stringify({
-//                 "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
-//                 "newTemperature": String(req.body.Temperature),
-//                 "newLocation": "rajagiri"
-//             })
-//         }, (error, response, body) => {
-//             if (error) {
-//                 return console.dir(error);
-//             }
-//         });
-//     }
-// });
 
 // Print Temperature Drop events
 
