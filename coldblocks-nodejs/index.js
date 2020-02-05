@@ -694,7 +694,7 @@ app.post('/tempData', function (req, res) {
     // console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
     console.log("Temperature: " + temp);
-    var packageID = req.body.packageID;
+    var packageID = req.body.PackageID;
     console.log("Package Id: " + packageID);
     var gpsLocation = req.body.Location;
     console.log("Location: " + gpsLocation);
@@ -719,6 +719,26 @@ app.post('/tempData', function (req, res) {
                 return console.dir(error);
             }
         });
+
+        // app.put({
+        //     "headers": {
+        //         "content-type": "application/json"
+        //     },
+        //     "url": restUrl + "api/TransitPackage/H156",
+        //     "body": JSON.stringify({
+        //         "$class": "org.coldblocks.mynetwork.TransitPackage",
+        //         "packageID": "H156",
+        //         "location": "TVM",
+        //         "temperature": "23",
+        //         "destination": "KZK",
+        //         "holder": "Kev",
+        //         "status": "1"
+        //       })
+        // }, (error, response, body) => {
+        //     if (error) {
+        //         return console.dir(error);
+        //     }
+        // });
     }
 });
 
