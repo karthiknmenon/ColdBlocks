@@ -48,7 +48,7 @@ class FixedPlugin extends Component {
             <i className="fa fa-cog fa-2x" />
           </div>
           <ul className="dropdown-menu">
-            <li className="header-title">Configuration</li>
+            <li className="header-title">CONFIGURATION</li>
             <li className="adjustments-line">
               <p className="pull-left">Background Image</p>
               <div className="pull-right">
@@ -176,38 +176,6 @@ class FixedPlugin extends Component {
                 }}
               >
                 <img src={imagine4} alt="..." />
-              </a>
-            </li>
-
-            <li className="button-container">
-              <div className="">
-                <a
-                  href="https://www.creative-tim.com/product/light-bootstrap-dashboard-react?ref=lbdr-fixed-plugin"
-                  target="_blank"
-                  className="btn btn-success btn-block btn-fill"
-                >
-                  Download free!
-                </a>
-              </div>
-            </li>
-            <li className="button-container">
-              <div className="">
-                <a
-                  href="https://www.creative-tim.com/product/light-bootstrap-dashboard-pro-react?ref=lbdr-fixed-plugin"
-                  target="_blank"
-                  className="btn btn-warning btn-block btn-fill"
-                >
-                  Buy Pro
-                </a>
-              </div>
-            </li>
-            <li className="button-container">
-              <a
-                href="https://demos.creative-tim.com/light-bootstrap-dashboard-react/#/documentation/getting-started?ref=lbdr-fixed-plugin"
-                target="_blank"
-                className="btn btn-fill btn-info"
-              >
-                Documentation
               </a>
             </li>
           </ul>
