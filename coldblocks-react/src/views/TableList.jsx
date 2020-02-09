@@ -22,6 +22,14 @@ import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
 class TableList extends Component {
+  componentDidMount() {
+    fetch('http://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then((data) => {
+      this.setState({ contacts: data })
+    })
+    .catch(console.log)
+  }
   render() {
     return (
       <div className="content">
@@ -29,8 +37,8 @@ class TableList extends Component {
           <Row>
             <Col md={12}>
               <Card
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
+                title="Demo Details"
+                category="Package Details"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
@@ -58,7 +66,7 @@ class TableList extends Component {
               />
             </Col>
 
-            <Col md={12}>
+            {/* <Col md={12}>
               <Card
                 plain
                 title="Striped Table with Hover"
@@ -88,7 +96,7 @@ class TableList extends Component {
                   </Table>
                 }
               />
-            </Col>
+            </Col> */}
           </Row>
         </Grid>
       </div>
