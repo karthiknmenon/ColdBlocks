@@ -22,6 +22,9 @@ import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
 class TableList extends Component {
+  state = {
+    contacts: []
+  }
   componentDidMount() {
     fetch('http://jsonplaceholder.typicode.com/users')
     .then(res => res.json())
