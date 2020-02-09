@@ -68,7 +68,7 @@ class Sidebar extends Component {
             href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-normal"
           >
-            Creative Tim
+            ColdDash
           </a>
         </div>
         <div className="sidebar-wrapper">
