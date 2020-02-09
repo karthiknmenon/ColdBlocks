@@ -24,24 +24,21 @@ class Footer extends Component {
       <footer className="footer">
         <Grid fluid>
           <nav className="pull-left">
-            {/* <ul>
+            <ul>
               <li>
-                <a href="#pablo">Home</a>
+                <a href="#">Home</a>
               </li>
               <li>
-                <a href="#pablo">Company</a>
+                <a href="https://www.coldblocks.tech">Company</a>
               </li>
               <li>
-                <a href="#pablo">Portfolio</a>
+                <a href="https://docs.coldblocks.tech">Docs</a>
               </li>
-              <li>
-                <a href="#pablo">Blog</a>
-              </li>
-            </ul> */}
+            </ul>
           </nav>
           <p className="copyright pull-right">
             &copy; {new Date().getFullYear()}{" "}
-            <a href="#">ColdDash </a>by ColdBlocks
+            ColdDash by <a href="https://www.coldblocks.tech">ColdBlocks</a>
           </p>
         </Grid>
       </footer>
