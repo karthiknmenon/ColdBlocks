@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mojojojo20/ColdBlocks#readme",
   "dependencies": {
+    "aes256": "^1.0.4",
     "axios": "^0.16.2",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
