@@ -18,17 +18,6 @@ QRCode.toString('https://www.google.com',{type:'terminal'}, function (err, url) 
     console.log(url)
   });
 
-// var key = 'my passphrase';
-// var plaintext = 'my plaintext message';
- 
-// var encrypted = aes256.encrypt(key, plaintext);
-// var decrypted = aes256.decrypt(key, encrypted);
-
-// console.log(encrypted);
-// console.log(decrypted);
-// var crypto = require('crypto');
-var aes256 = require('aes256');
-
 var key = 'my passphrase';
 var plaintext = 'my plaintext message';
  
