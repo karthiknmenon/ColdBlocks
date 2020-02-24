@@ -6,7 +6,30 @@ const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
+<<<<<<< Updated upstream
 var crypto = require('crypto');
+=======
+// var crypto = require('crypto');
+var aes256 = require('aes256');
+var QRCode = require('qrcode');
+// QRCode.toDataURL('I am a pony!', function (err, url) {
+//     console.log(url)
+//   });
+   
+QRCode.toString('https://www.google.com',{type:'terminal'}, function (err, url) {
+    console.log(url)
+  });
+
+// var key = 'my passphrase';
+// var plaintext = 'my plaintext message';
+ 
+// var encrypted = aes256.encrypt(key, plaintext);
+// var decrypted = aes256.decrypt(key, encrypted);
+
+// console.log(encrypted);
+// console.log(decrypted);
+
+>>>>>>> Stashed changes
 
 const app = express();
 app.use(bodyParser.urlencoded({
