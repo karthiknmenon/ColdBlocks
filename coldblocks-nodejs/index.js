@@ -6,10 +6,7 @@ const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
-<<<<<<< HEAD
-<<<<<<< Updated upstream
 var crypto = require('crypto');
-=======
 // var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
@@ -29,9 +26,6 @@ QRCode.toString('https://www.google.com',{type:'terminal'}, function (err, url) 
 
 // console.log(encrypted);
 // console.log(decrypted);
-
->>>>>>> Stashed changes
-=======
 // var crypto = require('crypto');
 var aes256 = require('aes256');
 
@@ -43,9 +37,6 @@ var decrypted = aes256.decrypt(key, encrypted);
 
 console.log(encrypted);
 console.log(decrypted);
-
->>>>>>> master
-
 const app = express();
 app.use(bodyParser.urlencoded({
     extended: true
