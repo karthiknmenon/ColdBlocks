@@ -6,6 +6,7 @@ const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 var crypto = require('crypto');
 =======
@@ -30,6 +31,20 @@ QRCode.toString('https://www.google.com',{type:'terminal'}, function (err, url) 
 // console.log(decrypted);
 
 >>>>>>> Stashed changes
+=======
+// var crypto = require('crypto');
+var aes256 = require('aes256');
+
+var key = 'my passphrase';
+var plaintext = 'my plaintext message';
+ 
+var encrypted = aes256.encrypt(key, plaintext);
+var decrypted = aes256.decrypt(key, encrypted);
+
+console.log(encrypted);
+console.log(decrypted);
+
+>>>>>>> master
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -53,6 +68,10 @@ function sendWhatsapp(temp, gpsLocation) {
 
 app.get("/", (req, res) => {
     res.send("Server Running");
+})
+
+app.get("/",(req,res)=>{
+    res.send("Server running");
 })
 
 // Admin to view all transactions
