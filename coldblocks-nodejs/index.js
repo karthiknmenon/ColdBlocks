@@ -10,7 +10,7 @@ var crypto = require('crypto');
 // var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
-// QRCode.toDataURL('I am a pony!', function (err, url) {
+// QRCode.toDataURL('https://www.google.com!', function (err, url) {
 //     console.log(url)
 //   });
    
@@ -26,6 +26,7 @@ var decrypted = aes256.decrypt(key, encrypted);
 
 console.log(encrypted);
 console.log(decrypted);
+
 const app = express();
 app.use(bodyParser.urlencoded({
     extended: true
