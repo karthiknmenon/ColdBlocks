@@ -15,6 +15,7 @@ QRCode.toString('http://b7a7e53d.ngrok.io/HolderChange', {
 }, function (err, url) {
     console.log(url)
 });
+
 // QRCode.toDataURL('https://www.google.com!', function (err, url) {
 //     console.log(url)
 //   });
@@ -745,7 +746,7 @@ app.post('/tempData', function (req, res) {
             }
         });
 
-        // Update values of package when tampered
+        // Update values of package when tampered using PUT
 
         // const options = {
         //     url: 'http://localhost:3000/api/TransitPackage/A103',
