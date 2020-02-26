@@ -726,7 +726,7 @@ app.post('/tempData', function (req, res) {
     console.log("Location: " + gpsLocation);
     // set threshold temperature
     if (temp > 25) {
-        sendWhatsapp(temp);
+        sendWhatsapp(temp, gpsLocation);
         // console.log(temp);
 
         // send API Post for TemperatureDrop Event
