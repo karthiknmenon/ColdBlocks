@@ -14,6 +14,8 @@
     * node version - 8.16.1
 * CardName - admin@coldblocks
 * BusinessNetwork - coldblocks
+* Network Version - 1.0.9
+* BNA file - coldblocks@1.0.9.bna
 
 
 <br />
