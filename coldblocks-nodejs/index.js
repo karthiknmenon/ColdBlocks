@@ -6,18 +6,29 @@ const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
+var crypto = require('crypto');
 // var crypto = require('crypto');
 var aes256 = require('aes256');
+var QRCode = require('qrcode');
+QRCode.toString('http://b7a7e53d.ngrok.io/HolderChange', {
+    type: 'terminal'
+}, function (err, url) {
+    console.log(url)
+});
 
-var key = 'my passphrase';
-var plaintext = 'my plaintext message';
- 
-var encrypted = aes256.encrypt(key, plaintext);
-var decrypted = aes256.decrypt(key, encrypted);
+// QRCode.toDataURL('https://www.google.com!', function (err, url) {
+//     console.log(url)
+//   });
 
-console.log(encrypted);
-console.log(decrypted);
 
+// var key = 'my passphrase';
+// var plaintext = 'my plaintext message';
+
+// var encrypted = aes256.encrypt(key, plaintext);
+// var decrypted = aes256.decrypt(key, encrypted);
+
+// console.log(encrypted);
+// console.log(decrypted);
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -43,7 +54,7 @@ app.get("/", (req, res) => {
     res.send("Server Running");
 })
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("Server running");
 })
 
@@ -735,7 +746,7 @@ app.post('/tempData', function (req, res) {
             }
         });
 
-        // Update values of package when tampered
+        // Update values of package when tampered using PUT
 
         // const options = {
         //     url: 'http://localhost:3000/api/TransitPackage/A103',
@@ -775,5 +786,36 @@ app.get('/tempDrop', function (req, res) {
         console.log(error);
     });
 })
+
+app.post('/HolderChange', function (req, res) {
+    // console.log(JSON.stringify(req.body));
+    // var oHolder = req.body.oldHolder;
+    var oHolder = "hyder";
+    console.log("oldHolder: " + oHolder);
+    // var packageID = req.body.packageID;
+    var packageID = "H156";
+    console.log("Package Id: " + packageID);
+    // var nHolder = req.body.newHolder;
+    var nHolder = "dsdsds";
+    console.log("Location: " + nHolder);
+    Request.post({
+        "headers": {
+            "content-type": "application/json"
+        },
+        "url": restUrl + "api/HolderChange",
+        "body": JSON.stringify({
+            "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
+            "oldHolder": String(oHolder),
+            "newHolder": String(nHolder)
+        })
+    }, (error, response, body) => {
+        if (error) {
+            return console.dir(error);
+        }
+    });
+});
+
+
+
 
 app.listen(4000);
