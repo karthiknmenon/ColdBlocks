@@ -17,6 +17,13 @@
 * Network Version - 1.0.9
 * BNA file - coldblocks@1.0.9.bna
 
+## node Backend
+* cd coldblocks-nodejs
+    * npm run dev
+
+## angular front-end
+* cd coldblocks-angular
+    * npm start
 
 <br />
 :v: :fist:
