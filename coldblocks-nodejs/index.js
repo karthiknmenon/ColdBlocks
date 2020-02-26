@@ -789,14 +789,14 @@ app.get('/tempDrop', function (req, res) {
 
 app.post('/HolderChange', function (req, res) {
     // console.log(JSON.stringify(req.body));
-    // var oHolder = req.body.oldHolder;
-    var oHolder = "hyder";
+    var oHolder = req.body.oldHolder;
+    // var oHolder = "hyder";
     console.log("oldHolder: " + oHolder);
-    // var packageID = req.body.packageID;
-    var packageID = "H156";
+    var packageID = req.body.packageID;
+    // var packageID = "H156";
     console.log("Package Id: " + packageID);
-    // var nHolder = req.body.newHolder;
-    var nHolder = "dsdsds";
+    var nHolder = req.body.newHolder;
+    // var nHolder = "dsdsds";
     console.log("Location: " + nHolder);
     Request.post({
         "headers": {
