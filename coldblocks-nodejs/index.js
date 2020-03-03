@@ -10,7 +10,7 @@ var crypto = require('crypto');
 // var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
-QRCode.toString('http://b7a7e53d.ngrok.io/HolderChange', {
+QRCode.toString('http://aa306474.ngrok.io/HolderChange', {
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
