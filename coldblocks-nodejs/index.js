@@ -10,7 +10,7 @@ var crypto = require('crypto');
 // var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
-QRCode.toString('http://b7a7e53d.ngrok.io/HolderChange', {
+QRCode.toString('http://aa306474.ngrok.io/HolderChange', {
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
@@ -726,7 +726,7 @@ app.post('/tempData', function (req, res) {
     console.log("Location: " + gpsLocation);
     // set threshold temperature
     if (temp > 25) {
-        sendWhatsapp(temp);
+        sendWhatsapp(temp, gpsLocation);
         // console.log(temp);
 
         // send API Post for TemperatureDrop Event
@@ -789,14 +789,14 @@ app.get('/tempDrop', function (req, res) {
 
 app.post('/HolderChange', function (req, res) {
     // console.log(JSON.stringify(req.body));
-    // var oHolder = req.body.oldHolder;
-    var oHolder = "hyder";
+    var oHolder = req.body.oldHolder;
+    // var oHolder = "hyder";
     console.log("oldHolder: " + oHolder);
-    // var packageID = req.body.packageID;
-    var packageID = "H156";
+    var packageID = req.body.packageID;
+    // var packageID = "H156";
     console.log("Package Id: " + packageID);
-    // var nHolder = req.body.newHolder;
-    var nHolder = "dsdsds";
+    var nHolder = req.body.newHolder;
+    // var nHolder = "dsdsds";
     console.log("Location: " + nHolder);
     Request.post({
         "headers": {
