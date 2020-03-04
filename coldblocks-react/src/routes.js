@@ -4,6 +4,7 @@ import UserProfile from "views/UserProfile.jsx";
 import ConsumerList from "views/consumerlist.jsx";
 import DistributorList from "views/distributorlist.jsx";
 import SupplierList from "views/supplierlist.jsx";
+import ManufacturerList from "views/manufacturerlist.jsx";
 import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
@@ -43,6 +44,13 @@ const dashboardRoutes = [
     name: "Supplier Data",
     // icon: "pe-7s-note2",
     component: SupplierList,
+    layout: "/admin"
+  },
+  {
+    path: "/manufacturerdata",
+    name: "Manufacturer Data",
+    // icon: "pe-7s-note2",
+    component: ManufacturerList,
     layout: "/admin"
   },
   // {
