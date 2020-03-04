@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 
@@ -26,10 +10,12 @@ class TableList extends Component {
     contacts: []
   }
   componentDidMount() {
-    fetch('http://jsonplaceholder.typicode.com/users')
+    // console.log("hi");
+    fetch('http://localhost:4000/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
       this.setState({ contacts: data })
+      // console.log(data);
     })
     .catch(console.log)
   }
@@ -54,7 +40,7 @@ class TableList extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {tdArray.map((prop, key) => {
+                      {/* {tdArray.map((prop, key) => {
                         return (
                           <tr key={key}>
                             {prop.map((prop, key) => {
@@ -62,7 +48,10 @@ class TableList extends Component {
                             })}
                           </tr>
                         );
-                      })}
+                      })} */}
+                      {/* {contacts.map((contact) => (
+                        <tr>{contact.consumerID}</tr>
+                      ))} */}
                     </tbody>
                   </Table>
                 }
