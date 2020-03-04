@@ -5,53 +5,55 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
-class TableList extends Component {
-  state = {
-    contacts: []
+class ConsumerList extends Component {
+  constructor() {
+    super()
+    this.state = {
+      character:{}
+    }
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListConsumers')
+    fetch('http://localhost:4000/api/ListDistributors')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ contacts: data })
-      // console.log(data);
+      this.setState({ character: data })
+      console.log(data);
     })
     .catch(console.log)
   }
   render() {
+    const {character} = this.state;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="Demo Details"
-                category="Package Details"
+                title="Distributor Details"
+                category="Distributor Details with ID and Name"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <Table striped hover>
                     <thead>
                       <tr>
-                        {thArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
+                        <th>Distributor ID</th>
+                        <th>
+                          Distributor Name
+                        </th>
                       </tr>
+
                     </thead>
-                    <tbody>
-                      {/* {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
+                    <tbody>                     
+                      {Array.isArray(character) && character.map(object => (
+                        <>
+                          <tr>
+                            <td>{object.distributorID}</td>
+                            <td>{object.distributorName}</td>
                           </tr>
-                        );
-                      })} */}
-                      {/* {contacts.map((contact) => (
-                        <tr>{contact.consumerID}</tr>
-                      ))} */}
+                        </>
+                      ))}
                     </tbody>
                   </Table>
                 }
@@ -96,4 +98,4 @@ class TableList extends Component {
   }
 }
 
-export default TableList;
+export default ConsumerList;

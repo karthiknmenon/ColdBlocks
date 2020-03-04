@@ -1,8 +1,9 @@
 
 import Dashboard from "views/Dashboard.jsx";
 import UserProfile from "views/UserProfile.jsx";
-import TableList from "views/TableList.jsx";
-import Typography from "views/Typography.jsx";
+import ConsumerList from "views/consumerlist.jsx";
+import DistributorList from "views/distributorlist.jsx";
+import SupplierList from "views/supplierlist.jsx";
 import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
@@ -12,7 +13,7 @@ const dashboardRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    icon: "pe-7s-graph",
+    // icon: "pe-7s-graph",
     component: Dashboard,
     layout: "/admin"
   },
@@ -24,19 +25,26 @@ const dashboardRoutes = [
   //   layout: "/admin"
   // },
   {
-    path: "/table",
-    name: "Table List",
-    icon: "pe-7s-note2",
-    component: TableList,
+    path: "/consumerdata",
+    name: "Consumer Data",
+    // icon: "pe-7s-note2",
+    component: ConsumerList,
     layout: "/admin"
-  }
-  // {
-  //   path: "/typography",
-  //   name: "Typography",
-  //   icon: "pe-7s-news-paper",
-  //   component: Typography,
-  //   layout: "/admin"
-  // },
+  },
+  {
+    path: "/distributordata",
+    name: "Distributor Data",
+    // icon: "pe-7s-note2",
+    component: DistributorList,
+    layout: "/admin"
+  },
+  {
+    path: "/supplierdata",
+    name: "Supplier Data",
+    // icon: "pe-7s-note2",
+    component: SupplierList,
+    layout: "/admin"
+  },
   // {
   //   path: "/icons",
   //   name: "Icons",
