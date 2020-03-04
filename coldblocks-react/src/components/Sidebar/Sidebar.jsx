@@ -45,7 +45,7 @@ class Sidebar extends Component {
             className="simple-text logo-mini"
           >
             <div className="logo-img">
-              <img src={logo} alt="logo_image" />
+              <img src={logo} alt="ColdBlocks is a temperature guided route optimization algorithm with secure transactions using blockchain." />
             </div>
           </a>
           <a
