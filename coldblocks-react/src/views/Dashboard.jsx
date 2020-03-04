@@ -26,14 +26,7 @@ class Dashboard extends Component {
     return (
       <div className="content">
         <Grid fluid>
-          <Row className="text-center">
-            <Col lg={12} sm={12}>
-            <div className="logo-img">
-              <img src={logo} alt="ColdBlocks is a temperature guided route optimization algorithm with secure transactions using blockchain" height="400" width="650"/>
-            </div>
-            </Col>
-          </Row>
-          <Row>
+        <Row>
             <Col lg={6}>
             <Card
                 title="Package Data"
@@ -45,7 +38,7 @@ class Dashboard extends Component {
                     <thead>
                       <tr>
                         <th>Package ID</th>
-                        <th>Destination</th>
+                        {/* <th>Destination</th> */}
                         <th>Status</th>
                       </tr>
 
@@ -55,7 +48,7 @@ class Dashboard extends Component {
                         <>
                           <tr>
                             <td>{object.packageID}</td>
-                            <td>{object.destination}</td>
+                            {/* <td>{object.destination}</td> */}
                             <td>{object.status}</td>
                           </tr>
                         </>
@@ -64,6 +57,13 @@ class Dashboard extends Component {
                   </Table>
                 }
               />
+            </Col>
+          </Row>
+          <Row className="text-center">
+            <Col lg={12} sm={12}>
+            <div className="logo-img">
+              <img src={logo} alt="ColdBlocks is a temperature guided route optimization algorithm with secure transactions using blockchain" height="400" width="650"/>
+            </div>
             </Col>
           </Row>
         </Grid>
