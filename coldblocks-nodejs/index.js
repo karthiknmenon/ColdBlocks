@@ -52,7 +52,7 @@ QRCode.toString('http://aa306474.ngrok.io/HolderChange', {
 //   });
 
 
-// var key = 'my passphrase';
+
 // var plaintext = 'my plaintext message';
 
 // var encrypted = aes256.encrypt(key, plaintext);
@@ -748,6 +748,17 @@ app.post('/api/CreateTransitPackage', function (req, res) {
 // read nodeMCU temperature data
 
 app.post('/tempData', function (req, res) {
+    // AES-256 bit encryption
+    var key = 'my passphrase';
+    // add Temperature, packageID and gpsLocation to plaintext being encrypted
+    var plaintext = String(req.body.Temperature);
+    plaintext += ", " + req.body.packageID;
+    plaintext += ", " + gpsLocation;
+    // encrypted and decrypted text
+    var encrypted = aes256.encrypt(key, plaintext);
+    var decrypted = aes256.decrypt(key, encrypted);
+    console.log("Encrypted text: "+encrypted);
+    console.log("Decrypted text: "+decrypted);
     // console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
     console.log("Temperature: " + temp);
