@@ -10,6 +10,37 @@ var crypto = require('crypto');
 // var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
+// for GPS coordinates
+const opencage = require('opencage-api-client');
+// to read .env file for API-Key
+require('dotenv').config()
+// open-cage API for reverse gen-encoding
+opencage.geocode({
+    q: '10.5545, 76.2247',
+    language: 'fr'
+}).then(data => {
+    // console.log(JSON.stringify(data));
+    if (data.status.code == 200) {
+        if (data.results.length > 0) {
+            var place = data.results[0];
+            console.log(place.formatted);
+            gpsLocation = place.formatted;
+            // console.log(place.components.road);
+            // console.log(place.annotations.timezone.name);
+        }
+    } else if (data.status.code == 402) {
+        console.log('hit free-trial daily limit');
+        console.log('become a customer: https://opencagedata.com/pricing');
+    } else {
+        // other possible response codes:
+        // https://opencagedata.com/api#codes
+        console.log('error', data.status.message);
+    }
+}).catch(error => {
+    console.log('error', error.message);
+});
+
+
 QRCode.toString('http://aa306474.ngrok.io/HolderChange', {
     type: 'terminal'
 }, function (err, url) {
@@ -722,7 +753,7 @@ app.post('/tempData', function (req, res) {
     console.log("Temperature: " + temp);
     var packageID = req.body.packageID;
     console.log("Package Id: " + packageID);
-    var gpsLocation = req.body.Location;
+    // var gpsLocation = req.body.Location;
     console.log("Location: " + gpsLocation);
     // set threshold temperature
     if (temp > 25) {
@@ -745,34 +776,50 @@ app.post('/tempData', function (req, res) {
                 return console.dir(error);
             }
         });
-
-        // Update values of package when tampered using PUT
-
-        // const options = {
-        //     url: 'http://localhost:3000/api/TransitPackage/A103',
-        //     method: 'PUT',
-        //     headers: {
-        //         'content-type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         "$class": "org.coldblocks.mynetwork.TransitPackage",
-        //         "packageID": "A103",
-        //         "location": "asd",
-        //         "temperature": String(temp),
-        //         "destination": "mum",
-        //         "holder": "den",
-        //         "status": "0"
-        //     })
-        // };
-
-        // setTimeout(
-        //     Request(options, function (err, res, body) {
-        //         // let json = JSON.parse(body);
-        //         console.log("PUT method");
-        //     }), 3000);
+    } else {
+        // send API Post for TemperatureDrop Event
+        Request.post({
+            "headers": {
+                "content-type": "application/json"
+            },
+            "url": restUrl + "api/TemperatureDrop",
+            "body": JSON.stringify({
+                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
+                "newTemperature": String(req.body.Temperature),
+                "newLocation": String(gpsLocation)
+            })
+        }, (error, response, body) => {
+            if (error) {
+                return console.dir(error);
+            }
+        });
     }
 });
 
+// Update values of package when tampered using PUT
+
+// const options = {
+//     url: 'http://localhost:3000/api/TransitPackage/A103',
+//     method: 'PUT',
+//     headers: {
+//         'content-type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//         "$class": "org.coldblocks.mynetwork.TransitPackage",
+//         "packageID": "A103",
+//         "location": "asd",
+//         "temperature": String(temp),
+//         "destination": "mum",
+//         "holder": "den",
+//         "status": "0"
+//     })
+// };
+
+// setTimeout(
+//     Request(options, function (err, res, body) {
+//         // let json = JSON.parse(body);
+//         console.log("PUT method");
+//     }), 3000);
 
 // Print Temperature Drop events
 
