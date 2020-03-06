@@ -745,34 +745,50 @@ app.post('/tempData', function (req, res) {
                 return console.dir(error);
             }
         });
-
-        // Update values of package when tampered using PUT
-
-        // const options = {
-        //     url: 'http://localhost:3000/api/TransitPackage/A103',
-        //     method: 'PUT',
-        //     headers: {
-        //         'content-type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         "$class": "org.coldblocks.mynetwork.TransitPackage",
-        //         "packageID": "A103",
-        //         "location": "asd",
-        //         "temperature": String(temp),
-        //         "destination": "mum",
-        //         "holder": "den",
-        //         "status": "0"
-        //     })
-        // };
-
-        // setTimeout(
-        //     Request(options, function (err, res, body) {
-        //         // let json = JSON.parse(body);
-        //         console.log("PUT method");
-        //     }), 3000);
+    } else {
+        // send API Post for TemperatureDrop Event
+        Request.post({
+            "headers": {
+                "content-type": "application/json"
+            },
+            "url": restUrl + "api/TemperatureDrop",
+            "body": JSON.stringify({
+                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
+                "newTemperature": String(req.body.Temperature),
+                "newLocation": String(gpsLocation)
+            })
+        }, (error, response, body) => {
+            if (error) {
+                return console.dir(error);
+            }
+        });
     }
 });
 
+// Update values of package when tampered using PUT
+
+// const options = {
+//     url: 'http://localhost:3000/api/TransitPackage/A103',
+//     method: 'PUT',
+//     headers: {
+//         'content-type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//         "$class": "org.coldblocks.mynetwork.TransitPackage",
+//         "packageID": "A103",
+//         "location": "asd",
+//         "temperature": String(temp),
+//         "destination": "mum",
+//         "holder": "den",
+//         "status": "0"
+//     })
+// };
+
+// setTimeout(
+//     Request(options, function (err, res, body) {
+//         // let json = JSON.parse(body);
+//         console.log("PUT method");
+//     }), 3000);
 
 // Print Temperature Drop events
 
