@@ -7,7 +7,6 @@ const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
 var crypto = require('crypto');
-// var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
 // for GPS coordinates
@@ -16,8 +15,9 @@ const opencage = require('opencage-api-client');
 require('dotenv').config()
 // open-cage API for reverse gen-encoding
 opencage.geocode({
+    // hard-code latitude and longitude
     q: '10.5545, 76.2247',
-    language: 'fr'
+    language: 'en'
 }).then(data => {
     // console.log(JSON.stringify(data));
     if (data.status.code == 200) {
@@ -50,16 +50,6 @@ QRCode.toString('http://aa306474.ngrok.io/HolderChange', {
 // QRCode.toDataURL('https://www.google.com!', function (err, url) {
 //     console.log(url)
 //   });
-
-
-
-// var plaintext = 'my plaintext message';
-
-// var encrypted = aes256.encrypt(key, plaintext);
-// var decrypted = aes256.decrypt(key, encrypted);
-
-// console.log(encrypted);
-// console.log(decrypted);
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -757,8 +747,8 @@ app.post('/tempData', function (req, res) {
     // encrypted and decrypted text
     var encrypted = aes256.encrypt(key, plaintext);
     var decrypted = aes256.decrypt(key, encrypted);
-    console.log("Encrypted text: "+encrypted);
-    console.log("Decrypted text: "+decrypted);
+    console.log("Encrypted text: " + encrypted);
+    console.log("Decrypted text: " + decrypted);
     // console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
     console.log("Temperature: " + temp);
