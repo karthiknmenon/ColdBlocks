@@ -12,7 +12,7 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     Route Optimization based on __CVRP__ is implemented using Python and op-2 algorithm.
 * __Progressive Web App__ using angularJS and reactJS for admin and other actors of the use case.
 * __Android App__ for QR-Code scanning.
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Blockchain 
+### &nbsp;&nbsp;&nbsp;&nbsp;1. Blockchain 
 * Version Specifications
     * Hyperledger Composer v0.20.9
     * Hyperledger fabric v1.2
@@ -24,62 +24,55 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
 * Network Version - 1.0.9
 * BNA file - coldblocks@1.0.9.bna
 * Netword Card - networkadmin.card
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Back-End 
+### &nbsp;&nbsp;&nbsp;&nbsp;2. Back-End 
 * nodeJS backend 
 * twilio for __WhatsApp__ integration
 * open-cage API for reverse mapping of coordinates into location
 * ngrok for public url 
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Front-End Application 
+### &nbsp;&nbsp;&nbsp;&nbsp;3. Front-End Application 
 * PWA using angularJS for admin-UI and reactJS for user-UI
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. Route Optimization 
+### &nbsp;&nbsp;&nbsp;&nbsp;4. Route Optimization 
 * Route optimization using op-2 algorithm implemented using Python
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5. AR for Status Check
+### &nbsp;&nbsp;&nbsp;&nbsp;5. AR for Status Check
 * AR.js
 * three.js
 
 # Setup and Installation
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To download and setup - 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `git clone https://github.com/mojojojo20/ColdBlocks.git`
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `cd ColdBlocks`
+&nbsp;&nbsp;&nbsp;&nbsp; `git clone https://github.com/mojojojo20/ColdBlocks.git`
+&nbsp;&nbsp;&nbsp;&nbsp; `cd ColdBlocks`
 
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. composer-rest-server
+### &nbsp;&nbsp;&nbsp;&nbsp;1. composer-rest-server
 * `cd coldblocks`
     * Use Hyperledger documentation for installation and setup of Hyperledger Composer and Fabric
     * `composer-rest-server -c admin@coldblocks -n never -u true -w true`
 
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. node Backend
+### &nbsp;&nbsp;&nbsp;&nbsp;2. node Backend
 * `cd coldblocks-nodejs`
     * `npm install` (to install all packages)  
     * `npm run dev`
 * Use ngrok to generate a remote server link
 
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. angular front-end (UI for admin)
+### &nbsp;&nbsp;&nbsp;&nbsp;3. angular front-end (UI for admin)
 * `cd coldblocks-angular`
     * `npm install` (to install all packages)    
     * `npm start`
 
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. react front-end (UI for Suppliers, Manufacturers, Distributors & Consumers)
+### &nbsp;&nbsp;&nbsp;&nbsp;4. react front-end (UI for Suppliers, Manufacturers, Distributors & Consumers)
 * `cd coldblocks-react`
     * `npm install` (to install all packages)    
     * `npm start`
 
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5. coldblocks-AR
+### &nbsp;&nbsp;&nbsp;&nbsp;5. coldblocks-AR
 * `git clone https://github.com/mojojojo20/ColdBlocks-AR.git`
 * `cd coldblocks-AR`
 * update ngrok link in coldAR __index.html__ file
     * use app to scan QR-code
     * __Ok__ means the product is of optimal quality and __Tampered__ means that the product is not of optimal quality.
 
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6. Hardware Code - 
+### &nbsp;&nbsp;&nbsp;&nbsp;6. Hardware Code - 
 * `cd cold-hardware`
     * Update server link in Hardware Code with latest generated ngrok link for node back-end on port 4000
     * Compile and Upload sketch to nodeMCU ESP8266 module using Arduino IDE
 
 :v: :fist:
-
-
-
-
-
-
-
