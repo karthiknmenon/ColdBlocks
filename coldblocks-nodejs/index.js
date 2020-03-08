@@ -13,7 +13,7 @@ var QRCode = require('qrcode');
 const opencage = require('opencage-api-client');
 // to read .env file for API-Key
 require('dotenv').config()
-// open-cage API for reverse gen-encoding
+// open-cage API for reverse geo-encoding
 opencage.geocode({
     // hard-code latitude and longitude
     q: '10.5545, 76.2247',
