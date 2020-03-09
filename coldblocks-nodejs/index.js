@@ -41,10 +41,11 @@ opencage.geocode({
 });
 
 
-QRCode.toString('http://bdb64b8a.ngrok.io/HolderChange?oldHolder=D03&newHolder=qrcode&packageID=H001', {
+QRCode.toString('http://116ed152.ngrok.io/HolderChange?oldHolder=D03&newHolder=Denil&packageID=H001', {
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
+    
 });
 
 // QRCode.toDataURL('https://www.google.com!', function (err, url) {
@@ -835,7 +836,8 @@ app.get('/tempDrop', function (req, res) {
     });
 })
 
-app.post('/HolderChange', function (req, res) {
+app.get('/HolderChange', function (req, res) {
+    res.send("Holder Change Event Triggered Successfully.")
     // console.log(JSON.stringify(req.body));
     var oHolder = req.query.oldHolder;
     // var oHolder = "hyder";
