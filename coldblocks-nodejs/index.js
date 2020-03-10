@@ -7,17 +7,17 @@ const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
 var crypto = require('crypto');
-// var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
 // for GPS coordinates
 const opencage = require('opencage-api-client');
 // to read .env file for API-Key
 require('dotenv').config()
-// open-cage API for reverse gen-encoding
+// open-cage API for reverse geo-encoding
 opencage.geocode({
+    // hard-code latitude and longitude
     q: '10.5545, 76.2247',
-    language: 'fr'
+    language: 'en'
 }).then(data => {
     // console.log(JSON.stringify(data));
     if (data.status.code == 200) {
@@ -41,25 +41,16 @@ opencage.geocode({
 });
 
 
-QRCode.toString('http://aa306474.ngrok.io/HolderChange', {
+QRCode.toString('http://116ed152.ngrok.io/HolderChange?oldHolder=D03&newHolder=Denil&packageID=H001', {
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
+    
 });
 
 // QRCode.toDataURL('https://www.google.com!', function (err, url) {
 //     console.log(url)
 //   });
-
-
-// var key = 'my passphrase';
-// var plaintext = 'my plaintext message';
-
-// var encrypted = aes256.encrypt(key, plaintext);
-// var decrypted = aes256.decrypt(key, encrypted);
-
-// console.log(encrypted);
-// console.log(decrypted);
 
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -748,6 +739,17 @@ app.post('/api/CreateTransitPackage', function (req, res) {
 // read nodeMCU temperature data
 
 app.post('/tempData', function (req, res) {
+    // AES-256 bit encryption
+    var key = 'my passphrase';
+    // add Temperature, packageID and gpsLocation to plaintext being encrypted
+    var plaintext = String(req.body.Temperature);
+    plaintext += ", " + req.body.packageID;
+    plaintext += ", " + gpsLocation;
+    // encrypted and decrypted text
+    var encrypted = aes256.encrypt(key, plaintext);
+    var decrypted = aes256.decrypt(key, encrypted);
+    console.log("Encrypted text: " + encrypted);
+    console.log("Decrypted text: " + decrypted);
     // console.log(JSON.stringify(req.body));
     var temp = req.body.Temperature;
     console.log("Temperature: " + temp);
@@ -834,24 +836,26 @@ app.get('/tempDrop', function (req, res) {
     });
 })
 
-app.post('/HolderChange', function (req, res) {
+app.get('/HolderChange', function (req, res) {
+    res.send("Holder Change Event Triggered Successfully.")
     // console.log(JSON.stringify(req.body));
-    var oHolder = req.body.oldHolder;
+    var oHolder = req.query.oldHolder;
     // var oHolder = "hyder";
     console.log("oldHolder: " + oHolder);
-    var packageID = req.body.packageID;
+    var packageId = req.query.packageID;
     // var packageID = "H156";
-    console.log("Package Id: " + packageID);
-    var nHolder = req.body.newHolder;
+    console.log("Package Id: " + packageId);
+    var nHolder = req.query.newHolder;
     // var nHolder = "dsdsds";
-    console.log("Location: " + nHolder);
+    console.log("new Holder: " + nHolder);
     Request.post({
         "headers": {
             "content-type": "application/json"
         },
         "url": restUrl + "api/HolderChange",
         "body": JSON.stringify({
-            "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
+            "$class": "org.coldblocks.mynetwork.HolderChange",
+            "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageId,
             "oldHolder": String(oHolder),
             "newHolder": String(nHolder)
         })
