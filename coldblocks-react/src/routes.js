@@ -9,6 +9,7 @@ import PackageList from "views/packagelist.jsx";
 import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
+import WebcamCapture from "views/camera"
 
 const dashboardRoutes = [
   {
@@ -18,13 +19,13 @@ const dashboardRoutes = [
     component: Dashboard,
     layout: "/admin"
   },
-  // {
-  //   path: "/user",
-  //   name: "User Profile",
-  //   icon: "pe-7s-user",
-  //   component: UserProfile,
-  //   layout: "/admin"
-  // },
+  {
+    path: "/camera",
+    name: "Cold-AR",
+    // icon: "pe-7s-user",
+    component: WebcamCapture,
+    layout: "/admin"
+  },
   {
     path: "/packagelist",
     name: "Package Data",
