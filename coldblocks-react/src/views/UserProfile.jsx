@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import {
   Grid,
@@ -96,8 +95,7 @@ class UserProfile extends Component {
                           name: "cName"
                         }
                       ]}
-                    />
-                 
+                    />       
                     <Button bsStyle="success" pullRight fill type="submit">
                       Submit
                     </Button>
@@ -106,32 +104,6 @@ class UserProfile extends Component {
                 }
               />
             </Col>
-            {/* <Col md={4}>
-              <UserCard
-                bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-                avatar={avatar}
-                name="Karthik Menon"
-                userName="S101"
-                description={
-                  <span>
-                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </span>
-                }
-                // socials={
-                //   <div>
-                //     <Button simple>
-                //       <i className="fa fa-facebook-square" />
-                //     </Button>
-                //     <Button simple>
-                //       <i className="fa fa-twitter" />
-                //     </Button>
-                //     <Button simple>
-                //       <i className="fa fa-google-plus-square" />
-                //     </Button>
-                //   </div>
-                // }
-              />
-            </Col> */}
           </Row>
         </Grid>
       </div>
