@@ -4,15 +4,58 @@ import {
   Grid,
   Row,
   Col,
-  FormGroup,
-  ControlLabel,
-  FormControl
 } from "react-bootstrap";
+import axios from 'axios';
 import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+
  
 class UserProfile extends Component {
+  state = {
+    cName: '',
+    cID: ''
+  }
+
+  nameChange = event => {
+    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+    this.setState({ cName: event.target.value });
+
+  }
+  idChange = event => {
+    console.log("Invoked idChange Event handleChange: "+event.target.value);
+    this.setState({
+                    cID: event.target.value });
+
+  }
+ 
+  handleSubmit = event => {
+    event.preventDefault();
+    
+    console.log("state "+this.state.cID);
+    console.log("state "+this.state.cName);
+    const user = {
+      cID: String(this.state.cID),
+      cName: String(this.state.cName)
+    };
+    console.log("user "+user.cID);
+    console.log("user "+user.cName);
+    
+    axios.post(`http://localhost:4000/api/CreateConsumer`, 
+    { headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+    { data: user})
+    .then(res => {
+      console.log(res);
+      console.log(res.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+
   render() {
     return (
       
@@ -23,8 +66,8 @@ class UserProfile extends Component {
               <Card
                 title="Edit Profile"
                 content={
-                  <form>
-                    <FormInputs
+                  <form onSubmit={this.handleSubmit} >
+                    <FormInputs 
                       ncols={["col-md-5", "col-md-3", "col-md-4"]}
                       properties={[
                         {
@@ -34,19 +77,23 @@ class UserProfile extends Component {
                           placeholder: "Company",
                           defaultValue: "ColdBlocks",
                           disabled: true
+                  
                         },
                         {
-                          label: "Username",
+                          label: "Consumer ID",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Username",
-                          defaultValue: "michael23"
+                          placeholder: "Consumer ID",
+                          onChange:this.idChange,
+                          name: "cID"
                         },
                         {
-                          label: "Email address",
-                          type: "email",
+                          label: "Name",
+                          type: "text",
                           bsClass: "form-control",
-                          placeholder: "Email"
+                          placeholder: "Consumer Name",
+                          onChange:this.nameChange,
+                          name: "cName"
                         }
                       ]}
                     />

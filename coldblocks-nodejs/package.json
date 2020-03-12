@@ -20,6 +20,7 @@
   "dependencies": {
     "aes256": "^1.0.4",
     "axios": "^0.16.2",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "custom-env": "^2.0.1",
     "dotenv": "^8.2.0",

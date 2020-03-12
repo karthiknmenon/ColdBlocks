@@ -9,6 +9,7 @@ var Request = require('request');
 var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
+var cors = require('cors');
 // for GPS coordinates
 const opencage = require('opencage-api-client');
 // to read .env file for API-Key
@@ -57,6 +58,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+app.use(cors());
 
 // URL to composer-rest-server
 
@@ -186,9 +188,13 @@ app.get('/api/ListConsumerId', function (req, res) {
 // API to create a new consumer
 
 app.post('/api/CreateConsumer', function (req, res) {
+    console.log(req.body.cID);
+    console.log(req.body.cName);
     Request.post({
         "headers": {
-            "content-type": "application/json"
+            "content-type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         },
         "url": restUrl + "api/Consumer",
         "body": JSON.stringify({
