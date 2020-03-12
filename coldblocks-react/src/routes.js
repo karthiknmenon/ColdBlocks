@@ -6,6 +6,7 @@ import DistributorList from "views/distributorlist.jsx";
 import SupplierList from "views/supplierlist.jsx";
 import ManufacturerList from "views/manufacturerlist.jsx";
 import PackageList from "views/packagelist.jsx";
+import login from "views/login";
 import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
@@ -68,6 +69,12 @@ const dashboardRoutes = [
     component: UserProfile,
     layout: "/admin"
   },
+  // {
+  //   path: "/login",
+  //   // icon: "pe-7s-note2",
+  //   component: login,
+  //   layout: "/admin"
+  // },
   // {
   //   path: "/icons",
   //   name: "Icons",
