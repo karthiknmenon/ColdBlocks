@@ -9,7 +9,6 @@ import PackageList from "views/packagelist.jsx";
 import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
 import Notifications from "views/Notifications.jsx";
-import Upgrade from "views/Upgrade.jsx";
 
 const dashboardRoutes = [
   {
@@ -59,6 +58,13 @@ const dashboardRoutes = [
     name: "Manufacturer Data",
     // icon: "pe-7s-note2",
     component: ManufacturerList,
+    layout: "/admin"
+  },
+  {
+    path: "/submitForm",
+    name: "Submit Form",
+    // icon: "pe-7s-note2",
+    component: UserProfile,
     layout: "/admin"
   },
   // {
