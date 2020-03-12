@@ -17,7 +17,7 @@ class Login extends Component {
                 <Card
                
                 content={
-                  <Image src={logo}  height="350" width="350"/>
+                  <Image src={logo}  height="300" width="300"/>
                 }
                 />                    
                 </Col>
