@@ -36,8 +36,8 @@ class AdminNavbarLinks extends Component {
             <p className="hidden-lg hidden-md">Search</p>
           </NavItem> */}
         </Nav>
-        {/* <Nav pullRight>
-          <NavItem eventKey={1} href="#">
+        <Nav pullRight>
+          {/* <NavItem eventKey={1} href="#">
             Account
           </NavItem>
           <NavDropdown
@@ -52,11 +52,11 @@ class AdminNavbarLinks extends Component {
             <MenuItem eventKey={2.5}>Something</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey={2.5}>Separated link</MenuItem>
-          </NavDropdown>
-          <NavItem eventKey={3} href="#">
+          </NavDropdown> */}
+          <NavItem eventKey={3} href="/login">
             Log out
           </NavItem>
-        </Nav> */}
+        </Nav>
       </div>
     );
   }
