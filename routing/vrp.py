@@ -3,7 +3,31 @@
 from __future__ import print_function
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
+from flask import Flask, jsonify, request 
+from flask_restful import Resource, Api 
 
+
+# creating the flask app 
+app = Flask(__name__) 
+# creating an API object 
+api = Api(app) 
+
+class Hello(Resource): 
+
+	# corresponds to the GET request. 
+	# this function is called whenever there 
+	# is a GET request for this resource 
+	def get(self): 
+
+		return jsonify({'message': 'hello world'}) 
+
+	# Corresponds to POST request 
+	def post(self): 
+		
+		data = request.get_json()	 # status code 
+		return jsonify({'data': data}), 201
+
+api.add_resource(Hello, '/') 
 
 def create_data_model():
     """Stores the data for the problem."""
@@ -157,3 +181,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    app.run(debug= True)
