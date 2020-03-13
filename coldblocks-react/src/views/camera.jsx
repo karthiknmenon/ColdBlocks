@@ -4,8 +4,10 @@ import {
   Grid,
   Row,
   Col,
+  Table
 } from "react-bootstrap";
 import { Card } from "components/Card/Card.jsx";
+import Button from "components/CustomButton/CustomButton"
  
 class WebcamCapture extends React.Component {
   render() {
@@ -14,24 +16,18 @@ class WebcamCapture extends React.Component {
     };
 
     return (
-      <Grid>
-        <Col md={12}>
-          <Row>
-            <>
-              <Card
-                title="Cold-AR"
-                description={
-                  <p>
-                  Add some description like etc etc etc.
-                  </p>
+        <Grid>
+          <Col md={12}>
+            <Row>
+            <Card
+                category="ColdAR is an Augmented Reality enabled QR Scanner that allows a user to scan a product QR code to verify its status. A status -ok- means that the package is not tampered, else it's tampered."
+                content={
+                  <Button bsStyle="primary" block>Launch ColdAR</Button>
                 }
-              >
-
-              </Card>
-            </>
-          </Row>
-        </Col>
-      </Grid>
+              />
+            </Row>
+          </Col>
+        </Grid>
           
     )
   }
