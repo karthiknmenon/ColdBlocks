@@ -68,7 +68,7 @@ class Dashboard extends Component {
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col md={12}>
+            <Col md={6}>
                   <UserCard
                     bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
                     avatar={avatar}
@@ -78,38 +78,6 @@ class Dashboard extends Component {
                       <span>
                       Add some description like etc etc etc.
                       </span>
-                    }
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col lg={6}>
-                <Card
-                    title="Package Data"
-                    category="Data about all Transit Packages"
-                    ctTableFullWidth
-                    ctTableResponsive
-                    content={
-                      <Table striped hover>
-                        <thead>
-                          <tr>
-                            <th>Package ID</th>
-                            {/* <th>Destination</th> */}
-                            <th>Status</th>
-                          </tr>
-
-                        </thead>
-                        <tbody>                     
-                          {Array.isArray(apiData) && apiData.map(object => (
-                            <>
-                              <tr>
-                                <td>{object.packageID}</td>
-                                <td>{object.status}</td>
-                              </tr>
-                            </>
-                          ))}
-                        </tbody>
-                      </Table>
                     }
                   />
                 </Col>
@@ -153,6 +121,39 @@ class Dashboard extends Component {
                     }
                   />
                 </Col>
+              </Row>
+              <Row>
+                <Col lg={12}>
+                <Card
+                    title="Package Data"
+                    category="Data about all Transit Packages"
+                    ctTableFullWidth
+                    ctTableResponsive
+                    content={
+                      <Table striped hover>
+                        <thead>
+                          <tr>
+                            <th>Package ID</th>
+                            {/* <th>Destination</th> */}
+                            <th>Status</th>
+                          </tr>
+
+                        </thead>
+                        <tbody>                     
+                          {Array.isArray(apiData) && apiData.map(object => (
+                            <>
+                              <tr>
+                                <td>{object.packageID}</td>
+                                <td>{object.status}</td>
+                              </tr>
+                            </>
+                          ))}
+                        </tbody>
+                      </Table>
+                    }
+                  />
+                </Col>
+                
             </Row>
         </Grid>
       </div>
