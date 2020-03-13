@@ -15,12 +15,14 @@ class Dashboard extends Component {
     super()
     this.state = {
       apiData:{},
-      packageId:{}
+      packageId:{},
+      packageId:{},
+      packageStatus:'null'
     }
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListPackages')
+    fetch('http://localhost:4000')
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })
@@ -33,6 +35,34 @@ class Dashboard extends Component {
     this.setState({
                     packageId: event.target.value });
 
+  }
+  handleSubmit = event => {
+    event.preventDefault();
+    
+    console.log("state "+this.state.packageId);
+    const user = {
+      packageId: String(this.state.packageId)
+    };
+    console.log("user "+user.packageId);
+    
+    axios.get(`http://localhost:4000/api/ListPackagesById?packageId=`+user.packageId+'', 
+    { headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+    )
+    .then(res => {
+      console.log(res);
+      // console.log(res.data[0]["status"]);
+      this.setState({
+                  packageStatus: res.data[0]["status"]
+      })
+      // this.state.packageStatus = res.data[0]["status"];
+      console.log("packageStatus: "+this.state.packageStatus);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
   }
   render() {
     const {apiData} = this.state;
@@ -51,19 +81,6 @@ class Dashboard extends Component {
                       Add some description like etc etc etc.
                       </span>
                     }
-                    // socials={
-                    //   <div>
-                    //     <Button simple>
-                    //       <i className="fa fa-facebook-square" />
-                    //     </Button>
-                    //     <Button simple>
-                    //       <i className="fa fa-twitter" />
-                    //     </Button>
-                    //     <Button simple>
-                    //       <i className="fa fa-google-plus-square" />
-                    //     </Button>
-                    //   </div>
-                    // }
                   />
                 </Col>
               </Row>
@@ -89,7 +106,6 @@ class Dashboard extends Component {
                             <>
                               <tr>
                                 <td>{object.packageID}</td>
-                                {/* <td>{object.destination}</td> */}
                                 <td>{object.status}</td>
                               </tr>
                             </>
@@ -104,6 +120,8 @@ class Dashboard extends Component {
                     title="Package Status"
                     category="Query Status of a Package by its ID"                
                     content={
+                      <>
+                      <p className="text-muted">The status of package is: {this.state.packageStatus}</p>
                       <form onSubmit={this.handleSubmit} >
                       <FormInputs 
                         ncols={["col-md-6", "col-md-6"]}
@@ -130,8 +148,10 @@ class Dashboard extends Component {
                       <Button bsStyle="success" pullRight fill type="submit">
                         Submit
                       </Button>
+                      
                       <div className="clearfix" />
                     </form>
+                    </>
                     }
                   />
                 </Col>
