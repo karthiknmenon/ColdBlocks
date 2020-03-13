@@ -22,7 +22,7 @@ class Dashboard extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000')
+    fetch('http://localhost:4000/api/ListPackages')
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })
@@ -53,11 +53,9 @@ class Dashboard extends Component {
     )
     .then(res => {
       console.log(res);
-      // console.log(res.data[0]["status"]);
       this.setState({
                   packageStatus: res.data[0]["status"]
       })
-      // this.state.packageStatus = res.data[0]["status"];
       console.log("packageStatus: "+this.state.packageStatus);
     })
     .catch(function (error) {
@@ -156,13 +154,6 @@ class Dashboard extends Component {
                   />
                 </Col>
             </Row>
-          {/* <Row className="text-center">
-            <Col lg={12} sm={12}>
-            <div className="logo-img">
-              <Image src={logo}  fluid />
-            </div>
-            </Col>
-          </Row> */}
         </Grid>
       </div>
     );
