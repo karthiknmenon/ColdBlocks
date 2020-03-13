@@ -39,8 +39,8 @@ class AdminTransactions extends Component {
                     <thead>
                       <tr>
                         <th>Transaction Type</th>
-                        
-                        <th>Participant Invoking</th>
+                        <th>Participant Invoking</th>                        
+                        <th>Time Stamp</th>                        
                       </tr>
 
                     </thead>
@@ -48,9 +48,9 @@ class AdminTransactions extends Component {
                       {Array.isArray(character) && character.map(object => (
                         <>
                           <tr>
-                            <td>{object.transactionType}</td>
-                            
+                            <td>{object.transactionType}</td>                            
                             <td>{object.participantInvoking}</td>
+                            <td>{object.transactionTimestamp}</td>
                           </tr>
                         </>
                       ))}
