@@ -41,10 +41,11 @@ opencage.geocode({
 });
 
 
-QRCode.toString('http://aa306474.ngrok.io/HolderChange', {
+QRCode.toString('http://116ed152.ngrok.io/HolderChange?oldHolder=D03&newHolder=Denil&packageID=H001', {
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
+    
 });
 
 // QRCode.toDataURL('https://www.google.com!', function (err, url) {
@@ -835,24 +836,26 @@ app.get('/tempDrop', function (req, res) {
     });
 })
 
-app.post('/HolderChange', function (req, res) {
+app.get('/HolderChange', function (req, res) {
+    res.send("Holder Change Event Triggered Successfully.")
     // console.log(JSON.stringify(req.body));
-    var oHolder = req.body.oldHolder;
+    var oHolder = req.query.oldHolder;
     // var oHolder = "hyder";
     console.log("oldHolder: " + oHolder);
-    var packageID = req.body.packageID;
+    var packageId = req.query.packageID;
     // var packageID = "H156";
-    console.log("Package Id: " + packageID);
-    var nHolder = req.body.newHolder;
+    console.log("Package Id: " + packageId);
+    var nHolder = req.query.newHolder;
     // var nHolder = "dsdsds";
-    console.log("Location: " + nHolder);
+    console.log("new Holder: " + nHolder);
     Request.post({
         "headers": {
             "content-type": "application/json"
         },
         "url": restUrl + "api/HolderChange",
         "body": JSON.stringify({
-            "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
+            "$class": "org.coldblocks.mynetwork.HolderChange",
+            "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageId,
             "oldHolder": String(oHolder),
             "newHolder": String(nHolder)
         })
