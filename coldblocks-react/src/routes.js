@@ -6,10 +6,9 @@ import DistributorList from "views/distributorlist.jsx";
 import SupplierList from "views/supplierlist.jsx";
 import ManufacturerList from "views/manufacturerlist.jsx";
 import PackageList from "views/packagelist.jsx";
-import login from "views/login";
+import AdminTransactions from "views/adminTransactions";
 import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
-import Notifications from "views/Notifications.jsx";
 import WebcamCapture from "views/camera"
 
 const dashboardRoutes = [
@@ -32,6 +31,13 @@ const dashboardRoutes = [
     name: "Package Data",
     // icon: "pe-7s-note2",
     component: PackageList,
+    layout: "/admin"
+  },
+  {
+    path: "/viewTransactions",
+    name: "Transactions",
+    // icon: "pe-7s-note2",
+    component: AdminTransactions,
     layout: "/admin"
   },
   {
@@ -70,12 +76,6 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   // {
-  //   path: "/login",
-  //   // icon: "pe-7s-note2",
-  //   component: login,
-  //   layout: "/admin"
-  // },
-  // {
   //   path: "/icons",
   //   name: "Icons",
   //   icon: "pe-7s-science",
@@ -96,14 +96,6 @@ const dashboardRoutes = [
   //   component: Notifications,
   //   layout: "/admin"
   // },
-  // {
-  //   upgrade: true,
-  //   path: "/upgrade",
-  //   name: "Upgrade to PRO",
-  //   icon: "pe-7s-rocket",
-  //   component: Upgrade,
-  //   layout: "/admin"
-  // }
 ];
 
 export default dashboardRoutes;

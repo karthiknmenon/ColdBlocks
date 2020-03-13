@@ -18,7 +18,16 @@ class WebcamCapture extends React.Component {
         <Col md={12}>
           <Row>
             <>
-              <Webcam videoConstraints={videoConstraints} />;
+              <Card
+                title="Cold-AR"
+                description={
+                  <p>
+                  Add some description like etc etc etc.
+                  </p>
+                }
+              >
+
+              </Card>
             </>
           </Row>
         </Col>

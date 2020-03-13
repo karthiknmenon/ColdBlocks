@@ -91,31 +91,16 @@ app.get('/api/ListTransactions', (req, res) => {
 
     axios.get(restUrl + 'api/system/historian').then(function (response) {
         jsonResponse = response.data;
-        // res.send(response.data);
+        res.send(response.data);
     }).then(function (response) {
-        // res.send(jsonResponse[0]['consumerID']);
-        showID();
+        res.send(jsonResponse[0]['consumerID']);
+        // showID();
+        
     }).catch(function (error) {
         console.log(error);
     });
 
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-        // var JSONobj = new object();            
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['transactionId'];
-            let y = jsonResponse[i]['transactionTimestamp'];
-            // var obj = JSON.parse(x+y);
-            JSONobj[key].push(y);
-            key = i;
-        }
-        JSON.stringify(JSONobj);
-        // console.log(JSONobj);
-        res.send(JSONobj)
-    }
+    
 });
 
 // All Consumer API's
