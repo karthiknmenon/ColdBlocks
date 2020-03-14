@@ -12,22 +12,7 @@ app = Flask(__name__)
 # creating an API object 
 api = Api(app) 
 
-class Hello(Resource): 
-
-	# corresponds to the GET request. 
-	# this function is called whenever there 
-	# is a GET request for this resource 
-	def get(self): 
-
-		return jsonify({'message': 'hello world'}) 
-
-	# Corresponds to POST request 
-	def post(self): 
-		
-		data = request.get_json()	 # status code 
-		return jsonify({'data': data}), 201
-
-api.add_resource(Hello, '/') 
+global_solution = []
 
 def create_data_model():
     """Stores the data for the problem."""
@@ -109,6 +94,7 @@ def create_data_model():
 
 def print_solution(data, manager, routing, solution):
     """Prints solution on console."""
+    global global_solution
     max_route_distance = 0
     for vehicle_id in range(data['num_vehicles']):
         index = routing.Start(vehicle_id)
@@ -122,6 +108,8 @@ def print_solution(data, manager, routing, solution):
                 previous_index, index, vehicle_id)
         plan_output += '{}\n'.format(manager.IndexToNode(index))
         plan_output += 'Distance of the route: {}m\n'.format(route_distance)
+        # print("plain output \n")
+        global_solution.append(plan_output)
         print(plan_output)
         max_route_distance = max(route_distance, max_route_distance)
     print('Maximum of the route distances: {}m'.format(max_route_distance))
@@ -173,12 +161,33 @@ def main():
 
     # Solve the problem.
     solution = routing.SolveWithParameters(search_parameters)
-
+    
     # Print solution on console.
     if solution:
         print_solution(data, manager, routing, solution)
+        
+class Hello(Resource): 
+	# corresponds to the GET request. 
+	# this function is called whenever there 
+	# is a GET request for this resource 
+	def get(self): 
+
+		return jsonify({'Route 1': global_solution[0],
+                        'Route 2 ': global_solution[1],
+                        'Route 3 ': global_solution[2],
+                        'Route 4 ': global_solution[3],
+        }) 
+
+	# Corresponds to POST request 
+	def post(self): 
+		
+		data = request.get_json()	 # status code 
+		return jsonify({'data': data}), 201
+
+api.add_resource(Hello, '/') 
 
 
 if __name__ == '__main__':
     main()
+    # print(global_solution)
     app.run(debug= True)
