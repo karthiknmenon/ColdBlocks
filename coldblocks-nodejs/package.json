@@ -24,8 +24,10 @@
     "custom-env": "^2.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "mongoose": "^5.9.4",
     "nodemon": "^2.0.2",
     "opencage-api-client": "^0.5.1",
+    "passport": "^0.4.1",
     "qrcode": "^1.4.4",
     "twilio-client": "^1.9.7"
   }
