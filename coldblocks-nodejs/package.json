@@ -28,6 +28,7 @@
     "nodemon": "^2.0.2",
     "opencage-api-client": "^0.5.1",
     "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "qrcode": "^1.4.4",
     "twilio-client": "^1.9.7"
   }
