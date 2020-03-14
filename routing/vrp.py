@@ -166,7 +166,7 @@ def main():
     if solution:
         print_solution(data, manager, routing, solution)
         
-class Hello(Resource): 
+class RouteData(Resource): 
 	# corresponds to the GET request. 
 	# this function is called whenever there 
 	# is a GET request for this resource 
@@ -184,7 +184,7 @@ class Hello(Resource):
 		data = request.get_json()	 # status code 
 		return jsonify({'data': data}), 201
 
-api.add_resource(Hello, '/') 
+api.add_resource(RouteData, '/') 
 
 
 if __name__ == '__main__':
