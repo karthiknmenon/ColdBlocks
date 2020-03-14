@@ -6,6 +6,7 @@ import Card from "../components/Card/Card";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 // import Image from 'react-bootstrap/Image'
+import "../assets/css/auth.css"
 
 class Login extends Component {
   render() {
