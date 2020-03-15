@@ -21,11 +21,12 @@ class Dashboard extends Component {
     }
   }
   componentDidMount() {
+    // Old code to get parameters from URL
     const query = new URLSearchParams(this.props.location.search);
     const username = query.get('username');
     const userId = query.get('password');
-    // console.log(username);
-    // console.log("hi");
+    console.log(username);
+    console.log("hi");
     this.setState({userName:username,userId: userId});
     fetch('http://localhost:4000/api/ListPackages')
     .then(res => res.json())

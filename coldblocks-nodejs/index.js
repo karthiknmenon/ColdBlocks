@@ -46,7 +46,7 @@ QRCode.toString('http://116ed152.ngrok.io/HolderChange?oldHolder=D03&newHolder=D
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
-    
+
 });
 
 // QRCode.toDataURL('https://www.google.com!', function (err, url) {
@@ -95,12 +95,12 @@ app.get('/api/ListTransactions', (req, res) => {
     }).then(function (response) {
         res.send(jsonResponse[0]['consumerID']);
         // showID();
-        
+
     }).catch(function (error) {
         console.log(error);
     });
 
-    
+
 });
 
 // All Consumer API's
@@ -179,7 +179,7 @@ app.post('/api/CreateConsumer', function (req, res) {
         "headers": {
             "content-type": "application/json",
             "Access-Control-Allow-Origin": "*",
-            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         },
         "url": restUrl + "api/Consumer",
         "body": JSON.stringify({
@@ -863,17 +863,17 @@ const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/success', (req, res) => res.send("Welcome "+req.query.username+"!!"));
+app.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
 app.get('/error', (req, res) => res.send("error logging in"));
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
+passport.serializeUser(function (user, cb) {
+    cb(null, user.id);
 });
 
-passport.deserializeUser(function(id, cb) {
-  User.findById(id, function(err, user) {
-    cb(err, user);
-  });
+passport.deserializeUser(function (id, cb) {
+    User.findById(id, function (err, user) {
+        cb(err, user);
+    });
 });
 
 // connecting mongo to node 
@@ -882,9 +882,9 @@ mongoose.connect('mongodb://localhost/MyDatabase');
 
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
-      username: String,
-      password: String
-    });
+    username: String,
+    password: String
+});
 const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
 
 
@@ -892,34 +892,103 @@ const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
-    function(username, password, done) {
+    function (username, password, done) {
         UserDetails.findOne({
-          username: username
-        }, function(err, user) {
-          if (err) {
-            return done(err);
-          }
-  
-          if (!user) {
-            return done(null, false);
-          }
-  
-          if (user.password != password) {
-            return done(null, false);
-          }
-          return done(null, user);
+            username: username
+        }, function (err, user) {
+            if (err) {
+                return done(err);
+            }
+
+            if (!user) {
+                return done(null, false);
+            }
+
+            if (user.password != password) {
+                return done(null, false);
+            }
+            return done(null, user);
+            var id = ObjectId;
         });
     }
-  ));
-  
-  app.post('/',
-    passport.authenticate('local', { failureRedirect: '/error' }),
-    function(req, res) {
-    //   res.redirect('/success?username='+req.user.username);
-    res.send("success");
-    //   res.redirect('/');
-      console.log("success");
+));
+
+app.post('/',
+    passport.authenticate('local', {
+        failureRedirect: '/error'
+    }),
+    function (req, res) {
+        //   res.redirect('/success?username='+req.user.username);
+        res.send("success");
+        //   res.redirect('/');
+        console.log("success");
+    }
+);
+
+// var param_username = "admin";
+function storeId(param_username) {
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost/MyDatabase";
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("MyDatabase");
+        var query = {
+            username: String(param_username)
+        };
+        dbo.collection("userInfo").find(query).toArray(function (err, result) {
+            if (err) throw err;
+            console.log(result[0]._id);
+            findCredentials(result[0]._id);
+            db.close();
+        });
     });
+}
+
+app.get("/storeCredentials", (req, res) => {
+    var userN = req.query.username;
+    storeId(userN);
+})
+
+function findCredentials(objectId) {
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost/MyDatabase";
+    console.log("Inside function findCredentials: " + objectId);
+
+    MongoClient.connect(url, function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("MyDatabase");
+        var query = {
+            _id: objectId
+        };
+        dbo.collection("userInfo").find(query).toArray(function (err, result) {
+            if (err) throw err;
+            console.log(result[0]);
+            var strName = result[0].username;
+            var strPass = result[0].password;
+            Request.post({
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "url": "http://localhost:4000/findCred",
+                "body": JSON.stringify({
+                    "username" : String(strName),
+                    "password" : String(strPass)
+                })
+            }, (error, response, body) => {
+                if (error) {
+                    return console.dir(error);
+                }
+            });
+            // console.log("http://localhost:4000/findCred?username="+strName+"&password="+strPass);
+            // axios.get("http://localhost:4000/findCred?username="+strName+"&password="+strPass);
+            
+            // console.log(strJSON);
+            // findCredentials(result[0]._id);
+            db.close();
+        });
+    });    
+}
 
 
 app.listen(4000);

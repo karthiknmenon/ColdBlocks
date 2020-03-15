@@ -20,7 +20,9 @@ class Login extends Component {
     password: '',
     url:'http://localhost:3001/',
     status:'0',
-    _notificationSystem: null
+    _notificationSystem: null,
+    userName:'',
+    userId:''
   }
   
   nameChange = event => {
@@ -53,12 +55,18 @@ class Login extends Component {
       // console.log(res);
       // console.log("success")
       // console.log(res.data);
+      const query = new URLSearchParams(this.props.location.search);
+      const username = query.get('username');
+      const userId = query.get('password');
+      this.setState({userName:username,userId: userId});
+      console.log(this.state.userName)
       if(res.data=="success"){
         this.setState({
-          url: 'http://localhost:3001/admin/dashboard/?username='+user.username+'&password='+user.password+''      
+          url: 'http://localhost:3001/admin/dashboard/?username='+user.username+'&password='+user.password+''
       })
+      // to save credentials
+      axios.get("http://localhost:4000/storeCredentials?username="+user.username)
       window.location = this.state.url   
-        
       }
       else{
         this.setState({
