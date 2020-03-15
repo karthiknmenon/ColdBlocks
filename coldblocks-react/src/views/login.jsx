@@ -6,9 +6,62 @@ import Card from "../components/Card/Card";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 // import Image from 'react-bootstrap/Image'
+import axios from 'axios';
 import "../assets/css/auth.css"
 
 class Login extends Component {
+  state = {
+    username: '',
+    password: '',
+    url:'http://localhost:3001/'
+  }
+
+  nameChange = event => {
+    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+    this.setState({ username: event.target.value });
+
+  }
+  
+  passChange = event => {
+    console.log("Invoked passChange Event handleChange: "+event.target.value);
+    this.setState({
+                    password: event.target.value });
+
+  }
+ 
+  handleSubmit = event => {
+    event.preventDefault();
+    
+    console.log("state "+this.state.password);
+    console.log("state "+this.state.username);
+    const user = {
+      password: String(this.state.password),
+      username: String(this.state.username)
+    };
+    console.log("user "+user.password);
+    console.log("user "+user.username);
+    
+    axios.post(`http://localhost:4000/?username=`+user.username+`&password=`+user.password+``)
+    .then(res => {
+      console.log(res);
+      console.log("success")
+      console.log(res.data);
+      if(res.data=="success"){
+        this.setState({
+          url: 'http://localhost:3001/admin/dashboard'
+      
+      })
+      window.location = this.state.url     
+      }
+      // res.redirect(this.state.url)
+      
+         
+    console.log("url: "+this.state.url);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
   render() {
     return (
       <div className="content">
@@ -33,7 +86,7 @@ class Login extends Component {
                     title="Login"
                     category="Enter Auth Info for ColdDash"                
                     content={
-                      <form onSubmit={this.handleSubmit} >
+                      <form onSubmit={this.handleSubmit}>
                       <FormInputs 
                         ncols={["col-md-12"]}
                         properties={[
@@ -43,6 +96,8 @@ class Login extends Component {
                             bsClass: "form-control",
                             placeholder: "Enter User ID",
                             defaultValue: "ColdBlocks",
+                            onChange:this.nameChange,
+                            name: "username"
                             // disabled: true
                     
                           },
@@ -57,12 +112,14 @@ class Login extends Component {
                             bsClass: "form-control",
                             placeholder: "Enter Password",
                             defaultValue: "ColdBlocks",
+                            onChange:this.passChange,
+                            name: "password"
                             // disabled: true
                     
                           },
                         ]}
                       />       
-                      <Button bsStyle="success" pullRight fill type="submit" href="/admin/dashboard">
+                      <Button bsStyle="success" pullRight fill type="submit">
                         Submit
                       </Button>
                       <div className="clearfix" />

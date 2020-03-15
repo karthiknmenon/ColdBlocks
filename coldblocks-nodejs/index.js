@@ -913,9 +913,13 @@ passport.use(new LocalStrategy(
   ));
   
   app.post('/',
-    passport.authenticate('local', { failureRedirect: 'http://localhost:/auth' }),
+    passport.authenticate('local', { failureRedirect: '/error' }),
     function(req, res) {
-      res.redirect('/success?username='+req.user.username);
+    //   res.redirect('/success?username='+req.user.username);
+    res.send("success");
+    //   res.redirect('/');
+      console.log("success");
     });
+
 
 app.listen(4000);
