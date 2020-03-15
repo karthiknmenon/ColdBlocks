@@ -1,29 +1,34 @@
 
 import React, { Component } from "react";
-import { Grid, Row, Col, Table, Image} from "react-bootstrap";
+import { Grid, Row, Col, Table, Image, Alert} from "react-bootstrap";
 import logo from "assets/img/logo-png.png";
 import Card from "../components/Card/Card";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-// import Image from 'react-bootstrap/Image'
 import axios from 'axios';
-import "../assets/css/auth.css"
+import { style } from "variables/Variables.jsx";
+import NotificationSystem from "react-notification-system";
+
+// **TODO** Custom CSS for logIn
+// import "../assets/css/auth.css"
 
 class Login extends Component {
   state = {
     username: '',
     password: '',
-    url:'http://localhost:3001/'
+    url:'http://localhost:3001/',
+    status:'0',
+    _notificationSystem: null
   }
-
+  
   nameChange = event => {
-    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+    // console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
     this.setState({ username: event.target.value });
 
   }
   
   passChange = event => {
-    console.log("Invoked passChange Event handleChange: "+event.target.value);
+    // console.log("Invoked passChange Event handleChange: "+event.target.value);
     this.setState({
                     password: event.target.value });
 
@@ -32,26 +37,48 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     
-    console.log("state "+this.state.password);
-    console.log("state "+this.state.username);
+    // console.log("state "+this.state.password);
+    // console.log("state "+this.state.username);
     const user = {
       password: String(this.state.password),
       username: String(this.state.username)
     };
-    console.log("user "+user.password);
-    console.log("user "+user.username);
+    // console.log("user "+user.password);
+    // console.log("user "+user.username);
     
     axios.post(`http://localhost:4000/?username=`+user.username+`&password=`+user.password+``)
     .then(res => {
-      console.log(res);
-      console.log("success")
-      console.log(res.data);
+      // console.log(res);
+      // console.log("success")
+      // console.log(res.data);
       if(res.data=="success"){
         this.setState({
-          url: 'http://localhost:3001/admin/dashboard'
-      
+          url: 'http://localhost:3001/admin/dashboard'      
       })
-      window.location = this.state.url     
+      window.location = this.state.url   
+        
+      }
+      else{
+        this.setState({
+          url: 'http://localhost:3001'      
+      })
+      
+      // call pop-up
+      this.setState({ _notificationSystem: this.refs.notificationSystem });
+      var _notificationSystem = this.refs.notificationSystem;
+      var color = Math.floor(Math.random() * 2 + 1);
+      var level = "error"
+      _notificationSystem.addNotification({
+        title: <span data-notify="icon" className="pe-7s-gift" />,
+        message: (
+          <div>
+            Wrong Log-In Info, Please try again.
+          </div>
+        ),
+        level: level,
+        position: "tr",
+        autoDismiss: 15
+      });
       }
       // res.redirect(this.state.url)
       
@@ -65,13 +92,14 @@ class Login extends Component {
   render() {
     return (
       <div className="content">
+        <NotificationSystem ref="notificationSystem" style={style} />
         <Grid fluid>
               <Row>
                 <Col md={12} className="text-center">
                 <Card
                
                 content={
-                  <Image src={logo}  height="250" width="350"/>
+                  <Image src={logo}  height="200" width="250"/>
                 }
                 />                    
                 </Col>
@@ -129,13 +157,6 @@ class Login extends Component {
                 </Col>
                 <Col lg={3}></Col>
             </Row>
-          {/* <Row className="text-center">
-            <Col lg={12} sm={12}>
-            <div className="logo-img">
-              <Image src={logo}  fluid />
-            </div>
-            </Col>
-          </Row> */}
         </Grid>
       </div>
     );
