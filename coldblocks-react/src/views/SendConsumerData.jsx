@@ -10,7 +10,7 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
  
-class UserProfile extends Component {
+class SendConsumerData extends Component {
   state = {
     cName: '',
     cID: ''
@@ -53,6 +53,7 @@ class UserProfile extends Component {
     .catch(function (error) {
       console.log(error);
     })
+    
   }
 
   render() {
@@ -63,7 +64,7 @@ class UserProfile extends Component {
           <Row>
             <Col md={12}>
               <Card
-                title="Edit Profile"
+                title="Add Consumer"
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
@@ -111,4 +112,4 @@ class UserProfile extends Component {
   }
 }
 
-export default UserProfile;
+export default SendConsumerData;

@@ -4,6 +4,7 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
+import SendConsumerData from "./SendConsumerData";
 
 class ConsumerList extends Component {
   constructor() {
@@ -18,6 +19,7 @@ class ConsumerList extends Component {
     .then(res => res.json())
     .then((data) => {
       this.setState({ character: data })
+      
       // console.log(data);
     })
     .catch(console.log)
@@ -27,6 +29,11 @@ class ConsumerList extends Component {
     return (
       <div className="content">
         <Grid fluid>
+          <Row>
+            <Col md={12}>
+              <SendConsumerData></SendConsumerData>
+            </Col>
+          </Row>
           <Row>
             <Col md={12}>
               <Card
