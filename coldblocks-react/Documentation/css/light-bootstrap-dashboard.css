@@ -1862,7 +1862,7 @@ body > .navbar-collapse[data-color="purple"]:after {
   line-height: 24px; }
 
 .card-user .content {
-  min-height: 240px; }
+  min-height: 170px; }
 
 .card-user .footer,
 .card-price .footer {

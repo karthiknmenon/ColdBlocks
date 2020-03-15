@@ -15,11 +15,18 @@ class Dashboard extends Component {
       apiData:{},
       packageId:{},
       packageId:{},
-      packageStatus:'null'
+      packageStatus:'null',
+      userName:'',
+      userId:''
     }
   }
   componentDidMount() {
+    const query = new URLSearchParams(this.props.location.search);
+    const username = query.get('username');
+    const userId = query.get('password');
+    // console.log(username);
     // console.log("hi");
+    this.setState({userName:username,userId: userId});
     fetch('http://localhost:4000/api/ListPackages')
     .then(res => res.json())
     .then((data) => {
@@ -68,13 +75,13 @@ class Dashboard extends Component {
           <Row>
             <Col md={6}>
                   <UserCard
-                    bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
+                    bgImage="https://images.unsplash.com/photo-1548695607-9c73430ba065?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1484&q=80"
                     avatar={avatar}
-                    name="Karthik Menon"
-                    userName="S101"
+                    name={this.state.userName}
+                    userName={this.state.userId}
                     description={
-                      <span>
-                      Add some description like etc etc etc.
+                      <span className="text-muted">
+                          15 years of experience in local marketing and distribution.
                       </span>
                     }
                   />

@@ -55,7 +55,7 @@ class Login extends Component {
       // console.log(res.data);
       if(res.data=="success"){
         this.setState({
-          url: 'http://localhost:3001/admin/dashboard'      
+          url: 'http://localhost:3001/admin/dashboard/?username='+user.username+'&password='+user.password+''      
       })
       window.location = this.state.url   
         
