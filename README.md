@@ -85,4 +85,6 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     * `python3 vrp.py`
     * `curl 127.0.0.1:5000\`
 
+Icon Library - Remix Icons
+
 :v: :fist:
