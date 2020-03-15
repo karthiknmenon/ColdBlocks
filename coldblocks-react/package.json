@@ -18,7 +18,8 @@
     "react-router-dom": "5.0.0",
     "react-scripts": "3.0.0",
     "react-toggle": "4.0.2",
-    "react-webcam": "^5.0.0"
+    "react-webcam": "^5.0.0",
+    "remixicon": "^2.3.0"
   },
   "devDependencies": {
     "@types/googlemaps": "3.30.19",
@@ -48,5 +49,4 @@
       "last 1 safari version"
     ]
   }
-  
 }

@@ -8,6 +8,7 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
 import { style } from "variables/Variables.jsx";
 import NotificationSystem from "react-notification-system";
+import 'remixicon/fonts/remixicon.css'
 
 // **TODO** Custom CSS for logIn
 // import "../assets/css/auth.css"
@@ -69,7 +70,7 @@ class Login extends Component {
       var color = Math.floor(Math.random() * 2 + 1);
       var level = "error"
       _notificationSystem.addNotification({
-        title: <span data-notify="icon" className="pe-7s-gift" />,
+        title: <span data-notify="icon" className="ri-error-warning-fill" />,
         message: (
           <div>
             Wrong Log-In Info, Please try again.

@@ -45,7 +45,7 @@ class Admin extends Component {
         break;
     }
     this.state._notificationSystem.addNotification({
-      title: <span data-notify="icon" className="pe-7s-gift" />,
+      title: <span data-notify="icon" className="ri-star-smile-line" />,
       message: (
         <div>
           ColdDash - a curated dashboard for ColdBlocks.
@@ -126,7 +126,7 @@ class Admin extends Component {
         break;
     }
     _notificationSystem.addNotification({
-      title: <span data-notify="icon" className="pe-7s-gift" />,
+      title: <span data-notify="icon" className="ri-star-smile-line" />,
       message: (
         <div>
           ColdDash - a curated dashboard for ColdBlocks.
