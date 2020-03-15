@@ -72,7 +72,7 @@ const dashboardRoutes = [
   {
     path: "/submitForm",
     name: "Submit Form",
-    // icon: "pe-7s-note2",
+    icon: "ri-information-fill",
     component: UserProfile,
     layout: "/admin"
   },
