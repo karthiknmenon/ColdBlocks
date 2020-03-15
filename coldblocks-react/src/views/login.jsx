@@ -1,6 +1,6 @@
 
 import React, { Component } from "react";
-import { Grid, Row, Col, Table, Image, Alert} from "react-bootstrap";
+import { Grid, Row, Col, Image} from "react-bootstrap";
 import logo from "assets/img/logo-png.png";
 import Card from "../components/Card/Card";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
@@ -9,9 +9,10 @@ import axios from 'axios';
 import { style } from "variables/Variables.jsx";
 import NotificationSystem from "react-notification-system";
 import 'remixicon/fonts/remixicon.css'
+import Footer from "components/Footer/Footer"
 
 // **TODO** Custom CSS for logIn
-// import "../assets/css/auth.css"
+import "../assets/css/auth.css"
 
 class Login extends Component {
   state = {
@@ -67,7 +68,6 @@ class Login extends Component {
       // call pop-up
       this.setState({ _notificationSystem: this.refs.notificationSystem });
       var _notificationSystem = this.refs.notificationSystem;
-      var color = Math.floor(Math.random() * 2 + 1);
       var level = "error"
       _notificationSystem.addNotification({
         title: <span data-notify="icon" className="ri-error-warning-fill" />,
@@ -97,12 +97,7 @@ class Login extends Component {
         <Grid fluid>
               <Row>
                 <Col md={12} className="text-center">
-                <Card
-               
-                content={
-                  <Image src={logo}  height="200" width="250"/>
-                }
-                />                    
+                  <Image src={logo} className="coldblocks-logo"/>                              
                 </Col>
               </Row>
         </Grid>
@@ -120,11 +115,11 @@ class Login extends Component {
                         ncols={["col-md-12"]}
                         properties={[
                           {
-                            label: "User-ID",
+                            label: "User Name",
                             type: "text",
                             bsClass: "form-control",
-                            placeholder: "Enter User ID",
-                            defaultValue: "ColdBlocks",
+                            placeholder: "Enter User Name",
+                            // defaultValue: "ColdBlocks",
                             onChange:this.nameChange,
                             name: "username"
                             // disabled: true
@@ -140,7 +135,7 @@ class Login extends Component {
                             type: "password",
                             bsClass: "form-control",
                             placeholder: "Enter Password",
-                            defaultValue: "ColdBlocks",
+                            // defaultValue: "ColdBlocks",
                             onChange:this.passChange,
                             name: "password"
                             // disabled: true
@@ -159,6 +154,7 @@ class Login extends Component {
                 <Col lg={3}></Col>
             </Row>
         </Grid>
+        <Footer></Footer>
       </div>
     );
   }

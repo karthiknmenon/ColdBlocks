@@ -1,14 +1,12 @@
 
 import React, { Component } from "react";
-import { Grid, Row, Col, Table, Image} from "react-bootstrap";
+import { Grid, Row, Col, Table} from "react-bootstrap";
 import axios from 'axios';
-import logo from "assets/img/logo-png.png";
 import Card from "../components/Card/Card";
 import UserCard from "../components/UserCard/UserCard";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "../assets/img/faces/face-0.jpg";
-// import Image from 'react-bootstrap/Image'
 
 class Dashboard extends Component {
   constructor(){

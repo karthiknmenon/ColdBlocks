@@ -7,7 +7,6 @@ import SupplierList from "views/supplierlist.jsx";
 import ManufacturerList from "views/manufacturerlist.jsx";
 import PackageList from "views/packagelist.jsx";
 import AdminTransactions from "views/adminTransactions";
-import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
 import WebcamCapture from "views/camera"
 import 'remixicon/fonts/remixicon.css'
