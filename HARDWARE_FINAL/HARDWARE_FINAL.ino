@@ -1,13 +1,17 @@
+// For WiFI Connectivity
 #include <ESP8266WiFi.h>
-#include <SimpleDHT.h> // for temperature
+// for temperature
+#include <SimpleDHT.h> 
 
 int pinDHT22 = 2;
 SimpleDHT22 dht22(pinDHT22);
+// WiFi SSID
+const char* ssid     = "Hello";      
+// WiFi Password   
+const char* password = "123456789901";  
 
-const char* ssid     = "Hello";         //WiFi SSID
-const char* password = "123456789901";  //WiFi Password
-
-const char* host = "af5b017e.ngrok.io"; //Server URL
+// Enter Server-URL here
+const char* host = "af5b017e.ngrok.io"; 
 
 void setup() {
    
@@ -37,7 +41,8 @@ void loop() {
 float temperature = 0;
 float humidity = 0;
 int err = SimpleDHTErrSuccess;
-  if ((err = dht22.read2(&temperature, &humidity, NULL)) != SimpleDHTErrSuccess) {          //Check for connection error
+  if ((err = dht22.read2(&temperature, &humidity, NULL)) != SimpleDHTErrSuccess) {    
+    //Check for connection error
     Serial.print("Read DHT22 failed, err="); Serial.println(err);delay(2000);
     return;
   }
@@ -52,19 +57,22 @@ int err = SimpleDHTErrSuccess;
   return;
  }
 
- // We now create a URI for the request
- String url = "/";
+// We now create a URI for the request
+String url = "/";
 
- Serial.print("Temperature: ");
- Serial.print((float)temperature); Serial.println(" *C, ");
+Serial.print("Temperature: ");
+Serial.print((float)temperature); Serial.println(" *C, ");
 
- Serial.print("Requesting URL: ");
- Serial.println(url);
- String loc = "del";
- String id = "H103";
+Serial.print("Requesting URL: ");
+Serial.println(url);
+// Location Coordinates (hard coded) when GPS module not in use
+String loc = "del";
+//  Package-ID of the package being trasported
+String id = "H103";
 String data = ("Temperature=" + String(((float)temperature)) + "&packageID=" + id + "&Location=" + loc);
 
-   Serial.print("Requesting POST: ");     // HTTP FORMAT
+   Serial.print("Requesting POST: ");    
+    // HTTP FORMAT
    // Send request to the server:
    client.println("POST /tempData HTTP/1.1");
    client.println("Host: af5b017e.ngrok.io");

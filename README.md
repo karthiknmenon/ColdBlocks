@@ -62,6 +62,14 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
 * `cd coldblocks-react`
     * `npm install` (to install all packages)    
     * `npm start`
+* Auth implemented using passport.js with mongo DB
+    * Credentials (username,password) : (admin,admin), (S01,coldblocks), (C01,Coldblocks)
+* To run mongoDB - 
+    * `sudo mongod`
+    * `mongo`
+    * To create a new auth credential - 
+        * `use MyDatabase;`
+        * `db.userInfo.insert({'username':'username','password':'password'});`
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;5. coldblocks-AR
 * `git clone https://github.com/mojojojo20/ColdBlocks-AR.git`
@@ -79,5 +87,7 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
 * `cd routing`
     * `python3 vrp.py`
     * `curl 127.0.0.1:5000\`
+
+Icon Library - Remix Icons
 
 :v: :fist:
