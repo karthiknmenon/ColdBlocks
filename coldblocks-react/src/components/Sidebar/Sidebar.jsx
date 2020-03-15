@@ -49,7 +49,7 @@ class Sidebar extends Component {
             </div>
           </a>
           <a
-            href="https://wwww.coldblocks.tech"
+            href="#"
             className="simple-text logo-normal"
           >
             ColdDash
