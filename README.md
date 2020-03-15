@@ -67,6 +67,9 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
 * To run mongoDB - 
     * `sudo mongod`
     * `mongo`
+    * To create a new auth credential - 
+        * `use MyDatabase;`
+        * `db.userInfo.insert({'username':'username','password':'password'});`
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;5. coldblocks-AR
 * `git clone https://github.com/mojojojo20/ColdBlocks-AR.git`
