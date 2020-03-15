@@ -75,4 +75,9 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     * Update server link in Hardware Code with latest generated ngrok link for node back-end on port 4000
     * Compile and Upload sketch to nodeMCU ESP8266 module using Arduino IDE
 
+### &nbsp;&nbsp;&nbsp;&nbsp;7. Route Optimization - 
+* `cd routing`
+    * `python3 vrp.py`
+    * `curl 127.0.0.1:5000\`
+
 :v: :fist:
