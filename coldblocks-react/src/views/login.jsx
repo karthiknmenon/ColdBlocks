@@ -24,6 +24,7 @@ class Login extends Component {
     userName:'',
     userId:''
   }
+
   
   nameChange = event => {
     // console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
@@ -53,19 +54,19 @@ class Login extends Component {
     axios.post(`http://localhost:4000/?username=`+user.username+`&password=`+user.password+``)
     .then(res => {
       // console.log(res);
-      // console.log("success")
       // console.log(res.data);
-      const query = new URLSearchParams(this.props.location.search);
-      const username = query.get('username');
-      const userId = query.get('password');
-      this.setState({userName:username,userId: userId});
-      console.log(this.state.userName)
+      // const query = new URLSearchParams(this.props.location.search);
+      // const username = query.get('username');
+      // const userId = query.get('password');
+
       if(res.data=="success"){
         this.setState({
           url: 'http://localhost:3001/admin/dashboard/?username='+user.username+'&password='+user.password+''
       })
       // to save credentials
-      axios.get("http://localhost:4000/storeCredentials?username="+user.username)
+      // axios.get("http://localhost:4000/storeCredentials?username="+user.username)
+      localStorage.setItem('username', user.username);
+      localStorage.setItem('password', user.password);
       window.location = this.state.url   
       }
       else{

@@ -41,7 +41,7 @@ class Sidebar extends Component {
           )}
         <div className="logo">
           <a
-            href="https://www.coldblocks.tech"
+            href="#"
             className="simple-text logo-mini"
           >
             <div className="logo-img">

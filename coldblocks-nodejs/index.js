@@ -925,70 +925,66 @@ app.post('/',
     }
 );
 
-// var param_username = "admin";
-function storeId(param_username) {
-    var MongoClient = require('mongodb').MongoClient;
-    var url = "mongodb://localhost/MyDatabase";
+// to get info for user-card in dash
 
-    MongoClient.connect(url, function (err, db) {
-        if (err) throw err;
-        var dbo = db.db("MyDatabase");
-        var query = {
-            username: String(param_username)
-        };
-        dbo.collection("userInfo").find(query).toArray(function (err, result) {
-            if (err) throw err;
-            console.log(result[0]._id);
-            findCredentials(result[0]._id);
-            db.close();
-        });
-    });
-}
+// function storeId(param_username) {
+//     var MongoClient = require('mongodb').MongoClient;
+//     var url = "mongodb://localhost/MyDatabase";
 
-app.get("/storeCredentials", (req, res) => {
-    var userN = req.query.username;
-    storeId(userN);
-})
+//     MongoClient.connect(url, function (err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("MyDatabase");
+//         var query = {
+//             username: String(param_username)
+//         };
+//         dbo.collection("userInfo").find(query).toArray(function (err, result) {
+//             if (err) throw err;
+//             console.log(result[0]._id);
+//             findCredentials(result[0]._id);
+//             db.close();
+//         });
+//     });
+// }
 
-function findCredentials(objectId) {
-    var MongoClient = require('mongodb').MongoClient;
-    var url = "mongodb://localhost/MyDatabase";
-    console.log("Inside function findCredentials: " + objectId);
+// app.get("/storeCredentials", (req, res) => {
+//     var userN = req.query.username;
+//     storeId(userN);
+// })
 
-    MongoClient.connect(url, function (err, db) {
-        if (err) throw err;
-        var dbo = db.db("MyDatabase");
-        var query = {
-            _id: objectId
-        };
-        dbo.collection("userInfo").find(query).toArray(function (err, result) {
-            if (err) throw err;
-            console.log(result[0]);
-            var strName = result[0].username;
-            var strPass = result[0].password;
-            Request.post({
-                "headers": {
-                    "content-type": "application/json"
-                },
-                "url": "http://localhost:4000/findCred",
-                "body": JSON.stringify({
-                    "username" : String(strName),
-                    "password" : String(strPass)
-                })
-            }, (error, response, body) => {
-                if (error) {
-                    return console.dir(error);
-                }
-            });
-            // console.log("http://localhost:4000/findCred?username="+strName+"&password="+strPass);
-            // axios.get("http://localhost:4000/findCred?username="+strName+"&password="+strPass);
-            
-            // console.log(strJSON);
-            // findCredentials(result[0]._id);
-            db.close();
-        });
-    });    
-}
+// function findCredentials(objectId) {
+//     var MongoClient = require('mongodb').MongoClient;
+//     var url = "mongodb://localhost/MyDatabase";
+//     console.log("Inside function findCredentials: " + objectId);
+
+//     MongoClient.connect(url, function (err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("MyDatabase");
+//         var query = {
+//             _id: objectId
+//         };
+//         dbo.collection("userInfo").find(query).toArray(function (err, result) {
+//             if (err) throw err;
+//             console.log(result[0]);
+//             var strName = result[0].username;
+//             var strPass = result[0].password;
+//             Request.post({
+//                 "headers": {
+//                     "content-type": "application/json"
+//                 },
+//                 "url": "http://localhost:4000/findCred",
+//                 "body": JSON.stringify({
+//                     "username" : String(strName),
+//                     "password" : String(strPass)
+//                 })
+//             }, (error, response, body) => {
+//                 if (error) {
+//                     return console.dir(error);
+//                 }
+//             });
+//             db.close();
+//         });
+//     });    
+// }
 
 
 app.listen(4000);

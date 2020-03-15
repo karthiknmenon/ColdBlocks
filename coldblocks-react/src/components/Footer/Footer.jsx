@@ -13,16 +13,16 @@ class Footer extends Component {
                 <a href="#">Home</a>
               </li>
               <li>
-                <a href="https://www.coldblocks.tech">Company</a>
+                <a href="#">Company</a>
               </li>
               <li>
-                <a href="https://docs.coldblocks.tech">Docs</a>
+                <a href="#">Docs</a>
               </li>
             </ul>
           </nav>
           <p className="copyright pull-right">
             &copy; {new Date().getFullYear()}{" "}
-            ColdDash by <a href="https://www.coldblocks.tech">ColdBlocks</a>
+            ColdDash by <a href="#">ColdBlocks</a>
           </p>
         </Grid>
       </footer>
