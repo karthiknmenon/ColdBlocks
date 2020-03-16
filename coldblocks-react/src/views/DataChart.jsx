@@ -6,15 +6,21 @@ import ChartistGraph from 'react-chartist';
 
 class Chart extends Component {
   render() {
-    // Create a line chart with responsive options
 
-    var data = {
-      // labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
-      series: [
-          [0, 2, 1, 5, 4, 1, 3, 15],
-          [10, 12, 13, 5, 41, 0, -3, 15],
-          [0, 21, 11, 25, 14, 11, 31, 5]
-      ]
+  var dataPie = {
+    labels: ['62%','32%','6%'],
+    series: [62, 32, 6]
+  };
+
+  // Create a line chart with responsive options
+
+  var data = {
+    // labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
+    series: [
+        [0, 2, 1, 5, 4, 1, 3, 15],
+        [10, 12, 13, 5, 41, 0, -3, 15],
+        [0, 21, 11, 25, 14, 11, 31, 5]
+    ]
   };
     var optionsSales = {
       low: -50,
@@ -71,6 +77,18 @@ class Chart extends Component {
                   }
                 />
               
+              </Col>
+            </Row>
+            <Row>
+              
+              <Col md={12}>
+                <Card
+                  title="Package Status"
+                  category="Pie Graph for Package Status"                
+                  content={
+                    <ChartistGraph data={dataPie} type="Pie"/>
+                  }
+                />
               </Col>
             </Row>
           </Grid>
