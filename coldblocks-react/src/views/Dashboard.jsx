@@ -135,7 +135,7 @@ class Dashboard extends Component {
                 <Col lg={12}>
                 <Card
                     title="Package Data"
-                    category="Data about all Transit Packages"
+                    category="Data about all Transit Packages. Status `0` means the product is tampered and a status of `1` means the product is not tampered."
                     ctTableFullWidth
                     ctTableResponsive
                     content={
@@ -143,7 +143,6 @@ class Dashboard extends Component {
                         <thead>
                           <tr>
                             <th>Package ID</th>
-                            {/* <th>Destination</th> */}
                             <th>Status</th>
                           </tr>
 
