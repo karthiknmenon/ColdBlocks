@@ -11,6 +11,7 @@ class Chart extends Component {
           <Grid>
             <Row>
               <Col md={12}>
+                  
               </Col>
             </Row>
           </Grid>

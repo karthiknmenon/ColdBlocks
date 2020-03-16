@@ -1,6 +1,5 @@
 
 import Dashboard from "views/Dashboard.jsx";
-// import SubmitData from "views/SubmitData.jsx";
 import ConsumerList from "views/consumerlist.jsx";
 import DistributorList from "views/distributorlist.jsx";
 import SupplierList from "views/supplierlist.jsx";
@@ -69,14 +68,6 @@ const dashboardRoutes = [
     component: SupplierList,
     layout: "/admin"
   },
- 
-  // {
-  //   path: "/submitData",
-  //   name: "Submit Form",
-  //   icon: "ri-information-fill",
-  //   component: SubmitData,
-  //   layout: "/admin"
-  // },
   {
     path: "/chart",
     name: "Data Visualization",
