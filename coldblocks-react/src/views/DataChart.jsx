@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import {Grid, Row, Col } from "react-bootstrap";
 import Card from "components/Card/Card";
-import Button from "components/CustomButton/CustomButton";
 import ChartistGraph from 'react-chartist';
 
 class Chart extends Component {
@@ -33,13 +32,13 @@ class Chart extends Component {
           right: 50
       }
   };
-    // In addition to the regular options we specify responsive option overrides that will override the default configutation based on the matching media queries.
+   
     var responsiveOptions = [
       ['screen and (min-width: 641px) and (max-width: 1024px)', {
         showPoint: false,
         axisX: {
           labelInterpolationFnc: function(value) {
-            // Will return Mon, Tue, Wed etc. on medium screens
+            
             return value.slice(0, 3);
           }
         }
@@ -48,7 +47,6 @@ class Chart extends Component {
         showLine: false,
         axisX: {
           labelInterpolationFnc: function(value) {
-            // Will return M, T, W etc. on small screens
             return value[0];
           }
         }
@@ -60,14 +58,19 @@ class Chart extends Component {
           <Grid>
             <Row>
               <Col md={12}>
-              <div className="row">
-              <ChartistGraph
-                data={data}
-                type="Line"
-                options={optionsSales}
-                responsiveOptions={responsiveOptions}
+               <Card
+                title="Package Temperature"
+                category="Line Graph for Package Temperature"                
+                content={
+                  <ChartistGraph
+                    data={data}
+                    type="Line"
+                    options={optionsSales}
+                    responsiveOptions={responsiveOptions}
+                    />
+                  }
                 />
-              </div>
+              
               </Col>
             </Row>
           </Grid>
