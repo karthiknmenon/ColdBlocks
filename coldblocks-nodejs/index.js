@@ -268,6 +268,7 @@ app.get('/api/ListDistributorsId', function (req, res) {
 // API to create a new Distribtuor
 
 app.post('/api/CreateDistribtuor', function (req, res) {
+    console.log(" node values: "+req.body.dId);
     Request.post({
         "headers": {
             "content-type": "application/json"
@@ -275,7 +276,7 @@ app.post('/api/CreateDistribtuor', function (req, res) {
         "url": restUrl + "api/Distributor",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Distributor",
-            "distributorID": String(req.body.dID),
+            "distributorID": String(req.body.dId),
             "distributorName": String(req.body.dName)
         })
     }, (error, response, body) => {

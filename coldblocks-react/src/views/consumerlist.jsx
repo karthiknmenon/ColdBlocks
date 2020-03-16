@@ -1,7 +1,6 @@
 
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
-import SendConsumerData from "./SendConsumerData";
 import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
@@ -11,7 +10,7 @@ class ConsumerList extends Component {
   constructor() {
     super()
     this.state = {
-      character:{},
+      apiData:{},
       cName: '',
       cID: '',
       postD: 'null'
@@ -64,7 +63,7 @@ class ConsumerList extends Component {
     fetch('http://localhost:4000/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ character: data })
+      this.setState({ apiData: data })
       
       // console.log(data);
     })
@@ -76,15 +75,15 @@ class ConsumerList extends Component {
       fetch('http://localhost:4000/api/ListConsumers')
       .then(res => res.json())
       .then((data) => {
-        this.setState({ character: data })
-        console.log(this.state.character)
+        this.setState({ apiData: data })
+        console.log(this.state.apiData)
       })
       .catch(console.log)
   }
 }
 
   render() {
-    const {character} = this.state;
+    const {apiData} = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -154,7 +153,7 @@ class ConsumerList extends Component {
 
                     </thead>
                     <tbody>                     
-                      {Array.isArray(character) && character.map(object => (
+                      {Array.isArray(apiData) && apiData.map(object => (
                         <>
                           <tr>
                             <td>{object.consumerID}</td>
