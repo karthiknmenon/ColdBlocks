@@ -72,7 +72,7 @@ class ManufacturerList extends Component {
             <Row>
             <Col md={12}>
               <Card
-                title="Add Distributor"
+                title="Add Manufacturer"
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
@@ -88,20 +88,20 @@ class ManufacturerList extends Component {
                   
                         },
                         {
-                          label: "Distributor ID",
+                          label: "Manufacturer ID",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Distributor ID",
+                          placeholder: "Manufacturer ID",
                           onChange:this.idChange,
-                          name: "dId"
+                          name: "mId"
                         },
                         {
                           label: "Name",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Distributor Name",
+                          placeholder: "Manufacturer Name",
                           onChange:this.nameChange,
-                          name: "dName"
+                          name: "mName"
                         }
                       ]}
                     />       
