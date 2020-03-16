@@ -366,7 +366,7 @@ app.post('/api/CreateManufacturer', function (req, res) {
         "url": restUrl + "api/Manufacturer",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Manufacturer",
-            "manufacturerID": String(req.body.mID),
+            "manufacturerID": String(req.body.mId),
             "manufacturerName": String(req.body.mName)
         })
     }, (error, response, body) => {

@@ -15,11 +15,13 @@ class ManufacturerList extends Component {
       mName:{}
     }
   }
+
   nameChange = event => {
     console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
     this.setState({ mName: event.target.value });
 
   }
+
   idChange = event => {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
@@ -54,16 +56,17 @@ class ManufacturerList extends Component {
     })
     
   }
-  componentmIdMount() {
+  componentDidMount() {
     // console.log("hi");
     fetch('http://localhost:4000/api/ListManufacturers')
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })
-      // console.log(data);
+      console.log(data);
     })
     .catch(console.log)
   }
+
   render() {
     const {apiData} = this.state;
     return (
