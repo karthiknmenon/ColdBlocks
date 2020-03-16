@@ -86,7 +86,6 @@ class ConsumerList extends Component {
     const {apiData} = this.state;
     return (
       <div className="content">
-        <Grid fluid>
           <Grid fluid>
           <Row>
             <Col md={12}>
@@ -133,7 +132,6 @@ class ConsumerList extends Component {
               />
             </Col>
           </Row>
-        </Grid>
           <Row>
             <Col md={12}>
               <Card
