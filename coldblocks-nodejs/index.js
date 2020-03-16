@@ -456,7 +456,7 @@ app.post('/api/CreateSupplier', function (req, res) {
         "url": restUrl + "api/Supplier",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Supplier",
-            "supplierID": String(req.body.sID),
+            "supplierID": String(req.body.sId),
             "supplierName": String(req.body.sName)
         })
     }, (error, response, body) => {
