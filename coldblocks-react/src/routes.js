@@ -8,7 +8,8 @@ import ManufacturerList from "views/manufacturerlist.jsx";
 import PackageList from "views/packagelist.jsx";
 import AdminTransactions from "views/adminTransactions";
 import Maps from "views/Maps.jsx";
-import WebcamCapture from "views/camera"
+import WebcamCapture from "views/camera";
+import Chart from "views/DataChart";
 import 'remixicon/fonts/remixicon.css'
 
 const dashboardRoutes = [
@@ -76,6 +77,13 @@ const dashboardRoutes = [
   //   component: SubmitData,
   //   layout: "/admin"
   // },
+  {
+    path: "/chart",
+    name: "Data Visualization",
+    icon: "ri-bar-chart-fill",
+    component: Chart,
+    layout: "/admin"
+  },
   {
     path: "/maps",
     name: "Maps",
