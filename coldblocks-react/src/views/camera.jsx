@@ -7,7 +7,7 @@ import {
 } from "react-bootstrap";
 import { Card } from "components/Card/Card.jsx";
  
-class ColdAr extends React.Component {
+class ColdAR extends React.Component {
   render() {
     return (
       <div className="content">
@@ -28,4 +28,4 @@ class ColdAr extends React.Component {
   }
 }
 
-export default ColdAr;
+export default ColdAR;

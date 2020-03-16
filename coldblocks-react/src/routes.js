@@ -7,7 +7,7 @@ import ManufacturerList from "views/manufacturerlist.jsx";
 import PackageList from "views/packagelist.jsx";
 import AdminTransactions from "views/adminTransactions";
 import Maps from "views/Maps.jsx";
-import WebcamCapture from "views/camera";
+import ColdAR from "views/camera";
 import Chart from "views/DataChart";
 import 'remixicon/fonts/remixicon.css'
 
@@ -23,7 +23,7 @@ const dashboardRoutes = [
     path: "/camera",
     name: "Cold-AR",
     icon: "ri-phone-camera-fill",
-    component: WebcamCapture,
+    component: ColdAR,
     layout: "/admin"
   },
   {
