@@ -9,7 +9,7 @@ class Chart extends Component {
     // Create a line chart with responsive options
 
     var data = {
-      labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
+      // labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
       series: [
           [0, 2, 1, 5, 4, 1, 3, 15],
           [10, 12, 13, 5, 41, 0, -3, 15],
