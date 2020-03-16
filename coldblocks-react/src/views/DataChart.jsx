@@ -3,13 +3,26 @@ import React, { Component } from "react";
 import {Grid, Row, Col } from "react-bootstrap";
 import Card from "components/Card/Card";
 import ChartistGraph from 'react-chartist';
-
+import {
+  legendSales,
+  legendPie
+} from "variables/Variables.jsx";
 class Chart extends Component {
+  createLegend(json) {
+    var legend = [];
+    for (var i = 0; i < json["names"].length; i++) {
+      var type = "fa fa-circle text-" + json["types"][i];
+      legend.push(<i className={type} key={i} />);
+      legend.push(" ");
+      legend.push(json["names"][i]);
+    }
+    return legend;
+  }
   render() {
 
   var dataPie = {
-    labels: ['62%','32%','6%'],
-    series: [62, 32, 6]
+    labels: ['62%','32%'],
+    series: [62, 32]
   };
 
   // Create a line chart with responsive options
@@ -58,6 +71,7 @@ class Chart extends Component {
         }
       }]
     ];
+   
     return (
   
       <div className="content">
@@ -73,8 +87,12 @@ class Chart extends Component {
                     type="Line"
                     options={optionsSales}
                     responsiveOptions={responsiveOptions}
-                    />
+                    />                    
                   }
+                  legend={
+                    <div className="legend">{this.createLegend(legendSales)}</div>
+                  }
+                 
                 />
               
               </Col>
@@ -87,6 +105,9 @@ class Chart extends Component {
                   category="Pie Graph for Package Status"                
                   content={
                     <ChartistGraph data={dataPie} type="Pie"/>
+                  }
+                  legend={
+                    <div className="legend">{this.createLegend(legendPie)}</div>
                   }
                 />
               </Col>

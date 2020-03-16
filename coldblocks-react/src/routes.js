@@ -9,6 +9,7 @@ import AdminTransactions from "views/adminTransactions";
 import Maps from "views/Maps.jsx";
 import WebcamCapture from "views/camera";
 import Chart from "views/DataChart";
+import Typography from"views/Typography";
 import 'remixicon/fonts/remixicon.css'
 
 const dashboardRoutes = [
@@ -80,6 +81,13 @@ const dashboardRoutes = [
     name: "Maps",
     icon: "ri-road-map-fill",
     component: Maps,
+    layout: "/admin"
+  },
+  {
+    path: "/typo",
+    name: "Typography",
+    icon: "ri-road-map-fill",
+    component: Typography,
     layout: "/admin"
   },
 ];
