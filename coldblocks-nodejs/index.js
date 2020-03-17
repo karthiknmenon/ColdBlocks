@@ -985,7 +985,7 @@ app.get("/api/getTemp", (req,res)=>{
 // data visualization for status values
 var status=[]
 app.get("/api/chartStatus", (req,res)=>{
-
+    status = [];
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -993,6 +993,7 @@ app.get("/api/chartStatus", (req,res)=>{
     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=0').then(function (response) {
         jsonResponse = response.data;
         status.push(jsonResponse.length);
+        // status[2] = jsonResponse.length;
         console.log("status 0:"+status);
     }).then(function (response) {
         console.log(".then for chartStatus")
@@ -1005,8 +1006,10 @@ app.get("/api/chartStatus", (req,res)=>{
 
     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
         jsonResponse = response.data;
+        // status[2] += jsonResponse.length;
         status.push(jsonResponse.length);
         console.log("status 1:"+status);
+        console.log("total:" + status[2])
     }).then(function (response) {
         console.log(".then for chartStatus")
     }).catch(function (error) {

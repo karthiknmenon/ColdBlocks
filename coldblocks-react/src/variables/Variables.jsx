@@ -250,10 +250,7 @@ var style = {
 // //
 //
 // Data for Pie Chart
-var dataPie = {
-  labels: ["40%", "20%", "40%"],
-  series: [40, 20, 40]
-};
+
 var legendPie = {
   names: ["Tampered", "Ok"],
   types: ["danger", "success"]
@@ -358,7 +355,7 @@ var legendBar = {
 
 module.exports = {
   style, // For notifications (App container and Notifications view)
-  dataPie,
+  // dataPie,
   legendPie,
   dataSales,
   optionsSales,
