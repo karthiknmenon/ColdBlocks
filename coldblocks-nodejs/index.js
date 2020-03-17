@@ -957,6 +957,8 @@ app.post('/',
 var temp_01 = [];
 var temp_02 = [];
 var temp_03 = [];
+var dateLabel = [];
+var chart_temp = [];
 var chart_temp = [temp_01,temp_02,temp_03];
 app.get("/api/chartTemp", (req,res)=>{
     console.log("res.body.temperature: "+req.query.temperature);
@@ -964,6 +966,9 @@ app.get("/api/chartTemp", (req,res)=>{
     var packageId = req.query.packageId;
     if(packageId=="H001"){
         temp_01.push(parseInt(req.query.temperature));
+        var event = new Date();
+        var eventH = event.getHours();
+        dateLabel.push(String(eventH)+':00');
         // chart_temp.push(temp_01);
     }
     if(packageId=="H002"){
@@ -980,6 +985,10 @@ app.get("/api/chartTemp", (req,res)=>{
 app.get("/api/getTemp", (req,res)=>{
     console.log("called getTemp with values: "+chart_temp);
     res.send(chart_temp);
+})
+
+app.get("/api/getLabel", (req,res)=>{
+    res.send(dateLabel);
 })
 
 // data visualization for status values

@@ -13,7 +13,8 @@ class Chart extends Component {
     super()
     this.state = {
       temp: [],
-      status: []
+      status: [],
+      dateLabel: []
     }
   }
   componentDidMount() {
@@ -41,6 +42,16 @@ class Chart extends Component {
             })
             console.log(this.state.status)
       })
+    axios.get(`http://localhost:4000/api/getLabel`)
+      .then(res => {
+            console.log("res.data: "+res.data)
+            this.setState({
+              dateLabel : res.data
+            }, ()=>{
+              console.log("callback for setState of status");
+            })
+            console.log(this.state.status)
+      })
   }
   createLegend(json) {
     var legend = [];
@@ -62,12 +73,7 @@ class Chart extends Component {
     // Create a line chart with responsive options
 
     var data = {
-      // labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
-      // series: [
-      //     [0, 2, 1, 5, 4, 1, 3, 15],
-      //     [10, 12, 13, 5, 41, 0, -3, 15],
-      //     [0, 21, 11, 25, 14, 11, 31, 5]
-      // ]
+      labels: this.state.dateLabel,
       series : this.state.temp
     };
       var optionsSales = {
