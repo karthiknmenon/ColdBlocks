@@ -788,7 +788,7 @@ app.post('/tempData', function (req, res) {
 
         }).then(function (response) {
             console.log("then")
-
+            // Update values of package using PUT
             const options = {
                 url: 'http://localhost:3000/api/TransitPackage/' + packageID,
                 method: 'PUT',
@@ -814,17 +814,6 @@ app.post('/tempData', function (req, res) {
         }).catch(function (error) {
             console.log(error);
         });
-
-        // app.get("http://localhost:3000/api/TransitPackage/" + packageID, (req, res) => {
-        //     oldHolder = res.body.holder;
-        //     console.log("oldHolder:" + oldHolder)
-        //     console.log("res.body.holder:" + res.body.holder)
-        //     oldDestination = res.body.destination;
-        //     Oldstatus = res.body.status;
-        // })
-        // Update values of package when tampered using PUT
-
-
     }
 });
 
