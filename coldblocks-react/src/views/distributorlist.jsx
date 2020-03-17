@@ -13,7 +13,8 @@ class ConsumerList extends Component {
     this.state = {
       apiData:{},
       dName: '',
-      dId: ''
+      dId: '',
+      postD: 0
     }
   }
 
@@ -66,6 +67,21 @@ class ConsumerList extends Component {
     })
     .catch(console.log)
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.postD !== this.state.postD) {
+      console.log('postD state has changed.');
+      fetch('http://localhost:4000/api/ListDistributors')
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ apiData: data },
+          ()=>{
+            console.log("callback function")
+            console.log(this.state.apiData);
+          })
+      })
+      .catch(console.log)
+  }
+}
   render() {
     const {apiData} = this.state;
     return (

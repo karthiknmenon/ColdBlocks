@@ -18,7 +18,7 @@ class Login extends Component {
   state = {
     username: '',
     password: '',
-    url:'http://localhost:3001/',
+    url:' http://cbb35800.ngrok.io/',
     status:'0',
     _notificationSystem: null,
     userName:'',
@@ -55,7 +55,7 @@ class Login extends Component {
     .then(res => {
       if(res.data=="success"){
         this.setState({
-          url: 'http://localhost:3001/admin/dashboard/?username='+user.username+'&password='+user.password+''
+          url: ' http://cbb35800.ngrok.io/admin/dashboard/?username='+user.username+'&password='+user.password+''
       })
     //  save auth info
       localStorage.setItem('username', user.username);
@@ -64,7 +64,7 @@ class Login extends Component {
       }
       else{
         this.setState({
-          url: 'http://localhost:3001'      
+          url: ' http://cbb35800.ngrok.io'      
       })
       
       // call pop-up

@@ -13,7 +13,7 @@ class ConsumerList extends Component {
       apiData:{},
       cName: '',
       cID: '',
-      postD: 'null'
+      postD: 0
     }
   }
   nameChange = event => {
@@ -54,7 +54,11 @@ class ConsumerList extends Component {
     .catch(function (error) {
       console.log(error);
     })
-    setTimeout(() => { this.setState({postD:'changed'}); }, 2000);
+    this.setState({postD:1},
+    ()=>{
+      console.log("post callback called");
+      console.log([this.state.postD]);
+    })
     console.log(this.state.postD);
     
   }
@@ -70,14 +74,20 @@ class ConsumerList extends Component {
     .catch(console.log)
   }
   componentDidUpdate(prevProps, prevState) {
+
     if (prevState.postD !== this.state.postD) {
+      console.log("before new fetch")
+      console.log(this.state.apiData)
       console.log('postD state has changed.');
       fetch('http://localhost:4000/api/ListConsumers')
       .then(res => res.json())
       .then((data) => {
-        this.setState({ apiData: data })
-        console.log(this.state.apiData)
-      })
+        setTimeout(()=> {this.setState({ apiData: data },
+          ()=>{
+            console.log("didUpdate callback");
+            console.log(this.state.apiData);
+          })
+      })}, 10)
       .catch(console.log)
   }
 }
