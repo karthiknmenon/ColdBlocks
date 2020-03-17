@@ -12,55 +12,50 @@ class ConsumerList extends Component {
     this.state = {
       apiData:{},
       cName: '',
-      cID: '',
+      cId: '',
       postD: 0
     }
   }
   nameChange = event => {
     console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
     this.setState({ cName: event.target.value });
-
   }
   idChange = event => {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
-                    cID: event.target.value });
-
+                    cId: event.target.value });
   }
  
-  handleSubmit = event => {
+  handleSubmit =  async event => {
     event.preventDefault();
     
-    console.log("state "+this.state.cID);
-    console.log("state "+this.state.cName);
+    // console.log("state "+this.state.cId);
+    // console.log("state "+this.state.cName);
     const user = {
-      cID: String(this.state.cID),
+      cId: String(this.state.cId),
       cName: String(this.state.cName)
     };
-    console.log("user "+user.cID);
-    console.log("user "+user.cName);
+
+    // console.log("user "+user.cId);
+    // console.log("user "+user.cName);
     
-    axios.post(`http://localhost:4000/api/CreateConsumer`, 
+    await axios.post(`http://localhost:4000/api/CreateConsumer`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
               'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
     { data: user})
     .then(res => {
-      console.log(res);
-      console.log(res.data);
-     
+      // console.log(res);
+      console.log(".then for post"+res.data);  
     })
     .catch(function (error) {
       console.log(error);
-    })
+    })    
     this.setState({postD:1},
-    ()=>{
-      console.log("post callback called");
-      console.log([this.state.postD]);
-    })
-    console.log(this.state.postD);
-    
+      ()=>{
+        console.log("post callback called"+this.state.postD);
+      })   
   }
   componentDidMount() {
     // console.log("hi");
@@ -68,7 +63,6 @@ class ConsumerList extends Component {
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })
-      
       // console.log(data);
     })
     .catch(console.log)
@@ -76,19 +70,16 @@ class ConsumerList extends Component {
   componentDidUpdate(prevProps, prevState) {
 
     if (prevState.postD !== this.state.postD) {
-      console.log("before new fetch")
-      console.log(this.state.apiData)
-      console.log('postD state has changed.');
-      fetch('http://localhost:4000/api/ListConsumers')
-      .then(res => res.json())
-      .then((data) => {
-        setTimeout(()=> {this.setState({ apiData: data },
-          ()=>{
-            console.log("didUpdate callback");
-            console.log(this.state.apiData);
-          })
-      })}, 10)
-      .catch(console.log)
+      console.log("before new fetch"+JSON.stringify(this.state.apiData))
+      console.log('postD state has changed. (inside didUpdate now)'+this.state.postD);
+      axios.get(`https://localhost:4000/api/ListConsumers`)
+      .then(res => {
+        console.log(JSON.stringify(res.data))
+        const fetchData = JSON.stringify(res.data);
+        this.setState({
+          apiData : fetchData
+        })
+      })
   }
 }
 
@@ -121,7 +112,7 @@ class ConsumerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer ID",
                           onChange:this.idChange,
-                          name: "cID"
+                          name: "cId"
                         },
                         {
                           label: "Name",

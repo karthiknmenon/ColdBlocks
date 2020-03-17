@@ -9,6 +9,7 @@ import AdminTransactions from "views/adminTransactions";
 import Maps from "views/Maps.jsx";
 import ColdAR from "views/camera";
 import Chart from "views/DataChart";
+import vrp from "views/vrp";
 import 'remixicon/fonts/remixicon.css'
 
 const dashboardRoutes = [
@@ -73,6 +74,13 @@ const dashboardRoutes = [
     name: "Data Visualization",
     icon: "ri-bar-chart-fill",
     component: Chart,
+    layout: "/admin"
+  },
+  {
+    path: "/routing",
+    name: "Optimal Routing",
+    icon: "ri-route-fill",
+    component: vrp,
     layout: "/admin"
   },
   {

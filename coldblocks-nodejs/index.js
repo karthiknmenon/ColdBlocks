@@ -173,7 +173,7 @@ app.get('/api/ListConsumerId', function (req, res) {
 // API to create a new consumer
 
 app.post('/api/CreateConsumer', function (req, res) {
-    console.log(req.body.cID);
+    console.log(req.body.cId);
     console.log(req.body.cName);
     Request.post({
         "headers": {
@@ -184,7 +184,7 @@ app.post('/api/CreateConsumer', function (req, res) {
         "url": restUrl + "api/Consumer",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Consumer",
-            "consumerID": String(req.body.cID),
+            "consumerID": String(req.body.cId),
             "consumerName": String(req.body.cName)
         })
     }, (error, response, body) => {
