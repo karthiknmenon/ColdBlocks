@@ -952,7 +952,74 @@ app.post('/',
         console.log("success");
     }
 );
-// to get updates hourly
+
+// for data visualization of temperature values
+var temp_01 = [];
+var temp_02 = [];
+var temp_03 = [];
+var chart_temp = [temp_01,temp_02,temp_03];
+app.get("/api/chartTemp", (req,res)=>{
+    console.log("res.body.temperature: "+req.query.temperature);
+    console.log("res.body.id: "+req.query.packageId);
+    var packageId = req.query.packageId;
+    if(packageId=="H001"){
+        temp_01.push(parseInt(req.query.temperature));
+        // chart_temp.push(temp_01);
+    }
+    if(packageId=="H002"){
+        temp_02.push(parseInt(req.query.temperature));
+        // chart_temp.push(temp_02);
+    }
+    if(packageId=="H003"){
+        temp_03.push(parseInt(req.query.temperature));
+        // chart_temp.push(temp_03);
+    }
+    console.log(chart_temp);
+})
+// data visualization of temperature values
+app.get("/api/getTemp", (req,res)=>{
+    console.log("called getTemp with values: "+chart_temp);
+    res.send(chart_temp);
+})
+
+// data visualization for status values
+var status=[]
+app.get("/api/chartStatus", (req,res)=>{
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=0').then(function (response) {
+        jsonResponse = response.data;
+        status.push(jsonResponse.length);
+        console.log("status 0:"+status);
+    }).then(function (response) {
+        console.log(".then for chartStatus")
+    }).catch(function (error) {
+        console.log(error);
+    });
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
+        jsonResponse = response.data;
+        status.push(jsonResponse.length);
+        console.log("status 1:"+status);
+    }).then(function (response) {
+        console.log(".then for chartStatus")
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+
+})
+// data visualization of temperature values
+app.get("/api/getCStatus", (req,res)=>{
+    console.log("called getTemp with values: "+status);
+    res.send(status);
+})
 
 // to get info for user-card in dash
 

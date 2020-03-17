@@ -3,11 +3,45 @@ import React, { Component } from "react";
 import {Grid, Row, Col } from "react-bootstrap";
 import Card from "components/Card/Card";
 import ChartistGraph from 'react-chartist';
+import axios from 'axios';
 import {
   legendSales,
   legendPie
 } from "variables/Variables.jsx";
 class Chart extends Component {
+  constructor(){
+    super()
+    this.state = {
+      temp: [],
+      status: []
+    }
+  }
+  componentDidMount() {
+    // app.get("/api/chartTemp", (req,res)=>{
+    //     console.log("res.body.temperature: "+req.query.temperature)
+    //     chart_temp.push(req.query.temperature)
+    //     console.log(chart_temp);
+    axios.get(`http://localhost:4000/api/getTemp`)
+      .then(res => {
+            console.log("res.data: "+res.data)
+            this.setState({
+              temp : res.data
+            }, ()=>{
+              console.log("callback for setState of temp");
+            })
+            console.log(this.state.temp)
+      })
+    axios.get(`http://localhost:4000/api/getCStatus`)
+      .then(res => {
+            console.log("res.data: "+res.data)
+            this.setState({
+              status : res.data
+            }, ()=>{
+              console.log("callback for setState of status");
+            })
+            console.log(this.state.status)
+      })
+  }
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -22,18 +56,19 @@ class Chart extends Component {
 
   var dataPie = {
     labels: ['62%','32%'],
-    series: [62, 32]
+    series: this.state.status
   };
 
   // Create a line chart with responsive options
 
   var data = {
     // labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
-    series: [
-        [0, 2, 1, 5, 4, 1, 3, 15],
-        [10, 12, 13, 5, 41, 0, -3, 15],
-        [0, 21, 11, 25, 14, 11, 31, 5]
-    ]
+    // series: [
+    //     [0, 2, 1, 5, 4, 1, 3, 15],
+    //     [10, 12, 13, 5, 41, 0, -3, 15],
+    //     [0, 21, 11, 25, 14, 11, 31, 5]
+    // ]
+    series : this.state.temp
   };
     var optionsSales = {
       low: -50,
