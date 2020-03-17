@@ -268,7 +268,7 @@ app.get('/api/ListDistributorsId', function (req, res) {
 // API to create a new Distribtuor
 
 app.post('/api/CreateDistribtuor', function (req, res) {
-    console.log(" node values: "+req.body.dId);
+    console.log(" node values: " + req.body.dId);
     Request.post({
         "headers": {
             "content-type": "application/json"
@@ -771,22 +771,60 @@ app.post('/tempData', function (req, res) {
             }
         });
     } else {
+        var oldHolder;
+        var oldDestination;
+        var Oldstatus;
         // send API Post for TemperatureDrop Event
-        Request.post({
-            "headers": {
-                "content-type": "application/json"
-            },
-            "url": restUrl + "api/TemperatureDrop",
-            "body": JSON.stringify({
-                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
-                "newTemperature": String(req.body.Temperature),
-                "newLocation": String(gpsLocation)
+        axios.get(restUrl + 'api/TransitPackage/' + packageID).then(function (response) {
+            jsonResponse = response.data;
+            console.log("response from axios of put:" + jsonResponse);
+            oldHolder = response.data.holder;
+            console.log("response.data.holder:" + response.data.holder)
+            oldDestination = response.data.destination;
+            console.log("response.data.destination:" + response.data.destination)
+            Oldstatus = response.data.status;
+            console.log("response.data.status:" + response.data.status)
+            // response.send(response.data);
+
+        }).then(function (response) {
+            console.log("then")
+
+            const options = {
+                url: 'http://localhost:3000/api/TransitPackage/' + packageID,
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "$class": "org.coldblocks.mynetwork.TransitPackage",
+                    "packageID": String(packageID),
+                    "location": String(gpsLocation),
+                    "temperature": String(req.body.Temperature),
+                    "destination": String(oldDestination),
+                    "holder": String(oldHolder),
+                    "status": String(Oldstatus)
+                })
+            };
+
+
+            Request(options, function (err, res, body) {
+                // let json = JSON.parse(body);
+                console.log("PUT method");
             })
-        }, (error, response, body) => {
-            if (error) {
-                return console.dir(error);
-            }
+        }).catch(function (error) {
+            console.log(error);
         });
+
+        // app.get("http://localhost:3000/api/TransitPackage/" + packageID, (req, res) => {
+        //     oldHolder = res.body.holder;
+        //     console.log("oldHolder:" + oldHolder)
+        //     console.log("res.body.holder:" + res.body.holder)
+        //     oldDestination = res.body.destination;
+        //     Oldstatus = res.body.status;
+        // })
+        // Update values of package when tampered using PUT
+
+
     }
 });
 
@@ -925,6 +963,7 @@ app.post('/',
         console.log("success");
     }
 );
+// to get updates hourly
 
 // to get info for user-card in dash
 
