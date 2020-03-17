@@ -60,11 +60,12 @@ class vrp extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListConsumers')
+    fetch('http://0.0.0.0:7000')
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })
-      // console.log(data);
+      console.log("state apiData:"+JSON.stringify(this.state.apiData));
+      console.log(this.state.apiData.Route)
     })
     .catch(console.log)
   }
@@ -137,30 +138,31 @@ class vrp extends Component {
           <Row>
             <Col md={12}>
               <Card
-                title="Consumer Details"
-                category="Consumer Details with ID and Name"
+                title="Route Details"
+                category="Route Details"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
                   <Table striped hover>
                     <thead>
                       <tr>
-                        <th>Consumer ID</th>
+                        <th>Route</th>
                         <th>
-                          Consumer Name
+                          Details
                         </th>
                       </tr>
 
                     </thead>
                     <tbody>                     
-                      {Array.isArray(apiData) && apiData.map(object => (
+                      
                         <>
                           <tr>
-                            <td>{object.consumerID}</td>
-                            <td>{object.consumerName}</td>
+                            {/* <td>{object.consumerID}</td> */}
+                            <td>hey</td>
+                            <td>{this.state.apiData.Route}</td>
                           </tr>
                         </>
-                      ))}
+                      
                     </tbody>
                   </Table>
                 }
