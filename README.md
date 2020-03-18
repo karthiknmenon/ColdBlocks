@@ -79,7 +79,7 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     * __Ok__ means the product is of optimal quality and __Tampered__ means that the product is not of optimal quality.
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;6. Hardware Code - 
-* `cd cold-hardware`
+* `cd coldblocks-hardware`
     * Update server link in Hardware Code with latest generated ngrok link for node back-end on port 4000
     * Compile and Upload sketch to nodeMCU ESP8266 module using Arduino IDE
 
