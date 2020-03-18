@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src='js/three.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.2/aframe/build/aframe-ar.js"></script>
+<script>
+	THREEx.ArToolkitContext.baseURL = '../'
+</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+
+	<script>
+		var query = window.location.search.substring(1);
+		console.log(query);
+		var split = query.split('=')
+		console.log(split[1])
+		var blockchainUrl = 'https://a3af6471.ngrok.io/api/ListPackagesById?packageId=' + split[1]
+
+		var status;
+		var displayText;
+		axios.get(blockchainUrl).then(function (response) {
+			// let x = JSON.parse(response.data)
+			// console.log("Json parsed : "+x);
+			console.log(response.data[0]['status']);
+			status = response.data[0]['status'];
+			if (status == '1')
+				displayText = 'OK'
+			else
+				displayText = 'Tampered!'
+
+		}).then(function (response) {
+			doNext();
+		}).catch(function (error) {
+			console.log(error);
+		});
+
+
+		function doNext() {
+			var renderer = new THREE.WebGLRenderer({
+				alpha: true
+			});
+			renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.domElement.style.position = 'absolute'
+			renderer.domElement.style.top = '0px'
+			renderer.domElement.style.left = '0px'
+			document.body.appendChild(renderer.domElement);
+
+			var onRenderFcts = [];
+
+			var scene = new THREE.Scene();
+
+
+			var camera = new THREE.Camera();
+			scene.add(camera);
+
+
+			var arToolkitSource = new THREEx.ArToolkitSource({
+				sourceType: 'webcam',
+
+
+			})
+
+			arToolkitSource.init(function onReady() {
+				arToolkitSource.onResize(renderer.domElement)
+			})
+
+			window.addEventListener('resize', function () {
+				arToolkitSource.onResize(renderer.domElement)
+			})
+
+			var arToolkitContext = new THREEx.ArToolkitContext({
+				cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/camera_para.dat',
+				detectionMode: 'mono',
+				maxDetectionRate: 30,
+				canvasWidth: 80 * 3,
+				canvasHeight: 60 * 3,
+			})
+			arToolkitContext.init(function onCompleted() {
+				camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+			})
+
+			onRenderFcts.push(function () {
+				if (arToolkitSource.ready === false) return
+
+				arToolkitContext.update(arToolkitSource.domElement)
+			})
+
+
+
+			var markerRoot = new THREE.Group
+			scene.add(markerRoot)
+			var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+				type: 'pattern',
+				patternUrl: THREEx.ArToolkitContext.baseURL + '../data/patt.hiro'
+			})
+
+			var geometry = new THREE.CubeGeometry(2, 2, 2);
+			var material = new THREE.MeshNormalMaterial({
+				transparent: true,
+				// opacity set to 0
+				opacity: 0.5,
+				side: THREE.DoubleSide
+			});
+			var mesh = new THREE.Mesh(geometry, material);
+			mesh.position.y = geometry.parameters.height / 2
+			markerRoot.add(mesh);
+
+			console.log('hi');
+			var loader = new THREE.FontLoader();
+			loader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+				console.log('hi');
+				console.log(status);
+
+				// Status value fetched from the api call is passed in the next line
+
+				var textGeometry = new THREE.TextGeometry(displayText, {
+
+					font: font,
+
+					size: 180,
+					height: 100,
+					curveSegments: 12,
+
+					bevelThickness: 1,
+					bevelSize: 1,
+					bevelEnabled: true
+
+				});
+				// Set color here
+
+				if (status == '0') {
+
+					var textMaterial = new THREE.MeshPhongMaterial({
+						color: 0x00ff00,
+						specular: 0xffffff
+					});
+
+				} else {
+					var textMaterial = new THREE.MeshPhongMaterial({
+						color: 0x00ff00,
+						specular: 0xffffff
+					});
+				}
+
+
+
+				var mesh = new THREE.Mesh(textGeometry, textMaterial);
+
+				var pivot = new THREE.Object3D();
+				pivot.add(mesh);
+				pivot.position.x = -0.5;
+				pivot.position.y = .5;
+
+				markerRoot.add(pivot);
+				onRenderFcts.push(function () {
+					pivot.rotation.x += 0.015;
+					pivot.scale.x = .001;
+					pivot.scale.y = .001;
+					pivot.scale.z = .001;
+
+				})
+
+			});
+
+
+			onRenderFcts.push(function () {
+				renderer.render(scene, camera);
+
+			})
+
+			var lastTimeMsec = null
+			requestAnimationFrame(function animate(nowMsec) {
+				requestAnimationFrame(animate);
+				lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60
+				var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
+				lastTimeMsec = nowMsec
+				onRenderFcts.forEach(function (onRenderFct) {
+					onRenderFct(deltaMsec / 1000, nowMsec / 1000)
+				})
+			})
+		}
+	</script>
+</body>
