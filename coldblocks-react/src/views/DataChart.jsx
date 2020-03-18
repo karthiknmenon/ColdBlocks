@@ -32,7 +32,7 @@ class Chart extends Component {
             })
             console.log(this.state.temp)
       })
-    axios.get(`http://localhost:4000/api/getCStatus`)
+    axios.get(`http://localhost:4000/api/chartStatus`)
       .then(res => {
             console.log("res.data: "+res.data)
             this.setState({
@@ -42,11 +42,11 @@ class Chart extends Component {
             })
             console.log(this.state.status)
       })
-    axios.get(`http://localhost:4000/api/getLabel`)
+    axios.get(`http://localhost:4000/api/getCStatus`)
       .then(res => {
             console.log("res.data: "+res.data)
             this.setState({
-              dateLabel : res.data
+              status : res.data
             }, ()=>{
               console.log("callback for setState of status");
             })
