@@ -22,6 +22,16 @@ class Chart extends Component {
     //     console.log("res.body.temperature: "+req.query.temperature)
     //     chart_temp.push(req.query.temperature)
     //     console.log(chart_temp);
+    axios.get(`http://localhost:4000/api/getCStatus`)
+      .then(res => {
+            console.log("res.data: "+res.data)
+            this.setState({
+              status : res.data
+            }, ()=>{
+              console.log("callback for setState of status");
+            })
+            console.log(this.state.status)
+      })
     axios.get(`http://localhost:4000/api/getTemp`)
       .then(res => {
             console.log("res.data: "+res.data)
@@ -33,16 +43,6 @@ class Chart extends Component {
             console.log(this.state.temp)
       })
     axios.get(`http://localhost:4000/api/chartStatus`)
-      .then(res => {
-            console.log("res.data: "+res.data)
-            this.setState({
-              status : res.data
-            }, ()=>{
-              console.log("callback for setState of status");
-            })
-            console.log(this.state.status)
-      })
-    axios.get(`http://localhost:4000/api/getCStatus`)
       .then(res => {
             console.log("res.data: "+res.data)
             this.setState({
