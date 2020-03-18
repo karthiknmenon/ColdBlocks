@@ -21,13 +21,10 @@ class Dashboard extends Component {
     }
   }
   componentDidMount() {
-
-    // Old code to get parameters from URL
-    // const query = new URLSearchParams(this.props.location.search);
-    // const username = query.get('username');
-    // const userId = query.get('password');
-    // console.log(username);
-    // this.setState({userName:username,userId: userId});
+    const tokenD = localStorage.getItem('token');
+    if(tokenD=="false"){
+      window.location = "http://localhost:3001"
+    }
     const userN = localStorage.getItem('username');
     const userD = localStorage.getItem('password');
     this.setState({userName:userN,userId: userD});

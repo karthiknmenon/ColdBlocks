@@ -60,6 +60,7 @@ class Login extends Component {
     //  save auth info
       localStorage.setItem('username', user.username);
       localStorage.setItem('password', user.password);
+      localStorage.setItem('token', "true");
       window.location = this.state.url   
       }
       else{
@@ -91,6 +92,11 @@ class Login extends Component {
     .catch(function (error) {
       console.log(error);
     })
+  }
+  componentDidMount(){
+    localStorage.setItem('username', "");
+      localStorage.setItem('password', "");
+      localStorage.setItem('token', "false");
   }
   render() {
     return (
