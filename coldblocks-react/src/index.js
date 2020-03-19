@@ -10,11 +10,15 @@ import "./assets/css/pe-icon-7-stroke.css";
 import Login from "./views/login";
 import * as serviceWorker from './serviceWorker'
 
+import SupplierLayout from "layouts/Supplier.jsx";
 import AdminLayout from "layouts/Admin.jsx";
 
 ReactDOM.render(
+  
   <BrowserRouter>
     <Switch>
+      {/* <Route path="/" component={Login}/> */}
+      <Route path="/supplier" render={props => <SupplierLayout {...props} />} />
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
       {/* <Redirect from="/" to="/admin/dashboard" /> */}
       <Login></Login>
