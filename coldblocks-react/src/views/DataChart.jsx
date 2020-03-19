@@ -5,8 +5,7 @@ import Card from "components/Card/Card";
 import ChartistGraph from 'react-chartist';
 import axios from 'axios';
 import {
-  legendSales,
-  legendPie
+  legendSales
 } from "variables/Variables.jsx";
 class Chart extends Component {
   constructor(){
@@ -22,6 +21,11 @@ class Chart extends Component {
     //     console.log("res.body.temperature: "+req.query.temperature)
     //     chart_temp.push(req.query.temperature)
     //     console.log(chart_temp);
+    axios.get(`http://localhost:4000/api/chartStatus`)
+    .then(res => {
+          console.log("res.data: "+res.data)
+          console.log(this.state.status)
+    })
     axios.get(`http://localhost:4000/api/getCStatus`)
       .then(res => {
             console.log("res.data: "+res.data)
@@ -42,16 +46,6 @@ class Chart extends Component {
             })
             console.log(this.state.temp)
       })
-    axios.get(`http://localhost:4000/api/chartStatus`)
-      .then(res => {
-            console.log("res.data: "+res.data)
-            this.setState({
-              status : res.data
-            }, ()=>{
-              console.log("callback for setState of status");
-            })
-            console.log(this.state.status)
-      })
   }
   createLegend(json) {
     var legend = [];
@@ -69,6 +63,7 @@ class Chart extends Component {
       labels: [String(((this.state.status[0]/total_pie)*100).toFixed(2))+'%', String(((this.state.status[1]/total_pie)*100).toFixed(2)+'%')],
       series: this.state.status
     };
+    console.log(dataPie)
 
     // Create a line chart with responsive options
 
@@ -76,21 +71,22 @@ class Chart extends Component {
       labels: this.state.dateLabel,
       series : this.state.temp
     };
-      var optionsSales = {
-        low: -50,
-        high: 50,
-        showArea: false,
-        height: "245px",
-        axisX: {
-            showGrid: false,
-        },
-        lineSmooth: true,
-        showLine: true,
-        showPoint: true,
-        fullWidth: true,
-        chartPadding: {
-            right: 50
-        }
+  
+    var optionsSales = {
+          low: -50,
+          high: 50,
+          showArea: false,
+          height: "245px",
+          axisX: {
+              showGrid: false,
+          },
+          lineSmooth: true,
+          showLine: true,
+          showPoint: true,
+          fullWidth: true,
+          chartPadding: {
+              right: 50
+          }
     };
     
     var responsiveOptions = [
@@ -112,6 +108,11 @@ class Chart extends Component {
         }
       }]
     ];
+    var legend_Pie = {
+      names: ["Tampered", "Ok"],
+      types: ["danger", "info"]
+    };
+    console.log("legend pie: "+legend_Pie.names+"legend pie:"+legend_Pie.types)
    
     return (
   
@@ -148,7 +149,7 @@ class Chart extends Component {
                     <ChartistGraph data={dataPie} type="Pie"/>
                   }
                   legend={
-                    <div className="legend">{this.createLegend(legendPie)}</div>
+                    <div className="legend">{this.createLegend(legend_Pie)}</div>
                   }
                 />
               </Col>

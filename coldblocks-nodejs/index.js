@@ -93,7 +93,8 @@ app.get('/api/ListTransactions', (req, res) => {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        res.send(jsonResponse[0]['consumerID']);
+        // res.send(jsonResponse[0]['consumerID']);
+        console.log("in List Transactions")
         // showID();
 
     }).catch(function (error) {
@@ -1001,7 +1002,8 @@ app.get("/api/chartStatus", (req,res)=>{
 
     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=0').then(function (response) {
         jsonResponse = response.data;
-        status.push(jsonResponse.length);
+        // status.push(jsonResponse.length);
+        status[0] = jsonResponse.length;
         // status[2] = jsonResponse.length;
         console.log("status 0:"+status);
     }).then(function (response) {
@@ -1009,14 +1011,11 @@ app.get("/api/chartStatus", (req,res)=>{
     }).catch(function (error) {
         console.log(error);
     });
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
         jsonResponse = response.data;
         // status[2] += jsonResponse.length;
-        status.push(jsonResponse.length);
+        // status.push(jsonResponse.length);
+        status[1] = jsonResponse.length;
         console.log("status 1:"+status);
         console.log("total:" + status[2])
     }).then(function (response) {
@@ -1030,6 +1029,7 @@ app.get("/api/chartStatus", (req,res)=>{
 // data visualization of temperature values
 app.get("/api/getCStatus", (req,res)=>{
     console.log("called getTemp with values: "+status);
+    status = status.reverse();
     res.send(status);
 })
 
