@@ -54,9 +54,26 @@ class Login extends Component {
     axios.post(`http://localhost:4000/?username=`+user.username+`&password=`+user.password+``)
     .then(res => {
       if(res.data=="success"){
-        this.setState({
-          url: 'http://localhost:3001/admin/dashboard/?username='+user.username+'&password='+user.password+''
-      })
+        if(user.username=="admin"){
+              this.setState({
+                url: 'http://localhost:3001/admin/dashboard'
+            })
+        }
+        if(user.username=="S01"){
+            this.setState({
+              url: 'http://localhost:3001/supplier/dashboard'
+          })
+        }
+        if(user.username=="D01"){
+            this.setState({
+              url: 'http://localhost:3001/distributor/dashboard'
+          })
+        }
+        if(user.username=="C01"){
+            this.setState({
+              url: 'http://localhost:3001/consumer/dashboard'
+          })
+        }
     //  save auth info
       localStorage.setItem('username', user.username);
       localStorage.setItem('password', user.password);

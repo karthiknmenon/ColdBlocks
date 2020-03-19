@@ -7,7 +7,7 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
 
 
-class ConsumerList extends Component {
+class DistributorList extends Component {
   constructor() {
     super()
     this.state = {
@@ -173,4 +173,4 @@ class ConsumerList extends Component {
   }
 }
 
-export default ConsumerList;
+export default DistributorList;
