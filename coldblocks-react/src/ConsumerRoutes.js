@@ -18,77 +18,77 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: "ri-dashboard-fill",
     component: Dashboard,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/camera",
     name: "Cold-AR",
     icon: "ri-phone-camera-fill",
     component: ColdAR,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/packagelist",
     name: "Package Data",
     icon: "ri-truck-fill",
     component: PackageList,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/viewTransactions",
     name: "Transactions",
     icon: "ri-exchange-funds-fill",
     component: AdminTransactions,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/consumerdata",
     name: "Consumer Data",
     icon: "ri-user-5-fill",
     component: NormalConsumerList,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/distributordata",
     name: "Distributor Data",
     icon: "ri-user-2-fill",
     component: NormalDistributorList,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/manufacturerdata",
     name: "Manufacturer Data",
     icon: "ri-user-3-fill",
     component: NormalManufacturerList,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/supplierdata",
     name: "Supplier Data",
     icon: "ri-user-4-fill",
     component: NormalSupplierList,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/chart",
     name: "Data Visualization",
     icon: "ri-bar-chart-fill",
     component: Chart,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/routing",
     name: "Optimal Routing",
     icon: "ri-route-fill",
     component: vrp,
-    layout: "/supplier"
+    layout: "/consumer"
   },
   {
     path: "/maps",
     name: "Maps",
     icon: "ri-road-map-fill",
     component: Maps,
-    layout: "/supplier"
+    layout: "/consumer"
   },
 ];
 

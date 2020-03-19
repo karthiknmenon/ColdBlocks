@@ -9,17 +9,18 @@ import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 import Login from "./views/login";
 import * as serviceWorker from './serviceWorker'
-
 import SupplierLayout from "layouts/Supplier.jsx";
 import AdminLayout from "layouts/Admin.jsx";
+import ConsumerLayout from "layouts/Consumer.jsx";
 
 ReactDOM.render(
   
   <BrowserRouter>
     <Switch>
       {/* <Route path="/" component={Login}/> */}
-      <Route path="/supplier" render={props => <SupplierLayout {...props} />} />
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
+      <Route path="/supplier" render={props => <SupplierLayout {...props} />} />
+      <Route path="/consumer" render={props => <ConsumerLayout {...props} />} />
       {/* <Redirect from="/" to="/admin/dashboard" /> */}
       <Login></Login>
     </Switch>
