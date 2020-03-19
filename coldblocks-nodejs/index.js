@@ -9,6 +9,7 @@ var Request = require('request');
 var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
+var cors = require('cors');
 // for GPS coordinates
 const opencage = require('opencage-api-client');
 // to read .env file for API-Key
@@ -45,7 +46,7 @@ QRCode.toString('http://116ed152.ngrok.io/HolderChange?oldHolder=D03&newHolder=D
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
-    
+
 });
 
 // QRCode.toDataURL('https://www.google.com!', function (err, url) {
@@ -57,6 +58,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+app.use(cors());
 
 // URL to composer-rest-server
 
@@ -89,31 +91,16 @@ app.get('/api/ListTransactions', (req, res) => {
 
     axios.get(restUrl + 'api/system/historian').then(function (response) {
         jsonResponse = response.data;
-        // res.send(response.data);
+        res.send(response.data);
     }).then(function (response) {
-        // res.send(jsonResponse[0]['consumerID']);
-        showID();
+        res.send(jsonResponse[0]['consumerID']);
+        // showID();
+
     }).catch(function (error) {
         console.log(error);
     });
 
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-        // var JSONobj = new object();            
 
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['transactionId'];
-            let y = jsonResponse[i]['transactionTimestamp'];
-            // var obj = JSON.parse(x+y);
-            JSONobj[key].push(y);
-            key = i;
-        }
-        JSON.stringify(JSONobj);
-        // console.log(JSONobj);
-        res.send(JSONobj)
-    }
 });
 
 // All Consumer API's
@@ -186,14 +173,18 @@ app.get('/api/ListConsumerId', function (req, res) {
 // API to create a new consumer
 
 app.post('/api/CreateConsumer', function (req, res) {
+    console.log(req.body.cId);
+    console.log(req.body.cName);
     Request.post({
         "headers": {
-            "content-type": "application/json"
+            "content-type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         },
         "url": restUrl + "api/Consumer",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Consumer",
-            "consumerID": String(req.body.cID),
+            "consumerID": String(req.body.cId),
             "consumerName": String(req.body.cName)
         })
     }, (error, response, body) => {
@@ -277,6 +268,7 @@ app.get('/api/ListDistributorsId', function (req, res) {
 // API to create a new Distribtuor
 
 app.post('/api/CreateDistribtuor', function (req, res) {
+    console.log(" node values: " + req.body.dId);
     Request.post({
         "headers": {
             "content-type": "application/json"
@@ -284,7 +276,7 @@ app.post('/api/CreateDistribtuor', function (req, res) {
         "url": restUrl + "api/Distributor",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Distributor",
-            "distributorID": String(req.body.dID),
+            "distributorID": String(req.body.dId),
             "distributorName": String(req.body.dName)
         })
     }, (error, response, body) => {
@@ -374,7 +366,7 @@ app.post('/api/CreateManufacturer', function (req, res) {
         "url": restUrl + "api/Manufacturer",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Manufacturer",
-            "manufacturerID": String(req.body.mID),
+            "manufacturerID": String(req.body.mId),
             "manufacturerName": String(req.body.mName)
         })
     }, (error, response, body) => {
@@ -464,7 +456,7 @@ app.post('/api/CreateSupplier', function (req, res) {
         "url": restUrl + "api/Supplier",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Supplier",
-            "supplierID": String(req.body.sID),
+            "supplierID": String(req.body.sId),
             "supplierName": String(req.body.sName)
         })
     }, (error, response, body) => {
@@ -779,21 +771,48 @@ app.post('/tempData', function (req, res) {
             }
         });
     } else {
+        var oldHolder;
+        var oldDestination;
+        var Oldstatus;
         // send API Post for TemperatureDrop Event
-        Request.post({
-            "headers": {
-                "content-type": "application/json"
-            },
-            "url": restUrl + "api/TemperatureDrop",
-            "body": JSON.stringify({
-                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
-                "newTemperature": String(req.body.Temperature),
-                "newLocation": String(gpsLocation)
+        axios.get(restUrl + 'api/TransitPackage/' + packageID).then(function (response) {
+            jsonResponse = response.data;
+            console.log("response from axios of put:" + jsonResponse);
+            oldHolder = response.data.holder;
+            console.log("response.data.holder:" + response.data.holder)
+            oldDestination = response.data.destination;
+            console.log("response.data.destination:" + response.data.destination)
+            Oldstatus = response.data.status;
+            console.log("response.data.status:" + response.data.status)
+            // response.send(response.data);
+
+        }).then(function (response) {
+            console.log("then")
+            // Update values of package using PUT
+            const options = {
+                url: 'http://localhost:3000/api/TransitPackage/' + packageID,
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "$class": "org.coldblocks.mynetwork.TransitPackage",
+                    "packageID": String(packageID),
+                    "location": String(gpsLocation),
+                    "temperature": String(req.body.Temperature),
+                    "destination": String(oldDestination),
+                    "holder": String(oldHolder),
+                    "status": String(Oldstatus)
+                })
+            };
+
+
+            Request(options, function (err, res, body) {
+                // let json = JSON.parse(body);
+                console.log("PUT method");
             })
-        }, (error, response, body) => {
-            if (error) {
-                return console.dir(error);
-            }
+        }).catch(function (error) {
+            console.log(error);
         });
     }
 });
@@ -872,17 +891,17 @@ const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/success', (req, res) => res.send("Welcome "+req.query.username+"!!"));
+app.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
 app.get('/error', (req, res) => res.send("error logging in"));
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
+passport.serializeUser(function (user, cb) {
+    cb(null, user.id);
 });
 
-passport.deserializeUser(function(id, cb) {
-  User.findById(id, function(err, user) {
-    cb(err, user);
-  });
+passport.deserializeUser(function (id, cb) {
+    User.findById(id, function (err, user) {
+        cb(err, user);
+    });
 });
 
 // connecting mongo to node 
@@ -891,9 +910,9 @@ mongoose.connect('mongodb://localhost/MyDatabase');
 
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
-      username: String,
-      password: String
-    });
+    username: String,
+    password: String
+});
 const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
 
 
@@ -901,30 +920,179 @@ const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
-    function(username, password, done) {
+    function (username, password, done) {
         UserDetails.findOne({
-          username: username
-        }, function(err, user) {
-          if (err) {
-            return done(err);
-          }
-  
-          if (!user) {
-            return done(null, false);
-          }
-  
-          if (user.password != password) {
-            return done(null, false);
-          }
-          return done(null, user);
+            username: username
+        }, function (err, user) {
+            if (err) {
+                return done(err);
+            }
+
+            if (!user) {
+                return done(null, false);
+            }
+
+            if (user.password != password) {
+                return done(null, false);
+            }
+            return done(null, user);
+            var id = ObjectId;
         });
     }
-  ));
-  
-  app.post('/',
-    passport.authenticate('local', { failureRedirect: 'http://localhost:/auth' }),
-    function(req, res) {
-      res.redirect('/success?username='+req.user.username);
+));
+
+app.post('/',
+    passport.authenticate('local', {
+        failureRedirect: '/error'
+    }),
+    function (req, res) {
+        //   res.redirect('/success?username='+req.user.username);
+        res.send("success");
+        //   res.redirect('/');
+        console.log("success");
+    }
+);
+
+// for data visualization of temperature values
+var temp_01 = [];
+var temp_02 = [];
+var temp_03 = [];
+var dateLabel = [];
+var chart_temp = [];
+var chart_temp = [temp_01,temp_02,temp_03];
+app.get("/api/chartTemp", (req,res)=>{
+    console.log("res.body.temperature: "+req.query.temperature);
+    console.log("res.body.id: "+req.query.packageId);
+    var packageId = req.query.packageId;
+    if(packageId=="H001"){
+        temp_01.push(parseInt(req.query.temperature));
+        var event = new Date();
+        var eventH = event.getHours();
+        dateLabel.push(String(eventH)+':00');
+        // chart_temp.push(temp_01);
+    }
+    if(packageId=="H002"){
+        temp_02.push(parseInt(req.query.temperature));
+        // chart_temp.push(temp_02);
+    }
+    if(packageId=="H003"){
+        temp_03.push(parseInt(req.query.temperature));
+        // chart_temp.push(temp_03);
+    }
+    console.log(chart_temp);
+})
+// data visualization of temperature values
+app.get("/api/getTemp", (req,res)=>{
+    console.log("called getTemp with values: "+chart_temp);
+    res.send(chart_temp);
+})
+
+app.get("/api/getLabel", (req,res)=>{
+    res.send(dateLabel);
+})
+
+// data visualization for status values
+var status=[]
+app.get("/api/chartStatus", (req,res)=>{
+    status = [];
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=0').then(function (response) {
+        jsonResponse = response.data;
+        status.push(jsonResponse.length);
+        // status[2] = jsonResponse.length;
+        console.log("status 0:"+status);
+    }).then(function (response) {
+        console.log(".then for chartStatus")
+    }).catch(function (error) {
+        console.log(error);
     });
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
+        jsonResponse = response.data;
+        // status[2] += jsonResponse.length;
+        status.push(jsonResponse.length);
+        console.log("status 1:"+status);
+        console.log("total:" + status[2])
+    }).then(function (response) {
+        console.log(".then for chartStatus")
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+
+})
+// data visualization of temperature values
+app.get("/api/getCStatus", (req,res)=>{
+    console.log("called getTemp with values: "+status);
+    res.send(status);
+})
+
+// to get info for user-card in dash
+
+// function storeId(param_username) {
+//     var MongoClient = require('mongodb').MongoClient;
+//     var url = "mongodb://localhost/MyDatabase";
+
+//     MongoClient.connect(url, function (err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("MyDatabase");
+//         var query = {
+//             username: String(param_username)
+//         };
+//         dbo.collection("userInfo").find(query).toArray(function (err, result) {
+//             if (err) throw err;
+//             console.log(result[0]._id);
+//             findCredentials(result[0]._id);
+//             db.close();
+//         });
+//     });
+// }
+
+// app.get("/storeCredentials", (req, res) => {
+//     var userN = req.query.username;
+//     storeId(userN);
+// })
+
+// function findCredentials(objectId) {
+//     var MongoClient = require('mongodb').MongoClient;
+//     var url = "mongodb://localhost/MyDatabase";
+//     console.log("Inside function findCredentials: " + objectId);
+
+//     MongoClient.connect(url, function (err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("MyDatabase");
+//         var query = {
+//             _id: objectId
+//         };
+//         dbo.collection("userInfo").find(query).toArray(function (err, result) {
+//             if (err) throw err;
+//             console.log(result[0]);
+//             var strName = result[0].username;
+//             var strPass = result[0].password;
+//             Request.post({
+//                 "headers": {
+//                     "content-type": "application/json"
+//                 },
+//                 "url": "http://localhost:4000/findCred",
+//                 "body": JSON.stringify({
+//                     "username" : String(strName),
+//                     "password" : String(strPass)
+//                 })
+//             }, (error, response, body) => {
+//                 if (error) {
+//                     return console.dir(error);
+//                 }
+//             });
+//             db.close();
+//         });
+//     });    
+// }
+
 
 app.listen(4000);
