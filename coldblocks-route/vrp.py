@@ -9,9 +9,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
-
-
-global_sol = []
+get_vehicle= 0
 def create_data_model():
     """Stores the data for the problem."""
     data = {}
@@ -85,6 +83,8 @@ def create_data_model():
             536, 194, 798, 0
         ],
     ]
+    global get_vehicle
+    print("Inside data_model %d", get_vehicle)
     data['demands'] = [0, 1, 1, 2, 4, 2, 4, 8, 8, 1, 2, 1, 2, 4, 4, 8, 8]
     data['vehicle_capacities'] = [15, 15, 15, 15]
     data['num_vehicles'] = 4
@@ -111,7 +111,7 @@ def print_solution(data, manager, routing, solution):
             route_distance += routing.GetArcCostForVehicle(
                 previous_index, index, vehicle_id)
         plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
-                                                 route_load)
+                                                route_load)
         plan_output += 'Distance of the route: {}m\n'.format(route_distance)
         plan_output += 'Load of the route: {}\n'.format(route_load)
         print(plan_output)
@@ -129,7 +129,7 @@ def main():
 
     # Create the routing index manager.
     manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
-                                           data['num_vehicles'], data['depot'])
+                                        data['num_vehicles'], data['depot'])
 
     # Create Routing Model.
     routing = pywrapcp.RoutingModel(manager)
@@ -177,14 +177,26 @@ def main():
     if solution:
         print_solution(data, manager, routing, solution)
 
-
 @app.route("/", methods=['POST', 'GET'])
 def get():
         data = {
                 "data" : global_sol
          }
         return make_response(data)
+@app.route("/getVehicleData", methods=['POST','GET'])
+def post():
+    
+    global get_vehicle
+    get_vehicle = request.form["data"]
+    print(get_vehicle)
+    return make_response("hey")
+
+
+global_sol = []
+
 
 if __name__ == '__main__':
     main()
-    app.run(debug=True)
+    app.run(debug= True)
+    
+    
