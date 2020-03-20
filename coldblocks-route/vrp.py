@@ -5,8 +5,11 @@ from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 from flask import jsonify, Flask, make_response,request, render_template
 from flask_restful import Resource, Api
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
+
 
 global_sol = []
 def create_data_model():
