@@ -94,11 +94,11 @@ class vrp extends Component {
           <Row>
             <Col md={12}>
               <Card
-                title="Add Consumer"
+                title="Vehicle Information"
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
-                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      ncols={["col-md-3", "col-md-3", "col-md-3", "col-md-3"]}
                       properties={[
                         {
                           label: "Company (disabled)",
@@ -110,18 +110,26 @@ class vrp extends Component {
                   
                         },
                         {
-                          label: "Consumer ID",
+                          label: "Number of Vehicles",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Consumer ID",
+                          placeholder: "Enter Number of Vehicles",
                           onChange:this.idChange,
                           name: "cId"
                         },
                         {
-                          label: "Name",
+                          label: "Vehicle Capacities",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Consumer Name",
+                          placeholder: "Enter Vehicle Capacity",
+                          onChange:this.nameChange,
+                          name: "cName"
+                        },
+                        {
+                          label: "Demands",
+                          type: "text",
+                          bsClass: "form-control",
+                          placeholder: "Enter Demands",
                           onChange:this.nameChange,
                           name: "cName"
                         }
