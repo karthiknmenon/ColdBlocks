@@ -42,7 +42,7 @@ opencage.geocode({
 });
 
 
-QRCode.toString('http://116ed152.ngrok.io/HolderChange?oldHolder=D03&newHolder=Denil&packageID=H001', {
+QRCode.toString('http://8c1e3376.ngrok.io/qrHolderChange?packageID=H001', {
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
@@ -855,36 +855,36 @@ app.get('/tempDrop', function (req, res) {
         console.log(error);
     });
 })
-
-app.get('/HolderChange', function (req, res) {
-    res.send("Holder Change Event Triggered Successfully.")
-    // console.log(JSON.stringify(req.body));
-    var oHolder = req.query.oldHolder;
-    // var oHolder = "hyder";
-    console.log("oldHolder: " + oHolder);
-    var packageId = req.query.packageID;
-    // var packageID = "H156";
-    console.log("Package Id: " + packageId);
-    var nHolder = req.query.newHolder;
-    // var nHolder = "dsdsds";
-    console.log("new Holder: " + nHolder);
-    Request.post({
-        "headers": {
-            "content-type": "application/json"
-        },
-        "url": restUrl + "api/HolderChange",
-        "body": JSON.stringify({
-            "$class": "org.coldblocks.mynetwork.HolderChange",
-            "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageId,
-            "oldHolder": String(oHolder),
-            "newHolder": String(nHolder)
-        })
-    }, (error, response, body) => {
-        if (error) {
-            return console.dir(error);
-        }
-    });
-});
+// Old code for Holder Change
+// app.get('/HolderChange', function (req, res) {
+//     res.send("Holder Change Event Triggered Successfully.")
+//     // console.log(JSON.stringify(req.body));
+//     var oHolder = req.query.oldHolder;
+//     // var oHolder = "hyder";
+//     console.log("oldHolder: " + oHolder);
+//     var packageId = req.query.packageID;
+//     // var packageID = "H156";
+//     console.log("Package Id: " + packageId);
+//     var nHolder = req.query.newHolder;
+//     // var nHolder = "dsdsds";
+//     console.log("new Holder: " + nHolder);
+//     Request.post({
+//         "headers": {
+//             "content-type": "application/json"
+//         },
+//         "url": restUrl + "api/HolderChange",
+//         "body": JSON.stringify({
+//             "$class": "org.coldblocks.mynetwork.HolderChange",
+//             "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageId,
+//             "oldHolder": String(oHolder),
+//             "newHolder": String(nHolder)
+//         })
+//     }, (error, response, body) => {
+//         if (error) {
+//             return console.dir(error);
+//         }
+//     });
+// });
 
 // code for auth using passport.js
 
@@ -960,41 +960,41 @@ var temp_02 = [];
 var temp_03 = [];
 var dateLabel = [];
 var chart_temp = [];
-var chart_temp = [temp_01,temp_02,temp_03];
-app.get("/api/chartTemp", (req,res)=>{
-    console.log("res.body.temperature: "+req.query.temperature);
-    console.log("res.body.id: "+req.query.packageId);
+var chart_temp = [temp_01, temp_02, temp_03];
+app.get("/api/chartTemp", (req, res) => {
+    console.log("res.body.temperature: " + req.query.temperature);
+    console.log("res.body.id: " + req.query.packageId);
     var packageId = req.query.packageId;
-    if(packageId=="H001"){
+    if (packageId == "H001") {
         temp_01.push(parseInt(req.query.temperature));
         var event = new Date();
         var eventH = event.getHours();
-        dateLabel.push(String(eventH)+':00');
+        dateLabel.push(String(eventH) + ':00');
         // chart_temp.push(temp_01);
     }
-    if(packageId=="H002"){
+    if (packageId == "H002") {
         temp_02.push(parseInt(req.query.temperature));
         // chart_temp.push(temp_02);
     }
-    if(packageId=="H003"){
+    if (packageId == "H003") {
         temp_03.push(parseInt(req.query.temperature));
         // chart_temp.push(temp_03);
     }
     console.log(chart_temp);
 })
 // data visualization of temperature values
-app.get("/api/getTemp", (req,res)=>{
-    console.log("called getTemp with values: "+chart_temp);
+app.get("/api/getTemp", (req, res) => {
+    console.log("called getTemp with values: " + chart_temp);
     res.send(chart_temp);
 })
 
-app.get("/api/getLabel", (req,res)=>{
+app.get("/api/getLabel", (req, res) => {
     res.send(dateLabel);
 })
 
 // data visualization for status values
-var status=[]
-app.get("/api/chartStatus", (req,res)=>{
+var status = []
+app.get("/api/chartStatus", (req, res) => {
     status = [];
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -1005,7 +1005,7 @@ app.get("/api/chartStatus", (req,res)=>{
         // status.push(jsonResponse.length);
         status[0] = jsonResponse.length;
         // status[2] = jsonResponse.length;
-        console.log("status 0:"+status);
+        console.log("status 0:" + status);
     }).then(function (response) {
         console.log(".then for chartStatus")
     }).catch(function (error) {
@@ -1016,7 +1016,7 @@ app.get("/api/chartStatus", (req,res)=>{
         // status[2] += jsonResponse.length;
         // status.push(jsonResponse.length);
         status[1] = jsonResponse.length;
-        console.log("status 1:"+status);
+        console.log("status 1:" + status);
         console.log("total:" + status[2])
     }).then(function (response) {
         console.log(".then for chartStatus")
@@ -1027,11 +1027,56 @@ app.get("/api/chartStatus", (req,res)=>{
 
 })
 // data visualization of temperature values
-app.get("/api/getCStatus", (req,res)=>{
-    console.log("called getTemp with values: "+status);
+app.get("/api/getCStatus", (req, res) => {
+    console.log("called getTemp with values: " + status);
     status = status.reverse();
     res.send(status);
 })
+
+
+// for Auto Holder Change based on login
+var ousername;
+
+app.post("/getUserCred", (req, res) => {
+    console.log("hi")
+    console.log(req.query.username)
+    ousername = req.query.username;
+    console.log("from get cred username:" + ousername)
+})
+var qrOldHolder;
+app.get("/qrHolderChange", (req, res) => {
+    
+    console.log("inside qr holder change for cred:" + req.query.packageID);
+    axios.get('http://localhost:4000/api/ListPackagesById?packageId=' + req.query.packageID).then(function (response) {
+        jsonResponse = response.data;
+        var qrOldHolder = response.data[0]["holder"];
+        console.log("qr old holder:" + qrOldHolder)
+        res.send(response.data);
+    }).then(function (response) {
+        console.log("qr .get");
+        Request.post({
+            "headers": {
+                "content-type": "application/json"
+            },
+            "url": restUrl + "api/HolderChange",
+            "body": JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.HolderChange",
+                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + req.query.packageID,
+                "oldHolder": String(qrOldHolder),
+                "newHolder": String(ousername)
+            })
+        }, (error, response, body) => {
+            if (error) {
+                return console.dir(error);
+            }
+        });
+    }).catch(function (error) {
+        console.log(error);
+    });
+    console.log("username inside get qr:"+ousername)
+   
+})
+
 
 // to get info for user-card in dash
 

@@ -78,12 +78,26 @@ class Login extends Component {
       localStorage.setItem('username', user.username);
       localStorage.setItem('password', user.password);
       localStorage.setItem('token', "true");
-      window.location = this.state.url   
+      axios.post(`http://localhost:4000/getUserCred?username=`+user.username, 
+      { headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+      {data: String("hi")})
+        .then(res => {
+          // console.log(res);
+          console.log(".then for post username"+res.data);  
+        })
+        .catch(function (error) {
+          console.log(error);
+        })  
+      window.location = this.state.url;  
       }
       else{
         this.setState({
           url: 'http://localhost:3001'      
       })
+      
       
       // call pop-up
       this.setState({ _notificationSystem: this.refs.notificationSystem });
