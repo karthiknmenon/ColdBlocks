@@ -8,6 +8,7 @@ from flask_restful import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
+global_sol = []
 def create_data_model():
     """Stores the data for the problem."""
     data = {}
@@ -89,6 +90,7 @@ def create_data_model():
 
 
 def print_solution(data, manager, routing, solution):
+    global global_sol
     """Prints solution on console."""
     total_distance = 0
     total_load = 0
@@ -110,6 +112,7 @@ def print_solution(data, manager, routing, solution):
         plan_output += 'Distance of the route: {}m\n'.format(route_distance)
         plan_output += 'Load of the route: {}\n'.format(route_load)
         print(plan_output)
+        global_sol.append(plan_output)
         total_distance += route_distance
         total_load += route_load
     print('Total distance of all routes: {}m'.format(total_distance))
@@ -172,15 +175,12 @@ def main():
         print_solution(data, manager, routing, solution)
 
 
-@app.route("http://localhost:3001", methods=['POST', 'GET'])
+@app.route("/", methods=['POST', 'GET'])
 def get():
-        textInput = request.form["data"]
-        print(textInput)
-        return make_response(render_template("text.html",text=textInput))
-
-@app.route("/", methods=['GET'])
-def contact():
-        return render_template("index.html")
+        data = {
+                "data" : global_sol
+         }
+        return make_response(data)
 
 if __name__ == '__main__':
     main()
