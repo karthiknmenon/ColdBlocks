@@ -43,6 +43,9 @@ class PackageList extends Component {
                           Package Location
                         </th>
                         <th>
+                          Package Holder
+                        </th>
+                        <th>
                           Package Temperature
                         </th>
                         <th>
@@ -60,6 +63,7 @@ class PackageList extends Component {
                           <tr>
                             <td>{object.packageID}</td>
                             <td>{object.location}</td>
+                            <td>{object.holder}</td>
                             <td>{object.temperature}</td>
                             <td>{object.destination}</td>
                             <td>{object.status}</td>
