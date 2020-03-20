@@ -60,9 +60,10 @@ class vrp extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://0.0.0.0:7000')
+    fetch('http://127.0.0.1:5000/')
     .then(res => res.json())
     .then((data) => {
+      console.log(data);
       this.setState({ apiData: data })
       console.log("state apiData:"+JSON.stringify(this.state.apiData));
       console.log(this.state.apiData.Route)
@@ -159,7 +160,7 @@ class vrp extends Component {
                           <tr>
                             {/* <td>{object.consumerID}</td> */}
                             <td>hey</td>
-                            <td>{this.state.apiData.Route}</td>
+                            <td>{this.state.apiData.data}</td>
                           </tr>
                         </>
                       
