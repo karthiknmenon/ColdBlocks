@@ -106,16 +106,18 @@ def print_solution(data, manager, routing, solution):
             node_index = manager.IndexToNode(index)
             route_load += data['demands'][node_index]
             plan_output += ' {0} Load({1}) -> '.format(node_index, route_load)
+            
             previous_index = index
             index = solution.Value(routing.NextVar(index))
             route_distance += routing.GetArcCostForVehicle(
                 previous_index, index, vehicle_id)
+            
         plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
                                                 route_load)
+        global_sol.append(str(vehicle_id)+":"+plan_output)
         plan_output += 'Distance of the route: {}m\n'.format(route_distance)
         plan_output += 'Load of the route: {}\n'.format(route_load)
         print(plan_output)
-        global_sol.append(plan_output)
         total_distance += route_distance
         total_load += route_load
     print('Total distance of all routes: {}m'.format(total_distance))
@@ -182,6 +184,7 @@ def get():
         data = {
                 "data" : global_sol
          }
+        # print(data)
         return make_response(data)
 @app.route("/getVehicleData", methods=['POST','GET'])
 def post():

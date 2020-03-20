@@ -63,28 +63,13 @@ class vrp extends Component {
     fetch('http://127.0.0.1:5000/')
     .then(res => res.json())
     .then((data) => {
-      console.log(data);
+      console.log(data.data["0"]);
       this.setState({ apiData: data })
       console.log("state apiData:"+JSON.stringify(this.state.apiData));
-      console.log(this.state.apiData.Route)
+      console.log("apiData"+this.state.apiData["data"]["0"])
     })
     .catch(console.log)
   }
-  componentDidUpdate(prevProps, prevState) {
-
-    if (prevState.postD !== this.state.postD) {
-      console.log("before new fetch"+JSON.stringify(this.state.apiData))
-      console.log('postD state has changed. (inside didUpdate now)'+this.state.postD);
-      axios.get(`https://localhost:4000/api/ListConsumers`)
-      .then(res => {
-        console.log(JSON.stringify(res.data))
-        const fetchData = JSON.stringify(res.data);
-        this.setState({
-          apiData : fetchData
-        })
-      })
-  }
-}
 
   render() {
     const {apiData} = this.state;
@@ -164,13 +149,16 @@ class vrp extends Component {
                     </thead>
                     <tbody>                     
                       
+                       {Array.isArray(apiData) && apiData.map(object => (
+                        console.log(object),
                         <>
+                        
                           <tr>
-                            {/* <td>{object.consumerID}</td> */}
-                            <td>hey</td>
-                            <td>{this.state.apiData.data}</td>
+                            <td>{object["data"]}</td>
+                            <td>{object["data"]}</td>
                           </tr>
                         </>
+                      ))}
                       
                     </tbody>
                   </Table>
