@@ -1,6 +1,6 @@
 
 import Dashboard from "views/Dashboard.jsx";
-import PackageList from "views/packagelist.jsx";
+import NormalPackageList from "views/NormalPackageList.jsx";
 import AdminTransactions from "views/adminTransactions";
 import Maps from "views/Maps.jsx";
 import ColdAR from "views/camera";
@@ -31,7 +31,7 @@ const dashboardRoutes = [
     path: "/packagelist",
     name: "Package Data",
     icon: "ri-truck-fill",
-    component: PackageList,
+    component: NormalPackageList,
     layout: "/supplier"
   },
   {
