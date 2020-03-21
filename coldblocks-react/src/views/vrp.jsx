@@ -63,10 +63,10 @@ class vrp extends Component {
     fetch('http://127.0.0.1:5000/')
     .then(res => res.json())
     .then((data) => {
-      console.log(data.data["0"]);
+      console.log(data);
       this.setState({ apiData: data })
       console.log("state apiData:"+JSON.stringify(this.state.apiData));
-      console.log("apiData"+this.state.apiData["data"]["0"])
+      console.log("apiData"+this.state.apiData)
     })
     .catch(console.log)
   }
@@ -149,16 +149,14 @@ class vrp extends Component {
                     </thead>
                     <tbody>                     
                       
-                       {Array.isArray(apiData) && apiData.map(object => (
-                        console.log(object),
+                    
                         <>
-                        
                           <tr>
-                            <td>{object["data"]}</td>
-                            <td>{object["data"]}</td>
+                            <td>Route Info</td>
+                            <td>{this.state.apiData.data}</td>
                           </tr>
                         </>
-                      ))}
+                    
                       
                     </tbody>
                   </Table>
