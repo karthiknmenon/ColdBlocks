@@ -10,6 +10,7 @@ import { style } from "variables/Variables.jsx";
 import NotificationSystem from "react-notification-system";
 import 'remixicon/fonts/remixicon.css'
 import Footer from "components/Footer/Footer"
+import { reactURL } from "variables/Variables.jsx";
 
 // **TODO** Custom CSS for logIn
 import "../assets/css/auth.css"
@@ -18,7 +19,7 @@ class Login extends Component {
   state = {
     username: '',
     password: '',
-    url:'http://localhost:3001/',
+    url: reactURL,
     status:'0',
     _notificationSystem: null,
     userName:'',
@@ -56,22 +57,22 @@ class Login extends Component {
       if(res.data=="success"){
         if(user.username=="admin"){
               this.setState({
-                url: 'http://localhost:3001/admin/dashboard'
+                url: reactURL+'/admin/dashboard'
             })
         }
         if(user.username=="S01"){
             this.setState({
-              url: 'http://localhost:3001/supplier/dashboard'
+              url: reactURL+'/supplier/dashboard'
           })
         }
         if(user.username=="D01"){
             this.setState({
-              url: 'http://localhost:3001/distributor/dashboard'
+              url: reactURL+'/distributor/dashboard'
           })
         }
         if(user.username=="C01"){
             this.setState({
-              url: 'http://localhost:3001/consumer/dashboard'
+              url: reactURL+'/consumer/dashboard'
           })
         }
     //  save auth info
@@ -95,7 +96,7 @@ class Login extends Component {
       }
       else{
         this.setState({
-          url: 'http://localhost:3001'      
+          url: reactURL    
       })
       
       

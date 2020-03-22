@@ -7,7 +7,7 @@ import UserCard from "../components/UserCard/UserCard";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "../assets/img/faces/face-0.jpg";
-
+import { reactURL } from "variables/Variables.jsx";
 class Dashboard extends Component {
   constructor(){
     super()
@@ -23,7 +23,7 @@ class Dashboard extends Component {
   componentDidMount() {
     const tokenD = localStorage.getItem('token');
     if(tokenD=="false"){
-      window.location = "http://localhost:3001"
+      window.location = reactURL;
     }
     const userN = localStorage.getItem('username');
     const userD = localStorage.getItem('password');

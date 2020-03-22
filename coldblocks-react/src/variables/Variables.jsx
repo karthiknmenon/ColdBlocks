@@ -4,6 +4,9 @@
 // // // For notifications
 // //
 //
+const reactURL = "http://localhost:3001";
+const nodeURL = "http://localhost:4000"
+
 var defaultWidth =
   window.screen.width > 768
     ? (window.screen.width * 1) / 3
@@ -336,6 +339,8 @@ var legendBar = {
 module.exports = {
   style, // For notifications (App container and Notifications view)
   // dataPie,
+  reactURL,
+  nodeURL,
   legendPie,
   dataSales,
   optionsSales,
