@@ -66,10 +66,10 @@ const restUrl = 'http://localhost:3000/';
 
 // function to send messages via whatsapp
 
-function sendWhatsapp(temp, gpsLocation) {
+function sendWhatsapp(packageID, temp, gpsLocation) {
     client.messages.create({
         from: 'whatsapp:+14155238886',
-        body: 'Your package is at location: ' + gpsLocation + ' and at temperature: ' + temp + '.',
+        body: 'Your package with package ID: '+packageID+' is at location: ' + gpsLocation + ' and at temperature: ' + temp + '.',
         to: 'whatsapp:+919586976787'
     }).then(message => console.log(message.sid));
 }
@@ -752,7 +752,7 @@ app.post('/tempData', function (req, res) {
     console.log("Location: " + gpsLocation);
     // set threshold temperature
     if (temp > 25) {
-        sendWhatsapp(temp, gpsLocation);
+        sendWhatsapp(packageID, temp, gpsLocation);
         // console.log(temp);
 
         // send API Post for TemperatureDrop Event
@@ -817,6 +817,76 @@ app.post('/tempData', function (req, res) {
         });
     }
 });
+
+// Timed Updates for package using PUT 
+app.post('/updatePackageDetails', function (req, res) {
+    // AES-256 bit encryption
+    
+    var key = 'my passphrase';
+
+    // add Temperature, packageID and gpsLocation to plaintext being encrypted
+    
+    var plaintext = String(req.body.Temperature);
+
+    plaintext += ", " + req.body.packageID;
+    plaintext += ", " + gpsLocation;
+    
+    // encrypted and decrypted text
+
+    var encrypted = aes256.encrypt(key, plaintext);
+    var decrypted = aes256.decrypt(key, encrypted);
+    console.log("Encrypted text: " + encrypted);
+    console.log("Decrypted text: " + decrypted);
+    var temp = req.body.Temperature;
+    console.log("Temperature: " + temp);
+    var packageID = req.body.packageID;
+    console.log("Package Id: " + packageID);
+    console.log("Location: " + gpsLocation);
+
+    var oldHolder;
+    var oldDestination;
+    var Oldstatus;
+
+    axios.get(restUrl + 'api/TransitPackage/' + packageID).then(function (response) {
+        jsonResponse = response.data;
+        console.log("response from axios of put:" + jsonResponse);
+        oldHolder = response.data.holder;
+        console.log("response.data.holder:" + response.data.holder)
+        oldDestination = response.data.destination;
+        console.log("response.data.destination:" + response.data.destination)
+        Oldstatus = response.data.status;
+        console.log("response.data.status:" + response.data.status)
+
+    }).then(function (response) {
+        console.log("then")
+        // Update values of package using PUT
+        const options = {
+            url: 'http://localhost:3000/api/TransitPackage/' + packageID,
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.TransitPackage",
+                "packageID": String(packageID),
+                "location": String(gpsLocation),
+                "temperature": String(req.body.Temperature),
+                "destination": String(oldDestination),
+                "holder": String(oldHolder),
+                "status": String(Oldstatus)
+            })
+        };
+
+        Request(options, function (err, res, body) {
+            console.log("PUT method");
+            sendWhatsapp(packageID, temp, gpsLocation);
+        })
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+});
+
 
 // Update values of package when tampered using PUT
 
@@ -1045,7 +1115,7 @@ app.post("/getUserCred", (req, res) => {
 })
 var qrOldHolder;
 app.get("/qrHolderChange", (req, res) => {
-    
+
     console.log("inside qr holder change for cred:" + req.query.packageID);
     axios.get('http://localhost:4000/api/ListPackagesById?packageId=' + req.query.packageID).then(function (response) {
         jsonResponse = response.data;
@@ -1073,8 +1143,8 @@ app.get("/qrHolderChange", (req, res) => {
     }).catch(function (error) {
         console.log(error);
     });
-    console.log("username inside get qr:"+ousername)
-   
+    console.log("username inside get qr:" + ousername)
+
 })
 
 
