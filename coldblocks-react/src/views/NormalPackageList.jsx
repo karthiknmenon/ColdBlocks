@@ -32,7 +32,7 @@ class NormalPackageList extends Component {
           // console.log("inside while status: 0")          
         }
         else{
-          data[i].status="ok";
+          data[i].status="Ok";
         }
         i+=1;
       }
