@@ -6,7 +6,9 @@ import {
   Button
 } from "react-bootstrap";
 import { Card } from "components/Card/Card.jsx";
-import QrReader from 'react-qr-reader'
+import QrReader from 'react-qr-reader';
+import axios from "axios";
+import {reactURl, nodeURL} from "../variables/Variables"
 class ColdAR extends React.Component {
   state = {
     result: 'No result'
@@ -16,6 +18,11 @@ class ColdAR extends React.Component {
       this.setState({
         result: data
       })
+      axios.get(String(this.state.result))
+      .then(res => {
+        console.log(JSON.stringify(res.data))
+      })
+      
     }
   }
   handleError = err => {
@@ -38,7 +45,7 @@ class ColdAR extends React.Component {
                   onScan={this.handleScan}
                   style={{ width: '100%'}}
                 />
-                <p className="text-muted text-center">{this.state.result}</p>
+                {/* <p className="text-muted text-center">{this.state.result}</p> */}
               </>
               }
             />

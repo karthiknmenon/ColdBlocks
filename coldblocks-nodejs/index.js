@@ -42,7 +42,7 @@ opencage.geocode({
 });
 
 
-QRCode.toString('http://8c1e3376.ngrok.io/qrHolderChange?packageID=H001', {
+QRCode.toString('https://b88339e7.ngrok.io/qrHolderChange?packageID=H001', {
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
