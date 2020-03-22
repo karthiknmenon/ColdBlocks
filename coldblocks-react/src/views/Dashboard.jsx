@@ -115,7 +115,7 @@ class Dashboard extends Component {
                 <Col lg={6}>
                 <Card
                     title="Package Status"
-                    category="Query Status of a Package by its ID"                
+                    category="Query Status of a Package by its packageID"                
                     content={
                       <>
                       <p className="text-muted">The status of package is: {this.state.packageStatus}</p>
@@ -158,7 +158,7 @@ class Dashboard extends Component {
                 <Col lg={12}>
                 <Card
                     title="Package Data"
-                    category="Data about all Transit Packages. Status `0` means the product is tampered and a status of `1` means the product is not tampered."
+                    category="The table below lists all packages along with basic package data such as Package ID and Package Status."
                     ctTableFullWidth
                     ctTableResponsive
                     content={

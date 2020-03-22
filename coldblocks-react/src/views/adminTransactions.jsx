@@ -8,7 +8,7 @@ class AdminTransactions extends Component {
   constructor() {
     super()
     this.state = {
-      character:{}
+      apiData:{}
     }
   }
   componentDidMount() {
@@ -16,7 +16,8 @@ class AdminTransactions extends Component {
     fetch(nodeURL+'/api/ListTransactions')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ character: data },()=>{
+      // data = data.sortByValue("transactionTimestamp")
+      this.setState({ apiData: data },()=>{
         console.log("callback for setState")
       })
       // console.log(data);
@@ -24,7 +25,7 @@ class AdminTransactions extends Component {
     .catch(console.log)
   }
   render() {
-    const {character} = this.state;
+    const {apiData} = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -46,7 +47,7 @@ class AdminTransactions extends Component {
 
                     </thead>
                     <tbody>                     
-                      {Array.isArray(character) && character.map(object => (
+                      {Array.isArray(apiData) && apiData.map(object => (
                         <>
                           <tr>
                             <td>{object.transactionType}</td>                            
