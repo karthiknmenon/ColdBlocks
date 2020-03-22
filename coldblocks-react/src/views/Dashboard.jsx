@@ -58,9 +58,17 @@ class Dashboard extends Component {
               'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
     )
     .then(res => {
-      console.log(res);
+      console.log(res.data[0]["status"]);
+      if(res.data[0]["status"]==0){
+          var statusText = "Tampered"
+      }
+      if(res.data[0]["status"]==1){
+          var statusText = "ok"
+      }
       this.setState({
-                  packageStatus: res.data[0]["status"]
+                  packageStatus: statusText
+      },()=>{
+        console.log("set status for get package by ID: "+this.state.packageStatus)
       })
       console.log("packageStatus: "+this.state.packageStatus);
     })
