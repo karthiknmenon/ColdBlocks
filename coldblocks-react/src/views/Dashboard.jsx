@@ -41,12 +41,14 @@ class Dashboard extends Component {
           // console.log("inside while status: 0")          
         }
         else{
-          data[i].status="ok";
+          data[i].status="Ok";
         }
         i+=1;
       }
       // console.log("data"+(data[0]))
-      this.setState({ apiData: data })
+      this.setState({ apiData: data }, ()=>{
+        console.log("callback for setState");
+      })
       // console.log(data);
     })
     .catch(console.log)
