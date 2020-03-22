@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
+import { nodeURL } from "variables/Variables.jsx";
 
 class AdminTransactions extends Component {
   constructor() {
@@ -12,7 +13,7 @@ class AdminTransactions extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListTransactions')
+    fetch(nodeURL+'/api/ListTransactions')
     .then(res => res.json())
     .then((data) => {
       this.setState({ character: data },()=>{
