@@ -22,6 +22,20 @@ class NormalPackageList extends Component {
     fetch('http://localhost:4000/api/ListPackagesByHolder?packageHolder='+pHolder)
     .then(res => res.json())
     .then((data) => {
+      var JSONdata = JSON.stringify(data);
+      var length = data.length;
+      console.log(length)
+      var i = 0;
+      while(i<length){
+        if(data[i].status==0){
+            data[i].status="Tampered";
+          // console.log("inside while status: 0")          
+        }
+        else{
+          data[i].status="ok";
+        }
+        i+=1;
+      }
       this.setState({ apiData: data })
       console.log(data);
     })
