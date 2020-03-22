@@ -4,6 +4,7 @@ import {Grid, Row, Col } from "react-bootstrap";
 import Card from "components/Card/Card";
 import ChartistGraph from 'react-chartist';
 import axios from 'axios';
+import { nodeURL } from "variables/Variables.jsx";
 import {
   legendSales
 } from "variables/Variables.jsx";
@@ -21,12 +22,12 @@ class Chart extends Component {
     //     console.log("res.body.temperature: "+req.query.temperature)
     //     chart_temp.push(req.query.temperature)
     //     console.log(chart_temp);
-    axios.get(`http://localhost:4000/api/chartStatus`)
+    axios.get(nodeURL+`/api/chartStatus`)
     .then(res => {
           console.log("res.data: "+res.data)
           console.log(this.state.status)
     })
-    axios.get(`http://localhost:4000/api/getCStatus`)
+    axios.get(nodeURL+`/api/getCStatus`)
       .then(res => {
             console.log("res.data: "+res.data)
             this.setState({
@@ -36,7 +37,7 @@ class Chart extends Component {
             })
             console.log(this.state.status)
       })
-    axios.get(`http://localhost:4000/api/getTemp`)
+    axios.get(nodeURL+`/api/getTemp`)
       .then(res => {
             console.log("res.data: "+res.data)
             this.setState({

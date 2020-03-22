@@ -5,6 +5,7 @@ import Card from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
+import { nodeURL } from "variables/Variables.jsx";
 
 class PackageList extends Component {
   constructor() {
@@ -46,7 +47,7 @@ class PackageList extends Component {
     // console.log("package "+package.cId);
     // console.log("package "+package.cName);
     
-    await axios.post(`http://localhost:4000/api/CreateTransitPackage`, 
+    await axios.post(nodeURL+`/api/CreateTransitPackage`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -66,7 +67,7 @@ class PackageList extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListPackages')
+    fetch(nodeURL+'/api/ListPackages')
     .then(res => res.json())
     .then((data) => {
       var JSONdata = JSON.stringify(data);

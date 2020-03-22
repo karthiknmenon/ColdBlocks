@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
+import { nodeURL } from "variables/Variables.jsx";
 
 class NormalDistributorList extends Component {
   constructor() {
@@ -16,7 +17,7 @@ class NormalDistributorList extends Component {
 
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListDistributors')
+    fetch(nodeURL+'/api/ListDistributors')
     .then(res => res.json())
     .then((data) => {
       console.log(data);
@@ -27,7 +28,7 @@ class NormalDistributorList extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.postD !== this.state.postD) {
       console.log('postD state has changed.');
-      fetch('http://localhost:4000/api/ListDistributors')
+      fetch(nodeURL+'/api/ListDistributors')
       .then(res => res.json())
       .then((data) => {
         this.setState({ apiData: data },

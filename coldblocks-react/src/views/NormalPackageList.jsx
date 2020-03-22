@@ -5,7 +5,7 @@ import Card from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
-
+import { nodeURL } from "variables/Variables.jsx";
 class NormalPackageList extends Component {
   constructor() {
     super()
@@ -19,7 +19,7 @@ class NormalPackageList extends Component {
   componentDidMount() {
     // console.log("hi");
     var pHolder = localStorage.getItem('username')
-    fetch('http://localhost:4000/api/ListPackagesByHolder?packageHolder='+pHolder)
+    fetch(nodeURL+'/api/ListPackagesByHolder?packageHolder='+pHolder)
     .then(res => res.json())
     .then((data) => {
       var JSONdata = JSON.stringify(data);

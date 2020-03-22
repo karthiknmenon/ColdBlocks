@@ -10,7 +10,7 @@ import { style } from "variables/Variables.jsx";
 import NotificationSystem from "react-notification-system";
 import 'remixicon/fonts/remixicon.css'
 import Footer from "components/Footer/Footer"
-import { reactURL } from "variables/Variables.jsx";
+import { reactURL, nodeURL } from "variables/Variables.jsx";
 
 // **TODO** Custom CSS for logIn
 import "../assets/css/auth.css"
@@ -52,7 +52,7 @@ class Login extends Component {
     // console.log("user "+user.password);
     // console.log("user "+user.username);
     
-    axios.post(`http://localhost:4000/?username=`+user.username+`&password=`+user.password+``)
+    axios.post(nodeURL+`/?username=`+user.username+`&password=`+user.password+``)
     .then(res => {
       if(res.data=="success"){
         if(user.username=="admin"){
@@ -79,7 +79,7 @@ class Login extends Component {
       localStorage.setItem('username', user.username);
       localStorage.setItem('password', user.password);
       localStorage.setItem('token', "true");
-      axios.post(`http://localhost:4000/getUserCred?username=`+user.username, 
+      axios.post(nodeURL+`/getUserCred?username=`+user.username, 
       { headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",

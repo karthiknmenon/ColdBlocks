@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
-
+import { nodeURL } from "variables/Variables.jsx";
 class NormalManufacturerList extends Component {
   constructor() {
     super()
@@ -14,7 +14,7 @@ class NormalManufacturerList extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListManufacturers')
+    fetch(nodeURL+'/api/ListManufacturers')
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })

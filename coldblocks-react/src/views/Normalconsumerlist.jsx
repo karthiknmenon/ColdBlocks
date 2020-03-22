@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import { Card } from "components/Card/Card.jsx";
 import axios from 'axios';
-
+import { nodeURL } from "variables/Variables.jsx";
 class NormalConsumerList extends Component {
   constructor() {
     super()
@@ -16,7 +16,7 @@ class NormalConsumerList extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListConsumers')
+    fetch(nodeURL+'/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })
@@ -29,7 +29,7 @@ class NormalConsumerList extends Component {
     if (prevState.postD !== this.state.postD) {
       console.log("before new fetch"+JSON.stringify(this.state.apiData))
       console.log('postD state has changed. (inside didUpdate now)'+this.state.postD);
-      axios.get(`https://localhost:4000/api/ListConsumers`)
+      axios.get(nodeURL+`/api/ListConsumers`)
       .then(res => {
         console.log(JSON.stringify(res.data))
         const fetchData = JSON.stringify(res.data);

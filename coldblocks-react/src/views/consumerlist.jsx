@@ -72,7 +72,7 @@ class ConsumerList extends Component {
     if (prevState.postD !== this.state.postD) {
       console.log("before new fetch"+JSON.stringify(this.state.apiData))
       console.log('postD state has changed. (inside didUpdate now)'+this.state.postD);
-      axios.get(`https://localhost:4000/api/ListConsumers`)
+      axios.get(nodeURL+`/api/ListConsumers`)
       .then(res => {
         console.log(JSON.stringify(res.data))
         const fetchData = JSON.stringify(res.data);

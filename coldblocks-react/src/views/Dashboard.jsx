@@ -7,7 +7,7 @@ import UserCard from "../components/UserCard/UserCard";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "../assets/img/faces/face-0.jpg";
-import { reactURL } from "variables/Variables.jsx";
+import { reactURL, nodeURL } from "variables/Variables.jsx";
 class Dashboard extends Component {
   constructor(){
     super()
@@ -28,7 +28,7 @@ class Dashboard extends Component {
     const userN = localStorage.getItem('username');
     const userD = localStorage.getItem('password');
     this.setState({userName:userN,userId: userD});
-    fetch('http://localhost:4000/api/ListPackages')
+    fetch(nodeURL+'/api/ListPackages')
     .then(res => res.json())
     .then((data) => {
       var JSONdata = JSON.stringify(data);
@@ -68,7 +68,7 @@ class Dashboard extends Component {
     };
     console.log("user "+user.packageId);
     
-    axios.get(`http://localhost:4000/api/ListPackagesById?packageId=`+user.packageId+'', 
+    axios.get(nodeURL+`/api/ListPackagesById?packageId=`+user.packageId+'', 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
