@@ -97,7 +97,8 @@ class ManufacturerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Manufacturer ID",
                           onChange:this.idChange,
-                          name: "mId"
+                          name: "mId",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -105,7 +106,8 @@ class ManufacturerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Manufacturer Name",
                           onChange:this.nameChange,
-                          name: "mName"
+                          name: "mName",
+                          required : true
                         }
                       ]}
                     />       

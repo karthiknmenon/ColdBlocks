@@ -117,7 +117,8 @@ class PackageList extends Component {
                           bsClass: "form-control",
                           placeholder: "Enter Package ID",  
                           onChange:this.idChange,
-                          name: "packageId"                    
+                          name: "packageId",
+                          required : true                    
                         },
                         {
                           label: "Destination",
@@ -125,7 +126,8 @@ class PackageList extends Component {
                           bsClass: "form-control",
                           placeholder: "Enter Final Destination",
                           onChange:this.destinationChange,
-                          name: "packageDestination"
+                          name: "packageDestination",
+                          required : true
                         },
                         {
                           label: "Holder",
@@ -133,7 +135,8 @@ class PackageList extends Component {
                           bsClass: "form-control",
                           placeholder: "Enter First Holder",
                           onChange:this.holderChange,
-                          name: "packageHolder"
+                          name: "packageHolder",
+                          required : true
                         }
                       ]}
                     />       

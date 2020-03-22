@@ -112,7 +112,8 @@ class ConsumerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer ID",
                           onChange:this.idChange,
-                          name: "cId"
+                          name: "cId",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -120,7 +121,8 @@ class ConsumerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer Name",
                           onChange:this.nameChange,
-                          name: "cName"
+                          name: "cName",
+                          required : true
                         }
                       ]}
                     />       

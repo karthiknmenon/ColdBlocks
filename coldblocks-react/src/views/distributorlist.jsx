@@ -111,7 +111,8 @@ class DistributorList extends Component {
                           bsClass: "form-control",
                           placeholder: "Distributor ID",
                           onChange:this.idChange,
-                          name: "dId"
+                          name: "dId",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -119,7 +120,8 @@ class DistributorList extends Component {
                           bsClass: "form-control",
                           placeholder: "Distributor Name",
                           onChange:this.nameChange,
-                          name: "dName"
+                          name: "dName",
+                          required : true
                         }
                       ]}
                     />       

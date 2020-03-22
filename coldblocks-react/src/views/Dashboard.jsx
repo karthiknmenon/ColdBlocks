@@ -138,7 +138,8 @@ class Dashboard extends Component {
                             bsClass: "form-control",
                             placeholder: "Enter Package ID",
                             onChange:this.idChange,
-                            name: "cName"
+                            name: "cName",
+                            required : true
                           }
                         ]}
                       />       

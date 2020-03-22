@@ -85,7 +85,8 @@ class SendConsumerData extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer ID",
                           onChange:this.idChange,
-                          name: "cID"
+                          name: "cID",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -93,7 +94,8 @@ class SendConsumerData extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer Name",
                           onChange:this.nameChange,
-                          name: "cName"
+                          name: "cName",
+                          required : true
                         }
                       ]}
                     />       

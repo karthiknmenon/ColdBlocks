@@ -95,7 +95,8 @@ class SupplierList extends Component {
                           bsClass: "form-control",
                           placeholder: "Supplier ID",
                           onChange:this.idChange,
-                          name: "sId"
+                          name: "sId",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -103,7 +104,8 @@ class SupplierList extends Component {
                           bsClass: "form-control",
                           placeholder: "Supplier Name",
                           onChange:this.nameChange,
-                          name: "sName"
+                          name: "sName",
+                          required : true
                         }
                       ]}
                     />       
