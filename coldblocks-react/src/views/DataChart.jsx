@@ -48,6 +48,32 @@ class Chart extends Component {
             console.log(this.state.temp)
       })
   }
+  // componentDidUpdate(prevProps,prevState){
+  //   if (this.state.status !== prevState.status) {
+  //       axios.get(nodeURL+`/api/getCStatus`)
+  //         .then(res => {
+  //               console.log("res.data: "+res.data)
+  //               this.setState({
+  //                 status : res.data
+  //               }, ()=>{
+  //                 console.log("callback for setState of status");
+  //               })
+  //               console.log(this.state.status)
+  //         })
+  //   }
+  //   if (this.state.temp !== prevState.temp) {
+  //       axios.get(nodeURL+`/api/getTemp`)
+  //         .then(res => {
+  //               console.log("res.data: "+res.data)
+  //               this.setState({
+  //                 temp : res.data
+  //               }, ()=>{
+  //                 console.log("callback for setState of temp");
+  //               })
+  //               console.log(this.state.temp)
+  //         })
+  //   }
+  // }
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {

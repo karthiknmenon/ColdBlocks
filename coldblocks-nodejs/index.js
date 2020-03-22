@@ -1077,7 +1077,7 @@ app.get("/api/chartStatus", (req, res) => {
         // status[2] = jsonResponse.length;
         console.log("status 0:" + status);
     }).then(function (response) {
-        console.log(".then for chartStatus")
+        console.log(".then for chartStatus 0")
     }).catch(function (error) {
         console.log(error);
     });
@@ -1089,8 +1089,9 @@ app.get("/api/chartStatus", (req, res) => {
         console.log("status 1:" + status);
         console.log("total:" + status[2])
     }).then(function (response) {
-        console.log(".then for chartStatus")
-    }).catch(function (error) {
+        console.log(".then for chartStatus 1")
+    })
+    .catch(function (error) {
         console.log(error);
     });
 
