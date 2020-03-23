@@ -71,8 +71,6 @@ class vrp extends Component {
     })
     .catch(console.log)
   }
-<<<<<<< HEAD
-=======
   componentDidUpdate(prevProps, prevState) {
 
     if (prevState.postD !== this.state.postD) {
@@ -88,7 +86,6 @@ class vrp extends Component {
       })
   }
 }
->>>>>>> master
 
   render() {
     const {apiData} = this.state;
