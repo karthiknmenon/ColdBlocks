@@ -5,7 +5,7 @@ import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
-
+import { nodeURL } from "variables/Variables.jsx";
 class ConsumerList extends Component {
   constructor() {
     super()
@@ -39,7 +39,7 @@ class ConsumerList extends Component {
     // console.log("user "+user.cId);
     // console.log("user "+user.cName);
     
-    await axios.post(`http://localhost:4000/api/CreateConsumer`, 
+    await axios.post(nodeURL+`/api/CreateConsumer`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -59,7 +59,7 @@ class ConsumerList extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListConsumers')
+    fetch(nodeURL+'/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })
@@ -72,7 +72,7 @@ class ConsumerList extends Component {
     if (prevState.postD !== this.state.postD) {
       console.log("before new fetch"+JSON.stringify(this.state.apiData))
       console.log('postD state has changed. (inside didUpdate now)'+this.state.postD);
-      axios.get(`https://localhost:4000/api/ListConsumers`)
+      axios.get(nodeURL+`/api/ListConsumers`)
       .then(res => {
         console.log(JSON.stringify(res.data))
         const fetchData = JSON.stringify(res.data);
@@ -112,7 +112,8 @@ class ConsumerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer ID",
                           onChange:this.idChange,
-                          name: "cId"
+                          name: "cId",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -120,7 +121,8 @@ class ConsumerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer Name",
                           onChange:this.nameChange,
-                          name: "cName"
+                          name: "cName",
+                          required : true
                         }
                       ]}
                     />       

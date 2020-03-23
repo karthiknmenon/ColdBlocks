@@ -5,6 +5,7 @@ import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
+import { nodeURL } from "variables/Variables.jsx";
 
 
 class vrp extends Component {
@@ -40,7 +41,7 @@ class vrp extends Component {
     // console.log("user "+user.cId);
     // console.log("user "+user.cName);
     
-    await axios.post(`http://localhost:4000/api/CreateConsumer`, 
+    await axios.post(nodeURL+`/api/CreateConsumer`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -70,6 +71,24 @@ class vrp extends Component {
     })
     .catch(console.log)
   }
+<<<<<<< HEAD
+=======
+  componentDidUpdate(prevProps, prevState) {
+
+    if (prevState.postD !== this.state.postD) {
+      console.log("before new fetch"+JSON.stringify(this.state.apiData))
+      console.log('postD state has changed. (inside didUpdate now)'+this.state.postD);
+      axios.get(nodeURL+`/api/ListConsumers`)
+      .then(res => {
+        console.log(JSON.stringify(res.data))
+        const fetchData = JSON.stringify(res.data);
+        this.setState({
+          apiData : fetchData
+        })
+      })
+  }
+}
+>>>>>>> master
 
   render() {
     const {apiData} = this.state;

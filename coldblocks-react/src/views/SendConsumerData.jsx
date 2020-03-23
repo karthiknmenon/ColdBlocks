@@ -8,7 +8,7 @@ import axios from 'axios';
 import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-
+import { nodeURL } from "variables/Variables.jsx";
  
 class SendConsumerData extends Component {
   state = {
@@ -40,7 +40,7 @@ class SendConsumerData extends Component {
     console.log("user "+user.cID);
     console.log("user "+user.cName);
     
-    axios.post(`http://localhost:4000/api/CreateConsumer`, 
+    axios.post(nodeURL+`/api/CreateConsumer`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -85,7 +85,8 @@ class SendConsumerData extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer ID",
                           onChange:this.idChange,
-                          name: "cID"
+                          name: "cID",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -93,7 +94,8 @@ class SendConsumerData extends Component {
                           bsClass: "form-control",
                           placeholder: "Consumer Name",
                           onChange:this.nameChange,
-                          name: "cName"
+                          name: "cName",
+                          required : true
                         }
                       ]}
                     />       

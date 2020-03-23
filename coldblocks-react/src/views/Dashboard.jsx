@@ -7,6 +7,8 @@ import UserCard from "../components/UserCard/UserCard";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "../assets/img/faces/face-0.jpg";
+import { reactURL, nodeURL } from "variables/Variables.jsx";
+// import Modal from '../SSComponents/Modal';
 
 class Dashboard extends Component {
   constructor(){
@@ -23,15 +25,32 @@ class Dashboard extends Component {
   componentDidMount() {
     const tokenD = localStorage.getItem('token');
     if(tokenD=="false"){
-      window.location = "http://localhost:3001"
+      window.location = reactURL;
     }
     const userN = localStorage.getItem('username');
     const userD = localStorage.getItem('password');
     this.setState({userName:userN,userId: userD});
-    fetch('http://localhost:4000/api/ListPackages')
+    fetch(nodeURL+'/api/ListPackages')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ apiData: data })
+      var JSONdata = JSON.stringify(data);
+      var length = data.length;
+      console.log(length)
+      var i = 0;
+      while(i<length){
+        if(data[i].status==0){
+            data[i].status="Tampered";
+          // console.log("inside while status: 0")          
+        }
+        else{
+          data[i].status="Ok";
+        }
+        i+=1;
+      }
+      // console.log("data"+(data[0]))
+      this.setState({ apiData: data }, ()=>{
+        console.log("callback for setState");
+      })
       // console.log(data);
     })
     .catch(console.log)
@@ -51,16 +70,24 @@ class Dashboard extends Component {
     };
     console.log("user "+user.packageId);
     
-    axios.get(`http://localhost:4000/api/ListPackagesById?packageId=`+user.packageId+'', 
+    axios.get(nodeURL+`/api/ListPackagesById?packageId=`+user.packageId+'', 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
               'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
     )
     .then(res => {
-      console.log(res);
+      console.log(res.data[0]["status"]);
+      if(res.data[0]["status"]==0){
+          var statusText = "Tampered"
+      }
+      if(res.data[0]["status"]==1){
+          var statusText = "Ok"
+      }
       this.setState({
-                  packageStatus: res.data[0]["status"]
+                  packageStatus: statusText
+      },()=>{
+        console.log("set status for get package by ID: "+this.state.packageStatus)
       })
       console.log("packageStatus: "+this.state.packageStatus);
     })
@@ -68,12 +95,34 @@ class Dashboard extends Component {
       console.log(error);
     })
   }
+  // For Modal
+  // displayModal = () => {
+  //   this.setState({
+  //     showModal: 1
+  //   })
+  // }
+
+  // handleClose = () => {
+  //   this.setState({
+  //     showModal: 0
+  //   })
+  // }
   render() {
     const {apiData} = this.state;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
+                {/* <Modal
+                          // size={isSmall}
+                          show={this.state.showModal}
+                          header={"hey"}
+                          hideCloseButton={false}
+                          hasFooter={true}
+                          submitText={"Submit"}
+                          close={() => this.handleClose()}
+                        >
+                  </Modal> */}
             <Col md={6}>
                   <UserCard
                     bgImage="https://images.unsplash.com/photo-1548695607-9c73430ba065?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1484&q=80"
@@ -90,7 +139,7 @@ class Dashboard extends Component {
                 <Col lg={6}>
                 <Card
                     title="Package Status"
-                    category="Query Status of a Package by its ID"                
+                    category="Query Status of a Package by its packageID"                
                     content={
                       <>
                       <p className="text-muted">The status of package is: {this.state.packageStatus}</p>
@@ -113,10 +162,14 @@ class Dashboard extends Component {
                             bsClass: "form-control",
                             placeholder: "Enter Package ID",
                             onChange:this.idChange,
-                            name: "cName"
+                            name: "cName",
+                            required : true
                           }
                         ]}
                       />       
+                      {/* <Button bsStyle="success" pullRight fill type="submit" onClick={() => this.displayModal()}>
+                        Submit
+                      </Button> */}
                       <Button bsStyle="success" pullRight fill type="submit">
                         Submit
                       </Button>
@@ -132,7 +185,7 @@ class Dashboard extends Component {
                 <Col lg={12}>
                 <Card
                     title="Package Data"
-                    category="Data about all Transit Packages. Status `0` means the product is tampered and a status of `1` means the product is not tampered."
+                    category="The table below lists all packages along with basic package data such as Package ID and Package Status."
                     ctTableFullWidth
                     ctTableResponsive
                     content={

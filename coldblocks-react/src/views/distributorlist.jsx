@@ -5,7 +5,7 @@ import Card from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
-
+import { nodeURL } from "variables/Variables.jsx";
 
 class DistributorList extends Component {
   constructor() {
@@ -42,7 +42,7 @@ class DistributorList extends Component {
     console.log("user "+user.dId);
     console.log("user "+user.dName);
     
-    axios.post(`http://localhost:4000/api/CreateDistribtuor`, 
+    axios.post(nodeURL+`/api/CreateDistribtuor`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -59,7 +59,7 @@ class DistributorList extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListDistributors')
+    fetch(nodeURL+'/api/ListDistributors')
     .then(res => res.json())
     .then((data) => {
       console.log(data);
@@ -70,7 +70,7 @@ class DistributorList extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.postD !== this.state.postD) {
       console.log('postD state has changed.');
-      fetch('http://localhost:4000/api/ListDistributors')
+      fetch(nodeURL+'/api/ListDistributors')
       .then(res => res.json())
       .then((data) => {
         this.setState({ apiData: data },
@@ -111,7 +111,8 @@ class DistributorList extends Component {
                           bsClass: "form-control",
                           placeholder: "Distributor ID",
                           onChange:this.idChange,
-                          name: "dId"
+                          name: "dId",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -119,7 +120,8 @@ class DistributorList extends Component {
                           bsClass: "form-control",
                           placeholder: "Distributor Name",
                           onChange:this.nameChange,
-                          name: "dName"
+                          name: "dName",
+                          required : true
                         }
                       ]}
                     />       

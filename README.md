@@ -12,6 +12,15 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     Route Optimization based on __CVRP__ is implemented using Python and op-2 algorithm.
 * __Progressive Web App__ using angularJS and reactJS for admin and other actors of the use case.
 * __Android App__ for QR-Code scanning.
+
+
+
+## Hardware Requirements
+* nodeMCU ESP8266 Module for Wifi Connectivity
+* DHT22 Temperature Sensor for gathering Temperature Data
+* U-Blox Neo 6M for gathering GPS Data
+* Breadboard, basic connection wires 
+## Software Requirements
 ### &nbsp;&nbsp;&nbsp;&nbsp;1. Blockchain 
 * Version Specifications
     * Hyperledger Composer v0.20.9
@@ -32,7 +41,14 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
 ### &nbsp;&nbsp;&nbsp;&nbsp;3. Front-End Application 
 * PWA using angularJS for admin-UI and reactJS for user-UI
 ### &nbsp;&nbsp;&nbsp;&nbsp;4. Route Optimization 
-* Route optimization using op-2 algorithm implemented using Python
+* Route optimization is done using an op-2 algorithm which is  implemented using Python
+* The data is then hosted on a port in the machine using Flask
+* Version Requirements
+    * Python Version - v3.5.6
+    * pip3 Version - v20.0.2 
+    * Flask Version - v1.1.1
+    * Google ortools
+
 ### &nbsp;&nbsp;&nbsp;&nbsp;5. AR for Status Check
 * AR.js
 * three.js

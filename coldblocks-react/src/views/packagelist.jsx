@@ -5,6 +5,7 @@ import Card from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
+import { nodeURL } from "variables/Variables.jsx";
 
 class PackageList extends Component {
   constructor() {
@@ -46,7 +47,7 @@ class PackageList extends Component {
     // console.log("package "+package.cId);
     // console.log("package "+package.cName);
     
-    await axios.post(`http://localhost:4000/api/CreateTransitPackage`, 
+    await axios.post(nodeURL+`/api/CreateTransitPackage`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -66,9 +67,23 @@ class PackageList extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListPackages')
+    fetch(nodeURL+'/api/ListPackages')
     .then(res => res.json())
     .then((data) => {
+      var JSONdata = JSON.stringify(data);
+      var length = data.length;
+      console.log(length)
+      var i = 0;
+      while(i<length){
+        if(data[i].status==0){
+            data[i].status="Tampered";
+          // console.log("inside while status: 0")          
+        }
+        else{
+          data[i].status="Ok";
+        }
+        i+=1;
+      }
       this.setState({ apiData: data })
       console.log(data);
     })
@@ -102,7 +117,8 @@ class PackageList extends Component {
                           bsClass: "form-control",
                           placeholder: "Enter Package ID",  
                           onChange:this.idChange,
-                          name: "packageId"                    
+                          name: "packageId",
+                          required : true                    
                         },
                         {
                           label: "Destination",
@@ -110,7 +126,8 @@ class PackageList extends Component {
                           bsClass: "form-control",
                           placeholder: "Enter Final Destination",
                           onChange:this.destinationChange,
-                          name: "packageDestination"
+                          name: "packageDestination",
+                          required : true
                         },
                         {
                           label: "Holder",
@@ -118,7 +135,8 @@ class PackageList extends Component {
                           bsClass: "form-control",
                           placeholder: "Enter First Holder",
                           onChange:this.holderChange,
-                          name: "packageHolder"
+                          name: "packageHolder",
+                          required : true
                         }
                       ]}
                     />       

@@ -5,6 +5,7 @@ import Card from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
+import { nodeURL } from "variables/Variables.jsx";
 
 class ManufacturerList extends Component {
   constructor() {
@@ -41,7 +42,7 @@ class ManufacturerList extends Component {
     console.log("user "+user.mId);
     console.log("user "+user.mName);
     
-    axios.post(`http://localhost:4000/api/CreateManufacturer`, 
+    axios.post(nodeURL+`/api/CreateManufacturer`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -58,7 +59,7 @@ class ManufacturerList extends Component {
   }
   componentDidMount() {
     // console.log("hi");
-    fetch('http://localhost:4000/api/ListManufacturers')
+    fetch(nodeURL+'/api/ListManufacturers')
     .then(res => res.json())
     .then((data) => {
       this.setState({ apiData: data })
@@ -96,7 +97,8 @@ class ManufacturerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Manufacturer ID",
                           onChange:this.idChange,
-                          name: "mId"
+                          name: "mId",
+                          required : true
                         },
                         {
                           label: "Name",
@@ -104,7 +106,8 @@ class ManufacturerList extends Component {
                           bsClass: "form-control",
                           placeholder: "Manufacturer Name",
                           onChange:this.nameChange,
-                          name: "mName"
+                          name: "mName",
+                          required : true
                         }
                       ]}
                     />       
