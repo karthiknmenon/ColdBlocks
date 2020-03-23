@@ -91,6 +91,10 @@ app.get('/api/ListTransactions', (req, res) => {
 
     axios.get(restUrl + 'api/system/historian').then(function (response) {
         jsonResponse = response.data;
+        // console.log(response.data[0].transactionTimestamp)
+        // let x = response.data.sort(function(a, b){
+        //     return a.transactionTimestamp - b.transactionTimestamp;            
+        // });
         res.send(response.data);
     }).then(function (response) {
         // res.send(jsonResponse[0]['consumerID']);
