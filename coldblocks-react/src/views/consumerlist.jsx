@@ -17,7 +17,7 @@ class ConsumerList extends Component {
       cId: '',
       postD: 0
     }
-     // this.handleShow = this.handleShow.bind(this);
+    // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 		this.fHandleClose = this.fHandleClose.bind(this);
 		this.state = {
@@ -114,16 +114,15 @@ class ConsumerList extends Component {
   handleClose() {
     this.setState({ show: false });
     this.fetchData();
-    // window.location.reload();
 	}
   fHandleClose() {
     this.setState({ fShow: false });
     this.fetchData();
 	}
-
 	// handleShow() {
 	// 	this.setState({ show: true });
-	// }
+  // }
+  
   render() {
     const {apiData} = this.state;
     var Modal = ReactBootstrap.Modal;
