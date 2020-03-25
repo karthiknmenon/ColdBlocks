@@ -8,8 +8,6 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "../assets/img/faces/face-0.jpg";
 import { reactURL, nodeURL } from "variables/Variables.jsx";
-import * as ReactBootstrap from 'react-bootstrap';
-import 'remixicon/fonts/remixicon.css'
 // import Modal from '../SSComponents/Modal';
 
 class Dashboard extends Component {
@@ -25,12 +23,6 @@ class Dashboard extends Component {
       userName:'',
       userId:'',
     }
-    this.handleShow = this.handleShow.bind(this);
-		this.handleClose = this.handleClose.bind(this);
-
-		this.state = {
-			show: false,
-		};
   }
   componentDidMount() {
     const tokenD = localStorage.getItem('token');
@@ -105,41 +97,12 @@ class Dashboard extends Component {
       console.log(error);
     })
   }
-
-	handleClose() {
-		this.setState({ show: false });
-	}
-
-	handleShow() {
-		this.setState({ show: true });
-	}
   
   render() {
     const {apiData} = this.state;
-    var Modal = ReactBootstrap.Modal;
-    
     return (
       <div className="content">
         <Grid fluid>
-            <Modal show={this.state.show} onHide={this.handleClose}
-              {...this.props}
-              size="lg"
-              aria-labelledby="contained-modal-title-vcenter"
-              centered
-            >
-                <Modal.Header closeButton>
-                  <Modal.Title id="contained-modal-title-vcenter">Transaction Success</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="text-center">
-                  <i className="ri-emotion-laugh-line ri-10x text-success"></i>
-                  <p className="text-success">Transaction Was Completed Successfully</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose}>
-                      Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
           <Row>
             <Col md={6}>
                   <UserCard
@@ -188,7 +151,7 @@ class Dashboard extends Component {
                       {/* <Button bsStyle="success" pullRight fill type="submit" onClick={() => this.displayModal()}>
                         Submit
                       </Button> */}
-                      <Button bsStyle="success" pullRight fill type="submit" onClick={this.handleShow}>
+                      <Button bsStyle="success" pullRight fill type="submit">
                         Submit
                       </Button>
                       
