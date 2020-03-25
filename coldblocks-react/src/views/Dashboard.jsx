@@ -8,9 +8,13 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "../assets/img/faces/face-0.jpg";
 import { reactURL, nodeURL } from "variables/Variables.jsx";
+import * as ReactBootstrap from 'react-bootstrap';
+import 'remixicon/fonts/remixicon.css'
 // import Modal from '../SSComponents/Modal';
 
 class Dashboard extends Component {
+
+
   constructor(){
     super()
     this.state = {
@@ -19,8 +23,14 @@ class Dashboard extends Component {
       packageId:{},
       packageStatus:'null',
       userName:'',
-      userId:''
+      userId:'',
     }
+    this.handleShow = this.handleShow.bind(this);
+		this.handleClose = this.handleClose.bind(this);
+
+		this.state = {
+			show: false,
+		};
   }
   componentDidMount() {
     const tokenD = localStorage.getItem('token');
@@ -95,34 +105,42 @@ class Dashboard extends Component {
       console.log(error);
     })
   }
-  // For Modal
-  // displayModal = () => {
-  //   this.setState({
-  //     showModal: 1
-  //   })
-  // }
 
-  // handleClose = () => {
-  //   this.setState({
-  //     showModal: 0
-  //   })
-  // }
+	handleClose() {
+		this.setState({ show: false });
+	}
+
+	handleShow() {
+		this.setState({ show: true });
+	}
+  
   render() {
     const {apiData} = this.state;
+    var Modal = ReactBootstrap.Modal;
+    
     return (
       <div className="content">
         <Grid fluid>
+            <Modal show={this.state.show} onHide={this.handleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+            >
+                <Modal.Header closeButton>
+                  <Modal.Title id="contained-modal-title-vcenter">Transaction Success</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="text-center">
+                  <i className="ri-emotion-laugh-line ri-10x text-success"></i>
+                  <p className="text-success">Transaction Was Completed Successfully</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={this.handleClose}>
+                      Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
           <Row>
-                {/* <Modal
-                          // size={isSmall}
-                          show={this.state.showModal}
-                          header={"hey"}
-                          hideCloseButton={false}
-                          hasFooter={true}
-                          submitText={"Submit"}
-                          close={() => this.handleClose()}
-                        >
-                  </Modal> */}
             <Col md={6}>
                   <UserCard
                     bgImage="https://images.unsplash.com/photo-1548695607-9c73430ba065?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1484&q=80"
@@ -170,7 +188,7 @@ class Dashboard extends Component {
                       {/* <Button bsStyle="success" pullRight fill type="submit" onClick={() => this.displayModal()}>
                         Submit
                       </Button> */}
-                      <Button bsStyle="success" pullRight fill type="submit">
+                      <Button bsStyle="success" pullRight fill type="submit" onClick={this.handleShow}>
                         Submit
                       </Button>
                       
