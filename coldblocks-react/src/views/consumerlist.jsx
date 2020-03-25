@@ -20,7 +20,8 @@ class ConsumerList extends Component {
      // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 		this.state = {
-			show: false,
+      show: false,
+      fShow: false
 		};
   }
   nameChange = event => {
@@ -45,12 +46,8 @@ class ConsumerList extends Component {
 
     // console.log("user "+user.cId);
     // console.log("user "+user.cName);
-    
-    this.setState({ show: true }, ()=>{
-      console.log("Set State for Show")
-    });  
-    
-    await axios.post(nodeURL+`/api/CreateConsumer`, 
+
+    axios.post(nodeURL+`/api/CreateConsumer`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -58,10 +55,21 @@ class ConsumerList extends Component {
     { data: user})
     .then(res => {
       // console.log(res);
-      console.log(".then for post"+res.data);  
+          console.log("from node"+res.data);
+          if(res.data=="success"){ 
+            this.setState({ show: true }, ()=>{
+            console.log("Set State for Show")
+            });  
+          }
+          else{
+            console.log("inside else");
+          }
     })
     .catch(function (error) {
-      console.log(error);
+      this.setState({ fShow: true }, ()=>{
+        console.log("Set State for Show")
+      });  
+      console.log("error from catch"+error);
     })    
     this.setState({postD:1},
       ()=>{
@@ -119,6 +127,25 @@ class ConsumerList extends Component {
           <Modal.Body className="text-center">
             <i className="ri-emotion-laugh-line ri-10x text-success"></i>
             <p className="text-success">Transaction Was Completed Successfully</p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.show} onHide={this.handleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Failed</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-unhappy-line ri-10x text-danger"></i>
+            <p className="text-danger">Transaction Failed</p>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={this.handleClose}>

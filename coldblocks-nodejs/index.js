@@ -193,6 +193,7 @@ app.post('/api/CreateConsumer', function (req, res) {
             return console.dir(error);
         }
         console.log("Success");
+        res.send("success")
         console.dir(JSON.parse(body));
     });
 })
