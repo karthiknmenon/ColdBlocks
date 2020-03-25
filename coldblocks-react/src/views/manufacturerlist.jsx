@@ -8,6 +8,7 @@ import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
 import * as ReactBootstrap from 'react-bootstrap';
 import 'remixicon/fonts/remixicon.css'
+
 class ManufacturerList extends Component {
   constructor() {
     super()
