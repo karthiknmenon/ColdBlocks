@@ -6,7 +6,8 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
-
+import * as ReactBootstrap from 'react-bootstrap';
+import 'remixicon/fonts/remixicon.css'
 class PackageList extends Component {
   constructor() {
     super()
@@ -16,6 +17,13 @@ class PackageList extends Component {
       packageHolder:'',
       packageId:''
     }
+    // this.handleShow = this.handleShow.bind(this);
+		this.handleClose = this.handleClose.bind(this);
+		this.fHandleClose = this.fHandleClose.bind(this);
+		this.state = {
+      show: false,
+      fShow: false
+		};
   }
   destinationChange = event => {
     console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
@@ -56,6 +64,16 @@ class PackageList extends Component {
     .then(res => {
       // console.log(res);
       console.log(".then for post"+res.data);  
+      if(res.data=="success"){ 
+        this.setState({ show: true }, ()=>{
+        console.log("Set State for Show")
+        });  
+      }
+      else{
+        this.setState({ fShow: true }, ()=>{
+          console.log("Set State for Show")
+        });  
+      }
     })
     .catch(function (error) {
       console.log(error);
@@ -63,7 +81,30 @@ class PackageList extends Component {
     this.setState({postD:1},
       ()=>{
         console.log("post callback called"+this.state.postD);
-      })   
+      })
+  }
+  fetchData(){
+    fetch(nodeURL+'/api/ListPackages')
+    .then(res => res.json())
+    .then((data) => {
+      var JSONdata = JSON.stringify(data);
+      var length = data.length;
+      console.log(length)
+      var i = 0;
+      while(i<length){
+        if(data[i].status==0){
+            data[i].status="Tampered";
+          // console.log("inside while status: 0")          
+        }
+        else{
+          data[i].status="Ok";
+        }
+        i+=1;
+      }
+      this.setState({ apiData: data })
+      console.log(data);
+    })
+    .catch(console.log)
   }
   componentDidMount() {
     // console.log("hi");
@@ -89,10 +130,61 @@ class PackageList extends Component {
     })
     .catch(console.log)
   }
+  handleClose() {
+    this.setState({ show: false });
+    this.fetchData();
+  }
+  fHandleClose() {
+    this.setState({ fShow: false });
+    this.fetchData();
+	}
+
+	// handleShow() {
+	// 	this.setState({ show: true });
+	// }
   render() {
     const {apiData} = this.state;
+    var Modal = ReactBootstrap.Modal;
     return (
       <div className="content">
+        <Modal show={this.state.show} onHide={this.handleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Success</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-laugh-line ri-10x text-success"></i>
+            <p className="text-success">Transaction Was Completed Successfully</p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+      </Modal>
+        <Modal show={this.state.fShow} onHide={this.fHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Failed</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-unhappy-line ri-10x text-danger"></i>
+            <p className="text-danger">Transaction Failed</p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+      </Modal>
         <Grid fluid>
         <Row>
             <Col md={12}>

@@ -11,6 +11,8 @@ import { reactURL, nodeURL } from "variables/Variables.jsx";
 // import Modal from '../SSComponents/Modal';
 
 class Dashboard extends Component {
+
+
   constructor(){
     super()
     this.state = {
@@ -19,7 +21,7 @@ class Dashboard extends Component {
       packageId:{},
       packageStatus:'null',
       userName:'',
-      userId:''
+      userId:'',
     }
   }
   componentDidMount() {
@@ -95,34 +97,13 @@ class Dashboard extends Component {
       console.log(error);
     })
   }
-  // For Modal
-  // displayModal = () => {
-  //   this.setState({
-  //     showModal: 1
-  //   })
-  // }
-
-  // handleClose = () => {
-  //   this.setState({
-  //     showModal: 0
-  //   })
-  // }
+  
   render() {
     const {apiData} = this.state;
     return (
       <div className="content">
         <Grid fluid>
           <Row>
-                {/* <Modal
-                          // size={isSmall}
-                          show={this.state.showModal}
-                          header={"hey"}
-                          hideCloseButton={false}
-                          hasFooter={true}
-                          submitText={"Submit"}
-                          close={() => this.handleClose()}
-                        >
-                  </Modal> */}
             <Col md={6}>
                   <UserCard
                     bgImage="https://images.unsplash.com/photo-1548695607-9c73430ba065?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1484&q=80"
