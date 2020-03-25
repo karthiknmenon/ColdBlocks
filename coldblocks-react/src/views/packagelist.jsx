@@ -19,8 +19,10 @@ class PackageList extends Component {
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
+		this.fHandleClose = this.fHandleClose.bind(this);
 		this.state = {
-			show: false,
+      show: false,
+      fShow: false
 		};
   }
   destinationChange = event => {
@@ -50,10 +52,6 @@ class PackageList extends Component {
       packageLocation: "undefined"
     };
 
-    this.setState({ show: true }, ()=>{
-      console.log("Set State for Show")
-    });  
-
     // console.log("package "+package.cId);
     // console.log("package "+package.cName);
     
@@ -66,6 +64,16 @@ class PackageList extends Component {
     .then(res => {
       // console.log(res);
       console.log(".then for post"+res.data);  
+      if(res.data=="success"){ 
+        this.setState({ show: true }, ()=>{
+        console.log("Set State for Show")
+        });  
+      }
+      else{
+        this.setState({ fShow: true }, ()=>{
+          console.log("Set State for Show")
+        });  
+      }
     })
     .catch(function (error) {
       console.log(error);
@@ -74,7 +82,29 @@ class PackageList extends Component {
       ()=>{
         console.log("post callback called"+this.state.postD);
       })
- 
+  }
+  fetchData(){
+    fetch(nodeURL+'/api/ListPackages')
+    .then(res => res.json())
+    .then((data) => {
+      var JSONdata = JSON.stringify(data);
+      var length = data.length;
+      console.log(length)
+      var i = 0;
+      while(i<length){
+        if(data[i].status==0){
+            data[i].status="Tampered";
+          // console.log("inside while status: 0")          
+        }
+        else{
+          data[i].status="Ok";
+        }
+        i+=1;
+      }
+      this.setState({ apiData: data })
+      console.log(data);
+    })
+    .catch(console.log)
   }
   componentDidMount() {
     // console.log("hi");
@@ -102,7 +132,11 @@ class PackageList extends Component {
   }
   handleClose() {
     this.setState({ show: false });
-    window.location.reload();
+    this.fetchData();
+  }
+  fHandleClose() {
+    this.setState({ fShow: false });
+    this.fetchData();
 	}
 
 	// handleShow() {
@@ -125,6 +159,25 @@ class PackageList extends Component {
           <Modal.Body className="text-center">
             <i className="ri-emotion-laugh-line ri-10x text-success"></i>
             <p className="text-success">Transaction Was Completed Successfully</p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+      </Modal>
+        <Modal show={this.state.fShow} onHide={this.fHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Failed</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-unhappy-line ri-10x text-danger"></i>
+            <p className="text-danger">Transaction Failed</p>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={this.handleClose}>
