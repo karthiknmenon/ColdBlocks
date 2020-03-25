@@ -289,9 +289,15 @@ app.post('/api/CreateDistribtuor', function (req, res) {
     }, (error, response, body) => {
         if (error) {
             return console.dir(error);
+        } else {
+            if (JSON.parse(body).hasOwnProperty('error')) {
+                res.send("error")
+            } else {
+                console.log("Success");
+                res.send("success")
+                console.dir(JSON.parse(body));
+            }
         }
-        console.log("Success");
-        console.dir(JSON.parse(body));
     });
 })
 
