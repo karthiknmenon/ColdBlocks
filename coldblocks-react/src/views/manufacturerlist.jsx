@@ -6,7 +6,8 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
-
+import * as ReactBootstrap from 'react-bootstrap';
+import 'remixicon/fonts/remixicon.css'
 class ManufacturerList extends Component {
   constructor() {
     super()
@@ -15,6 +16,11 @@ class ManufacturerList extends Component {
       mId:{},
       mName:{}
     }
+    // this.handleShow = this.handleShow.bind(this);
+		this.handleClose = this.handleClose.bind(this);
+		this.state = {
+			show: false,
+		};
   }
 
   nameChange = event => {
@@ -33,14 +39,19 @@ class ManufacturerList extends Component {
   handleSubmit = event => {
     event.preventDefault();
     
-    console.log("state "+this.state.mId);
-    console.log("state "+this.state.mName);
+    // console.log("state "+this.state.mId);
+    // console.log("state "+this.state.mName);
     const user = {
       mId: String(this.state.mId),
       mName: String(this.state.mName)
     };
-    console.log("user "+user.mId);
-    console.log("user "+user.mName);
+    // console.log("user "+user.mId);
+    // console.log("user "+user.mName);
+
+    this.setState({ show: true }, ()=>{
+      console.log("Set State for Show")
+    });  
+
     
     axios.post(nodeURL+`/api/CreateManufacturer`, 
     { headers: {
@@ -67,11 +78,38 @@ class ManufacturerList extends Component {
     })
     .catch(console.log)
   }
+  handleClose() {
+    this.setState({ show: false });
+    window.location.reload();
+	}
 
+	// handleShow() {
+	// 	this.setState({ show: true });
+	// }
   render() {
     const {apiData} = this.state;
+    var Modal = ReactBootstrap.Modal;
     return (
         <div className="content">
+          <Modal show={this.state.show} onHide={this.handleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Success</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-laugh-line ri-10x text-success"></i>
+            <p className="text-success">Transaction Was Completed Successfully</p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
           <Grid fluid>
             <Row>
             <Col md={12}>
