@@ -69,7 +69,7 @@ const restUrl = 'http://localhost:3000/';
 function sendWhatsapp(packageID, temp, gpsLocation) {
     client.messages.create({
         from: 'whatsapp:+14155238886',
-        body: 'Your package with package ID: '+packageID+' is at location: ' + gpsLocation + ' and at temperature: ' + temp + '.',
+        body: 'Your package with package ID: ' + packageID + ' is at location: ' + gpsLocation + ' and at temperature: ' + temp + '.',
         to: 'whatsapp:+919586976787'
     }).then(message => console.log(message.sid));
 }
@@ -190,11 +190,16 @@ app.post('/api/CreateConsumer', function (req, res) {
         })
     }, (error, response, body) => {
         if (error) {
-            return console.dir(error);
+            console.dir("error from nodejs" + error);
+        } else {
+            if (JSON.parse(body).hasOwnProperty('error')) {
+                res.send("error")
+            } else {
+                console.log("Success");
+                res.send("success")
+                console.dir(JSON.parse(body));
+            }
         }
-        console.log("Success");
-        res.send("success")
-        console.dir(JSON.parse(body));
     });
 })
 
@@ -822,16 +827,16 @@ app.post('/tempData', function (req, res) {
 // Timed Updates for package using PUT 
 app.post('/updatePackageDetails', function (req, res) {
     // AES-256 bit encryption
-    
+
     var key = 'my passphrase';
 
     // add Temperature, packageID and gpsLocation to plaintext being encrypted
-    
+
     var plaintext = String(req.body.Temperature);
 
     plaintext += ", " + req.body.packageID;
     plaintext += ", " + gpsLocation;
-    
+
     // encrypted and decrypted text
 
     var encrypted = aes256.encrypt(key, plaintext);
@@ -1083,18 +1088,18 @@ app.get("/api/chartStatus", (req, res) => {
         console.log(error);
     });
     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
-        jsonResponse = response.data;
-        // status[2] += jsonResponse.length;
-        // status.push(jsonResponse.length);
-        status[1] = jsonResponse.length;
-        console.log("status 1:" + status);
-        console.log("total:" + status[2])
-    }).then(function (response) {
-        console.log(".then for chartStatus 1")
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+            jsonResponse = response.data;
+            // status[2] += jsonResponse.length;
+            // status.push(jsonResponse.length);
+            status[1] = jsonResponse.length;
+            console.log("status 1:" + status);
+            console.log("total:" + status[2])
+        }).then(function (response) {
+            console.log(".then for chartStatus 1")
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
 
 })

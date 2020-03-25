@@ -19,6 +19,7 @@ class ConsumerList extends Component {
     }
      // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
+		this.fHandleClose = this.fHandleClose.bind(this);
 		this.state = {
       show: false,
       fShow: false
@@ -62,19 +63,27 @@ class ConsumerList extends Component {
             });  
           }
           else{
-            console.log("inside else");
+            this.setState({ fShow: true }, ()=>{
+              console.log("Set State for Show")
+            });  
           }
     })
     .catch(function (error) {
-      this.setState({ fShow: true }, ()=>{
-        console.log("Set State for Show")
-      });  
       console.log("error from catch"+error);
     })    
     this.setState({postD:1},
       ()=>{
         console.log("post callback called"+this.state.postD);
       })   
+  }
+  fetchData(){
+    fetch(nodeURL+'/api/ListConsumers')
+    .then(res => res.json())
+    .then((data) => {
+      this.setState({ apiData: data })
+      // console.log(data);
+    })
+    .catch(console.log)
   }
   componentDidMount() {
     // console.log("hi");
@@ -104,7 +113,12 @@ class ConsumerList extends Component {
 
   handleClose() {
     this.setState({ show: false });
-    window.location.reload();
+    this.fetchData();
+    // window.location.reload();
+	}
+  fHandleClose() {
+    this.setState({ fShow: false });
+    this.fetchData();
 	}
 
 	// handleShow() {
@@ -134,7 +148,7 @@ class ConsumerList extends Component {
               </Button>
           </Modal.Footer>
         </Modal>
-        <Modal show={this.state.show} onHide={this.handleClose}
+        <Modal show={this.state.fShow} onHide={this.fHandleClose}
               {...this.props}
               size="lg"
               aria-labelledby="contained-modal-title-vcenter"
