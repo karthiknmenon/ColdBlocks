@@ -10,6 +10,7 @@ import {
   GoogleMap,
   Marker
 } from "react-google-maps";
+// key = AIzaSyCTkzOzDdOn1vBbnVvLcf9WYuiypjtFO08
 
 const CustomMap = withScriptjs(
   withGoogleMap(props => (
