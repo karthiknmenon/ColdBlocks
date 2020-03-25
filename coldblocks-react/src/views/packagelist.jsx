@@ -19,7 +19,6 @@ class PackageList extends Component {
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
-
 		this.state = {
 			show: false,
 		};
