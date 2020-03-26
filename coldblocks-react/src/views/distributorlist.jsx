@@ -8,7 +8,8 @@ import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
 import * as ReactBootstrap from 'react-bootstrap';
 import 'remixicon/fonts/remixicon.css'
-
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 class DistributorList extends Component {
   constructor() {
     super()
@@ -16,7 +17,8 @@ class DistributorList extends Component {
       apiData:{},
       dName: '',
       dId: '',
-      postD: 0
+      postD: 0,
+      loading:true
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
@@ -50,7 +52,10 @@ class DistributorList extends Component {
     };
     // console.log("user "+user.dId);
     // console.log("user "+user.dName);
-    
+    this.setState({loading: true}, ()=>{
+      console.log("loader until fetch new data")
+    })
+
     axios.post(nodeURL+`/api/CreateDistribtuor`, 
     { headers: {
               "Content-Type": "application/json",
@@ -79,7 +84,7 @@ class DistributorList extends Component {
     fetch(nodeURL+'/api/ListDistributors')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ apiData: data })
+      this.setState({loading: false, apiData: data })
       // console.log(data);
     })
     .catch(console.log)
@@ -90,7 +95,7 @@ class DistributorList extends Component {
     .then(res => res.json())
     .then((data) => {
       console.log(data);
-      this.setState({ apiData: data })
+      this.setState({loading: false, apiData: data })
     })
     .catch(console.log)
   }
@@ -222,29 +227,43 @@ class DistributorList extends Component {
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th>Distributor ID</th>
-                        <th>
-                          Distributor Name
-                        </th>
-                      </tr>
+                  <>
+                  {/* use boolean logic for loader or data */}
+                    {
+                      this.state.loading ? <Loader
+                      className="text-center"
+                      type="Rings"
+                      color="#757575"
+                      height={100}
+                      width={100}
+                      //3 secs
+          
+                    /> : <Table striped hover>
+                            <thead>
+                              <tr>
+                                <th>Distributor ID</th>
+                                <th>
+                                  Distributor Name
+                                </th>
+                              </tr>
 
-                    </thead>
-                    <tbody>                     
-                      {Array.isArray(apiData) && apiData.map(object => (
-                        <>
-                          <tr>
-                            <td>{object.distributorID}</td>
-                            <td>{object.distributorName}</td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </Table>
+                            </thead>
+                            <tbody>                     
+                              {Array.isArray(apiData) && apiData.map(object => (
+                                <>
+                                  <tr>
+                                    <td>{object.distributorID}</td>
+                                    <td>{object.distributorName}</td>
+                                  </tr>
+                                </>
+                              ))}
+                            </tbody>
+                         </Table>
+                    } 
+                </>
                 }
               />
+              
             </Col>
           </Row>
         </Grid>
