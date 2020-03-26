@@ -8,6 +8,8 @@ import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
 import * as ReactBootstrap from 'react-bootstrap';
 import 'remixicon/fonts/remixicon.css'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 class PackageList extends Component {
   constructor() {
     super()
@@ -15,7 +17,8 @@ class PackageList extends Component {
       apiData:{},
       packageDestination:'',
       packageHolder:'',
-      packageId:''
+      packageId:'',
+      loading:true
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
@@ -54,7 +57,10 @@ class PackageList extends Component {
 
     // console.log("package "+package.cId);
     // console.log("package "+package.cName);
-    
+    this.setState({loading: true}, ()=>{
+      console.log("loader until fetch new data")
+    })
+
     await axios.post(nodeURL+`/api/CreateTransitPackage`, 
     { headers: {
               "Content-Type": "application/json",
@@ -101,7 +107,7 @@ class PackageList extends Component {
         }
         i+=1;
       }
-      this.setState({ apiData: data })
+      this.setState({loading: false, apiData: data })
       console.log(data);
     })
     .catch(console.log)
@@ -125,7 +131,7 @@ class PackageList extends Component {
         }
         i+=1;
       }
-      this.setState({ apiData: data })
+      this.setState({loading: false, apiData: data })
       console.log(data);
     })
     .catch(console.log)
@@ -249,7 +255,18 @@ class PackageList extends Component {
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
+                  <>
+                  {/* use boolean logic for loader or data */}
+                    {
+                      this.state.loading ? <Loader
+                      className="text-center"
+                      type="Rings"
+                      color="#757575"
+                      height={100}
+                      width={100}
+                      //3 secs
+          
+                    /> : <Table striped hover>
                     <thead>
                       <tr>
                         <th>Package ID</th>
@@ -286,6 +303,8 @@ class PackageList extends Component {
                       ))}
                     </tbody>
                   </Table>
+                }
+                </>
                 }
               />
             </Col>
