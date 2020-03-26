@@ -8,6 +8,8 @@ import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
 import * as ReactBootstrap from 'react-bootstrap';
 import 'remixicon/fonts/remixicon.css'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 class ConsumerList extends Component {
   constructor() {
     super()
@@ -15,7 +17,8 @@ class ConsumerList extends Component {
       apiData:{},
       cName: '',
       cId: '',
-      postD: 0
+      postD: 0,
+      loading:true
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
@@ -47,7 +50,9 @@ class ConsumerList extends Component {
 
     // console.log("user "+user.cId);
     // console.log("user "+user.cName);
-
+    this.setState({loading: true}, ()=>{
+      console.log("loader until fetch new data")
+    })
     axios.post(nodeURL+`/api/CreateConsumer`, 
     { headers: {
               "Content-Type": "application/json",
@@ -80,7 +85,7 @@ class ConsumerList extends Component {
     fetch(nodeURL+'/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ apiData: data })
+      this.setState({ loading: false, apiData: data })
       // console.log(data);
     })
     .catch(console.log)
@@ -90,7 +95,7 @@ class ConsumerList extends Component {
     fetch(nodeURL+'/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ apiData: data })
+      this.setState({ loading: false,apiData: data })
       // console.log(data);
     })
     .catch(console.log)
@@ -216,33 +221,47 @@ class ConsumerList extends Component {
           </Row>
           <Row>
             <Col md={12}>
+              
               <Card
                 title="Consumer Details"
                 category="Consumer Details with ID and Name"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th>Consumer ID</th>
-                        <th>
-                          Consumer Name
-                        </th>
-                      </tr>
+                  <>
+                  {/* use boolean logic for loader or data */}
+                    {this.state.loading ? <Loader
+                    className="text-center"
+                    type="Rings"
+                    color="#757575"
+                    height={100}
+                    width={100}
+                    //3 secs
+          
+                    /> : <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>Consumer ID</th>
+                          <th>
+                            Consumer Name
+                          </th>
+                        </tr>
 
-                    </thead>
-                    <tbody>                     
-                      {Array.isArray(apiData) && apiData.map(object => (
-                        <>
-                          <tr>
-                            <td>{object.consumerID}</td>
-                            <td>{object.consumerName}</td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>                     
+                        {Array.isArray(apiData) && apiData.map(object => (
+                          <>
+                            <tr>
+                              <td>{object.consumerID}</td>
+                              <td>{object.consumerName}</td>
+                            </tr>
+                          </>
+                        ))}
+                      </tbody>
+                    </Table>
+                    }
+                  </>
+                  
                 }
               />
             </Col>
