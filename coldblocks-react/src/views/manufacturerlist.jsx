@@ -6,6 +6,8 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
+import * as ReactBootstrap from 'react-bootstrap';
+import 'remixicon/fonts/remixicon.css'
 
 class ManufacturerList extends Component {
   constructor() {
@@ -15,6 +17,13 @@ class ManufacturerList extends Component {
       mId:{},
       mName:{}
     }
+    // this.handleShow = this.handleShow.bind(this);
+		this.handleClose = this.handleClose.bind(this);
+		this.fHandleClose = this.fHandleClose.bind(this);
+		this.state = {
+      show: false,
+      fShow: false
+		};
   }
 
   nameChange = event => {
@@ -33,15 +42,15 @@ class ManufacturerList extends Component {
   handleSubmit = event => {
     event.preventDefault();
     
-    console.log("state "+this.state.mId);
-    console.log("state "+this.state.mName);
+    // console.log("state "+this.state.mId);
+    // console.log("state "+this.state.mName);
     const user = {
       mId: String(this.state.mId),
       mName: String(this.state.mName)
     };
-    console.log("user "+user.mId);
-    console.log("user "+user.mName);
-    
+    // console.log("user "+user.mId);
+    // console.log("user "+user.mName);
+
     axios.post(nodeURL+`/api/CreateManufacturer`, 
     { headers: {
               "Content-Type": "application/json",
@@ -49,13 +58,31 @@ class ManufacturerList extends Component {
               'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
     { data: user})
     .then(res => {
-      console.log(res);
       console.log(res.data);
+      if(res.data=="success"){ 
+        this.setState({ show: true }, ()=>{
+        console.log("Set State for Show")
+        });  
+      }
+      else{
+        this.setState({ fShow: true }, ()=>{
+          console.log("Set State for Show")
+        });  
+      }
     })
     .catch(function (error) {
       console.log(error);
     })
     
+  }
+  fetchData(){
+    fetch(nodeURL+'/api/ListManufacturers')
+    .then(res => res.json())
+    .then((data) => {
+      this.setState({ apiData: data })
+      // console.log(data);
+    })
+    .catch(console.log)
   }
   componentDidMount() {
     // console.log("hi");
@@ -67,11 +94,61 @@ class ManufacturerList extends Component {
     })
     .catch(console.log)
   }
-
+  handleClose() {
+    this.setState({ show: false });
+    this.fetchData();
+	}
+  fHandleClose() {
+    this.setState({ fShow: false });
+    this.fetchData();
+	}
+	// handleShow() {
+	// 	this.setState({ show: true });
+  // }
+  
   render() {
     const {apiData} = this.state;
+    var Modal = ReactBootstrap.Modal;
     return (
         <div className="content">
+          <Modal show={this.state.show} onHide={this.handleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Success</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-laugh-line ri-10x text-success"></i>
+            <p className="text-success">Transaction Was Completed Successfully</p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
+          <Modal show={this.state.fShow} onHide={this.fHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Failed</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-unhappy-line ri-10x text-danger"></i>
+            <p className="text-danger">Transaction Failed</p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
           <Grid fluid>
             <Row>
             <Col md={12}>
