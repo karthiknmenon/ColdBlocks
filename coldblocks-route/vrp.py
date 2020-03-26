@@ -6,6 +6,7 @@ from ortools.constraint_solver import pywrapcp
 from flask import jsonify, Flask, make_response,request, render_template
 from flask_restful import Resource, Api
 from flask_cors import CORS
+import json
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
@@ -43,12 +44,17 @@ def create_data_model():
 
 def print_solution(data, manager, routing, solution):
     global global_sol
+    global jsonData
+    global_sol = []
     """Prints solution on console."""
     total_distance = 0
     total_load = 0
     for vehicle_id in range(data['num_vehicles']):
+        jsonData = '{}'
+        jsonDataParsed = json.loads(jsonData)
         index = routing.Start(vehicle_id)
-        plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
+        # plan_output = 'Route for vehicle {}:'.format(vehicle_id)
+        plan_output = ''
         route_distance = 0
         route_load = 0
         while not routing.IsEnd(index):
@@ -61,16 +67,28 @@ def print_solution(data, manager, routing, solution):
             route_distance += routing.GetArcCostForVehicle(
                 previous_index, index, vehicle_id)
             
-        plan_output += ' {0} Load({1})\n'.format(manager.IndexToNode(index),
+        plan_output += ' {0} Load({1})'.format(manager.IndexToNode(index),
                                                 route_load)
-        global_sol.append(str(vehicle_id)+":"+plan_output)
-        plan_output += 'Distance of the route: {}m\n'.format(route_distance)
-        plan_output += 'Load of the route: {}\n'.format(route_load)
+        # print("test")
+        # print(plan_output)                               
+        sol_dict = {"route" : str(plan_output)}   
+        # print(sol_dict)
+        jsonDataParsed.update(sol_dict)  
+        # jsonData = json.dumps(jsonDataParsed)        
+        global_sol.append(jsonDataParsed)
+        print("JSON data")
+        print(jsonDataParsed)
+        print("global array")
+        print(global_sol)
+        # global_sol.append(str(vehicle_id)+":"+plan_output)
+        plan_output += 'Distance of the route: {}m'.format(route_distance)
+        plan_output += 'Load of the route: {}'.format(route_load)
         print(plan_output)
         total_distance += route_distance
         total_load += route_load
     print('Total distance of all routes: {}m'.format(total_distance))
     print('Total load of all routes: {}'.format(total_load))
+    
 
 
 def main():
@@ -130,11 +148,13 @@ def main():
 
 @app.route("/", methods=['POST', 'GET'])
 def get():
-        data = {
-                "data" : global_sol
-         }
         # print(data)
-        return make_response(data)
+        # sti = '\''+global_sol+'\''
+        # sti = str(global_sol)
+        # sti = '[{"$class":"org.coldblocks.mynetwork.TransitPackage","packageID":"H001","location":"Govt. Engineering College, Thrissur, Viyyur - Thanikkudam Road, Thrissur, Thanikkudam - 680009, Kerala, India","temperature":"32","destination":"RSET","holder":"S01","status":"0"},{"$class":"org.coldblocks.mynetwork.TransitPackage","packageID":"H002","location":"undefined","temperature":"undefined","destination":"RSET","holder":"S01","status":"1"}]'
+        ar = jsonify(global_sol)
+        return (ar)
+
 @app.route("/getVehicleData", methods=['POST','GET'])
 def post():
     
