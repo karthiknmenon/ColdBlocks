@@ -48,6 +48,7 @@ def create_data_model():
             696, 308, 992, 0
         ]
     ]
+    # data['num_vehicles'] = 1
     data['num_vehicles'] = 1
     data['depot'] = 0
     return data
@@ -94,7 +95,6 @@ def main():
     """Solve the CVRP problem."""
     # Instantiate the data problem.
     data = create_data_model()
-
     # Create the routing index manager.
     manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
                                            data['num_vehicles'], data['depot'])
@@ -149,12 +149,17 @@ def get():
         ar = jsonify(global_sol)
         return (ar)
 
-@app.route("/getVehicleData", methods=['POST','GET'])
+@app.route("/getVehicleData", methods=['POST'])
 def post():
-    
-    global get_vehicle
-    get_vehicle = request.form["data"]
-    print(get_vehicle)
+    text_input = request.form["vehicleNo"]
+    with open('data.txt', 'w') as data_file:
+            data_file.write(text_input)
+    # return jsonify({'message': 'Data saved sucessfully!'}), 200
+    text_input = None
+    with open('data.txt', 'r') as data_file:
+            text_input = data_file.read()
+    # print(text_input)
+    main()
     return make_response("hey")
 
 
@@ -162,7 +167,6 @@ global_sol = []
 
 
 if __name__ == '__main__':
-    main()
     app.run(debug= True)
     
     
