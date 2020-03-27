@@ -1,5 +1,4 @@
-"""Capacited Vehicles Routing Problem (CVRP)."""
-
+""" Vehicles Routing Problem (VRP)."""
 from __future__ import print_function
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
@@ -7,14 +6,8 @@ from flask import jsonify, Flask, make_response,request, render_template
 from flask_restful import Resource, Api
 from flask_cors import CORS
 import json
-app = Flask(__name__)
-CORS(app)
-api = Api(app)
-get_vehicle= 0
-def create_data_model():
-    """Stores the data for the problem."""
-    data = {}
-    data['distance_matrix'] = [
+"""
+[
         [0, 24392, 33384, 14963, 31992, 32054, 20866, 28427, 15278, 21439, 28765, 34618, 35177, 10612, 26762, 27278],
         [25244, 0, 8314, 10784, 6922, 6984, 10678, 3270, 10707, 7873, 11350, 9548, 10107, 19176, 12139, 13609],
         [34062, 8491, 0, 14086, 4086, 1363, 11008, 4239, 13802, 9627, 7179, 1744, 925, 27994, 9730, 10531],
@@ -32,12 +25,30 @@ def create_data_model():
         [27151, 11444, 9719, 10131, 6193, 8945, 5913, 10421, 9847, 5374, 3335, 8249, 9309, 16680, 0, 1264],
         [27191, 14469, 10310, 9394, 7093, 9772, 5879, 13164, 9110, 6422, 3933, 8840, 9901, 16720, 1288, 0]
     ]
-    
-    global get_vehicle
-    print("Inside data_model %d", get_vehicle)
-    data['demands'] = [0, 1, 1, 2, 4, 2, 4, 8, 8, 1, 2, 1, 2, 4, 4, 8, 8]
-    data['vehicle_capacities'] = [15, 15, 15, 15]
-    data['num_vehicles'] = 4
+"""
+app = Flask(__name__)
+CORS(app)
+api = Api(app)
+get_vehicle= 0
+
+def create_data_model():
+    """Stores the data for the problem."""
+    data = {}
+    data['distance_matrix'] = [
+        [
+            0, 548, 776, 696
+        ],
+        [
+            548, 0, 684, 308
+        ],
+        [
+            776, 684, 0, 992
+        ],
+        [
+            696, 308, 992, 0
+        ]
+    ]
+    data['num_vehicles'] = 1
     data['depot'] = 0
     return data
 
@@ -47,31 +58,25 @@ def print_solution(data, manager, routing, solution):
     global jsonData
     global_sol = []
     """Prints solution on console."""
-    total_distance = 0
-    total_load = 0
+    max_route_distance = 0
     for vehicle_id in range(data['num_vehicles']):
-        jsonData = '{}'
-        jsonDataParsed = json.loads(jsonData)
         index = routing.Start(vehicle_id)
-        # plan_output = 'Route for vehicle {}:'.format(vehicle_id)
+        # plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
         plan_output = ''
         route_distance = 0
-        route_load = 0
         while not routing.IsEnd(index):
-            node_index = manager.IndexToNode(index)
-            route_load += data['demands'][node_index]
-            plan_output += ' {0} Load({1}) -> '.format(node_index, route_load)
-            
+            jsonData = '{}'
+            jsonDataParsed = json.loads(jsonData)
+            plan_output += ' {} -> '.format(manager.IndexToNode(index))
             previous_index = index
             index = solution.Value(routing.NextVar(index))
             route_distance += routing.GetArcCostForVehicle(
                 previous_index, index, vehicle_id)
-            
-        plan_output += ' {0} Load({1})'.format(manager.IndexToNode(index),
-                                                route_load)
-        # print("test")
-        # print(plan_output)                               
-        sol_dict = {"route" : str(plan_output)}   
+        plan_output += '{}\n'.format(manager.IndexToNode(index))
+        plan_output += 'Distance of the route: {}m\n'.format(route_distance)
+        print(plan_output)
+        max_route_distance = max(route_distance, max_route_distance)
+        sol_dict = {"route" : str(plan_output)}
         # print(sol_dict)
         jsonDataParsed.update(sol_dict)  
         # jsonData = json.dumps(jsonDataParsed)        
@@ -79,16 +84,10 @@ def print_solution(data, manager, routing, solution):
         print("JSON data")
         print(jsonDataParsed)
         print("global array")
-        print(global_sol)
-        # global_sol.append(str(vehicle_id)+":"+plan_output)
-        plan_output += 'Distance of the route: {}m'.format(route_distance)
-        plan_output += 'Load of the route: {}'.format(route_load)
-        print(plan_output)
-        total_distance += route_distance
-        total_load += route_load
-    print('Total distance of all routes: {}m'.format(total_distance))
-    print('Total load of all routes: {}'.format(total_load))
-    
+        print(global_sol)   
+    print('Maximum of the route distances: {}m'.format(max_route_distance))
+
+
 
 
 def main():
@@ -98,7 +97,7 @@ def main():
 
     # Create the routing index manager.
     manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
-                                        data['num_vehicles'], data['depot'])
+                                           data['num_vehicles'], data['depot'])
 
     # Create Routing Model.
     routing = pywrapcp.RoutingModel(manager)
@@ -117,22 +116,16 @@ def main():
     # Define cost of each arc.
     routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
 
-
-    # Add Capacity constraint.
-    def demand_callback(from_index):
-        """Returns the demand of the node."""
-        # Convert from routing variable Index to demands NodeIndex.
-        from_node = manager.IndexToNode(from_index)
-        return data['demands'][from_node]
-
-    demand_callback_index = routing.RegisterUnaryTransitCallback(
-        demand_callback)
-    routing.AddDimensionWithVehicleCapacity(
-        demand_callback_index,
-        0,  # null capacity slack
-        data['vehicle_capacities'],  # vehicle maximum capacities
+    # Add Distance constraint.
+    dimension_name = 'Distance'
+    routing.AddDimension(
+        transit_callback_index,
+        0,  # no slack
+        3000,  # vehicle maximum travel distance
         True,  # start cumul to zero
-        'Capacity')
+        dimension_name)
+    distance_dimension = routing.GetDimensionOrDie(dimension_name)
+    distance_dimension.SetGlobalSpanCostCoefficient(100)
 
     # Setting first solution heuristic.
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
@@ -145,6 +138,7 @@ def main():
     # Print solution on console.
     if solution:
         print_solution(data, manager, routing, solution)
+
 
 @app.route("/", methods=['POST', 'GET'])
 def get():
