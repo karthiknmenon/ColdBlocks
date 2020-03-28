@@ -6,7 +6,6 @@ const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
-var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
 var cors = require('cors');
@@ -14,6 +13,26 @@ var cors = require('cors');
 const opencage = require('opencage-api-client');
 // to read .env file for API-Key
 require('dotenv').config()
+// passport.js for auth
+const passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+// connecting mongo to node 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/MyDatabase');
+
+
+const app = express();
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+app.use(cors());
+
+// URL to composer-rest-server
+
+const restUrl = 'http://localhost:3000/';
+
 // open-cage API for reverse geo-encoding
 opencage.geocode({
     // hard-code latitude and longitude
@@ -48,21 +67,6 @@ QRCode.toString('https://b88339e7.ngrok.io/qrHolderChange?packageID=H001', {
     console.log(url)
 
 });
-
-// QRCode.toDataURL('https://www.google.com!', function (err, url) {
-//     console.log(url)
-//   });
-
-const app = express();
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
-app.use(cors());
-
-// URL to composer-rest-server
-
-const restUrl = 'http://localhost:3000/';
 
 // function to send messages via whatsapp
 
@@ -763,24 +767,29 @@ app.post('/api/CreateTransitPackage', function (req, res) {
 // read nodeMCU temperature data
 
 app.post('/tempData', function (req, res) {
+    
     // AES-256 bit encryption
     var key = 'my passphrase';
+
     // add Temperature, packageID and gpsLocation to plaintext being encrypted
     var plaintext = String(req.body.Temperature);
     plaintext += ", " + req.body.packageID;
     plaintext += ", " + gpsLocation;
+    
     // encrypted and decrypted text
     var encrypted = aes256.encrypt(key, plaintext);
     var decrypted = aes256.decrypt(key, encrypted);
+
     console.log("Encrypted text: " + encrypted);
     console.log("Decrypted text: " + decrypted);
-    // console.log(JSON.stringify(req.body));
+
     var temp = req.body.Temperature;
     console.log("Temperature: " + temp);
     var packageID = req.body.packageID;
     console.log("Package Id: " + packageID);
     // var gpsLocation = req.body.Location;
     console.log("Location: " + gpsLocation);
+    
     // set threshold temperature
     if (temp > 25) {
         sendWhatsapp(packageID, temp, gpsLocation);
@@ -956,6 +965,7 @@ app.get('/tempDrop', function (req, res) {
         console.log(error);
     });
 })
+
 // Old code for Holder Change
 // app.get('/HolderChange', function (req, res) {
 //     res.send("Holder Change Event Triggered Successfully.")
@@ -989,9 +999,6 @@ app.get('/tempDrop', function (req, res) {
 
 // code for auth using passport.js
 
-const passport = require('passport');
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
 app.get('/error', (req, res) => res.send("error logging in"));
@@ -1006,9 +1013,6 @@ passport.deserializeUser(function (id, cb) {
     });
 });
 
-// connecting mongo to node 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/MyDatabase');
 
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
@@ -1178,68 +1182,6 @@ app.get("/qrHolderChange", (req, res) => {
     console.log("username inside get qr:" + ousername)
 
 })
-
-
-// to get info for user-card in dash
-
-// function storeId(param_username) {
-//     var MongoClient = require('mongodb').MongoClient;
-//     var url = "mongodb://localhost/MyDatabase";
-
-//     MongoClient.connect(url, function (err, db) {
-//         if (err) throw err;
-//         var dbo = db.db("MyDatabase");
-//         var query = {
-//             username: String(param_username)
-//         };
-//         dbo.collection("userInfo").find(query).toArray(function (err, result) {
-//             if (err) throw err;
-//             console.log(result[0]._id);
-//             findCredentials(result[0]._id);
-//             db.close();
-//         });
-//     });
-// }
-
-// app.get("/storeCredentials", (req, res) => {
-//     var userN = req.query.username;
-//     storeId(userN);
-// })
-
-// function findCredentials(objectId) {
-//     var MongoClient = require('mongodb').MongoClient;
-//     var url = "mongodb://localhost/MyDatabase";
-//     console.log("Inside function findCredentials: " + objectId);
-
-//     MongoClient.connect(url, function (err, db) {
-//         if (err) throw err;
-//         var dbo = db.db("MyDatabase");
-//         var query = {
-//             _id: objectId
-//         };
-//         dbo.collection("userInfo").find(query).toArray(function (err, result) {
-//             if (err) throw err;
-//             console.log(result[0]);
-//             var strName = result[0].username;
-//             var strPass = result[0].password;
-//             Request.post({
-//                 "headers": {
-//                     "content-type": "application/json"
-//                 },
-//                 "url": "http://localhost:4000/findCred",
-//                 "body": JSON.stringify({
-//                     "username" : String(strName),
-//                     "password" : String(strPass)
-//                 })
-//             }, (error, response, body) => {
-//                 if (error) {
-//                     return console.dir(error);
-//                 }
-//             });
-//             db.close();
-//         });
-//     });    
-// }
 
 
 app.listen(4000);
