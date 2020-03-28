@@ -6,7 +6,7 @@ import Card from "../components/Card/Card";
 import UserCard from "../components/UserCard/UserCard";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import avatar from "../assets/img/faces/face-0.jpg";
+import avatar from "../assets/img/faces/vector-01.jpg";
 import { reactURL, nodeURL } from "variables/Variables.jsx";
 // import Modal from '../SSComponents/Modal';
 
