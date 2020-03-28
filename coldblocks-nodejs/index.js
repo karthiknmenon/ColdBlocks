@@ -15,8 +15,6 @@ const opencage = require('opencage-api-client');
 require('dotenv').config()
 // passport.js for auth
 const passport = require('passport');
-app.use(passport.initialize());
-app.use(passport.session());
 // connecting mongo to node 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/MyDatabase');
@@ -28,6 +26,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(cors());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // URL to composer-rest-server
 
@@ -811,7 +812,10 @@ app.post('/tempData', function (req, res) {
                 return console.dir(error);
             }
         });
-    } else {
+    } 
+
+    // Delete code once timely update works
+    else {
         var oldHolder;
         var oldDestination;
         var Oldstatus;
@@ -829,6 +833,7 @@ app.post('/tempData', function (req, res) {
 
         }).then(function (response) {
             console.log("then")
+
             // Update values of package using PUT
             const options = {
                 url: 'http://localhost:3000/api/TransitPackage/' + packageID,
@@ -846,7 +851,6 @@ app.post('/tempData', function (req, res) {
                     "status": String(Oldstatus)
                 })
             };
-
 
             Request(options, function (err, res, body) {
                 // let json = JSON.parse(body);
@@ -965,6 +969,37 @@ app.get('/tempDrop', function (req, res) {
         console.log(error);
     });
 })
+
+// APIs for Temperature Drop Events 
+app.get('/api/TemperatureDrop', function (req, res) {
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    axios.get(restUrl + 'api/TemperatureDrop').then(function (response) {
+        jsonResponse = response.data;
+        res.send(response.data);
+    }).then(function (response) {
+        showID();
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+    function showID() {
+        var JSONobj = {};
+        var key = 1;
+        JSONobj[key] = [];
+
+        for (var i = 0; i < jsonResponse.length; i++) {
+            let x = jsonResponse[i]['asset'];
+            JSONobj[key].push(x);
+
+        }
+        JSON.stringify(JSONobj);
+        console.log(JSONobj);
+    }
+});
 
 // Old code for Holder Change
 // app.get('/HolderChange', function (req, res) {
