@@ -76,7 +76,9 @@ class TemperatureDrop extends Component {
       var i = 0;
       while(i<length){
             data[i].asset=data[i].asset.slice(49);
-            data[i].timestamp=data[i].timestamp.slice(12,19)+', '+data[i].timestamp.slice(0,10);
+            // data[i].timestamp=data[i].timestamp.slice(12,19)+', '+data[i].timestamp.slice(0,10);
+            data[i].timestamp = new Date(data[i].timestamp)
+            data[i].timestamp = String(data[i].timestamp).slice(0,25)
           // console.log("inside while status: 0")          
             i += 1;
       }
