@@ -142,7 +142,7 @@ class TemperatureDrop extends Component {
           <Row>
             <Col md={12}>
               <Card
-                title="Add Manufacturer"
+                title="Query Temperature Drop Events"
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
