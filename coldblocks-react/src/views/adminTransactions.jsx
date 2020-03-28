@@ -16,11 +16,22 @@ class AdminTransactions extends Component {
     fetch(nodeURL+'/api/ListTransactions')
     .then(res => res.json())
     .then((data) => {
-      // data = data.sortByValue("transactionTimestamp")
-      this.setState({ apiData: data },()=>{
-        console.log("callback for setState")
-      })
-      // console.log(data);
+      var length = data.length;
+      console.log(length)
+      var i = 0;
+      while(i<length){
+          data[i].transactionType=data[i].transactionType.slice(32);
+          
+          // if(data[i].participantInvoking)
+          // {data[i].participantInvoking=data[i].participantInvoking.slice(54);}
+
+          data[i].transactionTimestamp = new Date(data[i].transactionTimestamp)
+          data[i].transactionTimestamp = String(data[i].transactionTimestamp).slice(0,25)
+          // console.log("inside while status: 0")          
+            i += 1;
+      }
+      this.setState({ apiData: data })
+      console.log(data);
     })
     .catch(console.log)
   }
