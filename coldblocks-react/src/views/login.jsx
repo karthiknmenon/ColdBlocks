@@ -42,6 +42,7 @@ class Login extends Component {
  
   handleSubmit = event => {
     event.preventDefault();
+    const { history } = this.props;
     
     // console.log("state "+this.state.password);
     // console.log("state "+this.state.username);
@@ -56,74 +57,67 @@ class Login extends Component {
     .then(res => {
       if(res.data=="success"){
         if(user.username=="admin"){
-              this.setState({
-                url: reactURL+'/admin/dashboard'
-            })
+          console.log("admin");
+          history.push('/admin/dashboard');
+            //   this.setState({
+            //     url: reactURL+'/admin/dashboard'
+            // })
         }
-        if(user.username=="S01"){
-            this.setState({
-              url: reactURL+'/supplier/dashboard'
-          })
+        else if(user.username=="S01"){
+          history.push('/supplier/dashboard');
+          //   this.setState({
+          //     url: reactURL+'/supplier/dashboard'
+          // })
         }
-        if(user.username=="D01"){
-            this.setState({
-              url: reactURL+'/distributor/dashboard'
-          })
+        else if(user.username=="D01"){
+          history.push('/distributor/dashboard');
+          //   this.setState({
+          //     url: reactURL+'/distributor/dashboard'
+          // })
         }
-        if(user.username=="C01"){
-            this.setState({
-              url: reactURL+'/consumer/dashboard'
-          })
+        // if(user.username=="C01"){
+        else{
+          history.push('/consumer/dashboard');
+          //   this.setState({
+          //     url: reactURL+'/consumer/dashboard'
+          // })
         }
     //  save auth info
       localStorage.setItem('username', user.username);
       localStorage.setItem('password', user.password);
       localStorage.setItem('token', "true");
-      axios.post(nodeURL+`/getUserCred?username=`+user.username, 
-      { headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
-      {data: String("hi")})
-        .then(res => {
-          // console.log(res);
-          console.log(".then for post username"+res.data);  
+      // window.location = this.state.url;  
+      }
+
+      else{
+
+          history.push('/');
+          //   this.setState({
+          //     url: reactURL    
+          // })            
+          // call pop-up
+          this.setState({ _notificationSystem: this.refs.notificationSystem });
+          var _notificationSystem = this.refs.notificationSystem;
+          var level = "error"
+          _notificationSystem.addNotification({
+            title: <span data-notify="icon" className="ri-error-warning-fill" />,
+            message: (
+              <div>
+                Wrong Log-In Info, Please try again.
+              </div>
+            ),
+            level: level,
+            position: "tr",
+            autoDismiss: 15
+          });
+          console.log("inside else")
+        }
+          // res.redirect(this.state.url)              
+        // console.log(" inside else  url: "+this.state.url);
         })
         .catch(function (error) {
           console.log(error);
-        })  
-      window.location = this.state.url;  
-      }
-      else{
-        this.setState({
-          url: reactURL    
-      })
-      
-      
-      // call pop-up
-      this.setState({ _notificationSystem: this.refs.notificationSystem });
-      var _notificationSystem = this.refs.notificationSystem;
-      var level = "error"
-      _notificationSystem.addNotification({
-        title: <span data-notify="icon" className="ri-error-warning-fill" />,
-        message: (
-          <div>
-            Wrong Log-In Info, Please try again.
-          </div>
-        ),
-        level: level,
-        position: "tr",
-        autoDismiss: 15
-      });
-      }
-      // res.redirect(this.state.url)
-      
-         
-    console.log("url: "+this.state.url);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+        })
   }
   componentDidMount(){
     localStorage.setItem('username', "");

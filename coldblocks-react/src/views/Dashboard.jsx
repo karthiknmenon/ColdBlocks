@@ -25,9 +25,11 @@ class Dashboard extends Component {
     }
   }
   componentDidMount() {
+    const { history } = this.props;
     const tokenD = localStorage.getItem('token');
     if(tokenD=="false"){
-      window.location = reactURL;
+      history.push("/")
+      // window.location = reactURL;
     }
     const userN = localStorage.getItem('username');
     const userD = localStorage.getItem('password');

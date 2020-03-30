@@ -12,17 +12,18 @@ import * as serviceWorker from './serviceWorker'
 import SupplierLayout from "layouts/Supplier.jsx";
 import AdminLayout from "layouts/Admin.jsx";
 import ConsumerLayout from "layouts/Consumer.jsx";
+import Dashboard from "views/Dashboard"
 
 ReactDOM.render(
   
   <BrowserRouter>
     <Switch>
-      {/* <Route path="/" component={Login}/> */}
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin" render={props => <AdminLayout {...props} />} />
+      {/* <Route path="/admin/dashboard" render={props => <AdminLayout {...props} />} /> */}
       <Route path="/supplier" render={props => <SupplierLayout {...props} />} />
       <Route path="/consumer" render={props => <ConsumerLayout {...props} />} />
-      {/* <Redirect from="/" to="/admin/dashboard" /> */}
-      <Login></Login>
+      <Route path="/" component={Login}/>
+      {/* <Login></Login> */}
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")
