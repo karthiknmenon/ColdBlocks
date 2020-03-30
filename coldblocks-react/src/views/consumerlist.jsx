@@ -93,7 +93,7 @@ class ConsumerList extends Component {
   }
   // To query wrt ID 
   fetchHandleSubmit =  async event => {
-    event.preventDefault();
+  event.preventDefault();
     const user = {
       cId: String(this.state.fetchId)
     };

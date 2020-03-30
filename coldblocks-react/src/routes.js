@@ -6,6 +6,7 @@ import SupplierList from "views/supplierlist.jsx";
 import ManufacturerList from "views/manufacturerlist.jsx";
 import PackageList from "views/packagelist.jsx";
 import AdminTransactions from "views/adminTransactions";
+import QueryPackage from "views/queryPackage"
 import TemperatureDrop from "views/temperatureDrop";
 import Maps from "views/Maps.jsx";
 import ColdAR from "views/camera";
@@ -33,6 +34,13 @@ const dashboardRoutes = [
     name: "Package Data",
     icon: "ri-truck-fill",
     component: PackageList,
+    layout: "/admin"
+  },
+  {
+    path: "/queryPackage",
+    name: "Query Package",
+    icon: "ri-red-packet-fill",
+    component: QueryPackage,
     layout: "/admin"
   },
   {
