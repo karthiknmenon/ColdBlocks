@@ -154,13 +154,17 @@ app.get('/api/ListConsumerId', function (req, res) {
 
     axios.get(restUrl + 'api/Consumer/' + queryID).then(function (response) {
         jsonResponse = response.data;
-        response.data["status"]="ok";
+        response.data["status"] = "ok";
         res.send(response.data);
     }).then(function (response) {
         showID();
     }).catch(function (error) {
-        console.log(JSON.stringify([{status : "error"}]))
-        res.send(JSON.stringify({status : "error"}))
+        console.log(JSON.stringify([{
+            status: "error"
+        }]))
+        res.send(JSON.stringify({
+            status: "error"
+        }))
     });
 
     function showID() {
@@ -354,14 +358,16 @@ app.get('/api/ListManufacterersId', function (req, res) {
 
     axios.get(restUrl + 'api/Manufacturer/' + queryID).then(function (response) {
         jsonResponse = response.data;
-        response.data["status"]="ok";
+        response.data["status"] = "ok";
         res.send(response.data);
     }).then(function (response) {
         showID();
     }).catch(function (error) {
         // console.log(JSON.stringify([{status : "error"}]))
         console.log("inside error")
-       res.send(JSON.stringify({status : "error"}))
+        res.send(JSON.stringify({
+            status: "error"
+        }))
     });
 
     function showID() {
@@ -453,11 +459,16 @@ app.get('/api/ListSuppliersId', function (req, res) {
 
     axios.get(restUrl + 'api/Supplier/' + queryID).then(function (response) {
         jsonResponse = response.data;
+        response.data["status"] = "ok";
         res.send(response.data);
     }).then(function (response) {
         showID();
     }).catch(function (error) {
-        console.log(error);
+        // console.log(JSON.stringify([{status : "error"}]))
+        console.log("inside error")
+        res.send(JSON.stringify({
+            status: "error"
+        }))
     });
 
     function showID() {
@@ -773,7 +784,7 @@ app.post('/api/CreateTransitPackage', function (req, res) {
 // read nodeMCU temperature data
 
 app.post('/tempData', function (req, res) {
-    
+
     // AES-256 bit encryption
     var key = 'my passphrase';
 
@@ -781,7 +792,7 @@ app.post('/tempData', function (req, res) {
     var plaintext = String(req.body.Temperature);
     plaintext += ", " + req.body.packageID;
     plaintext += ", " + gpsLocation;
-    
+
     // encrypted and decrypted text
     var encrypted = aes256.encrypt(key, plaintext);
     var decrypted = aes256.decrypt(key, encrypted);
@@ -795,7 +806,7 @@ app.post('/tempData', function (req, res) {
     console.log("Package Id: " + packageID);
     // var gpsLocation = req.body.Location;
     console.log("Location: " + gpsLocation);
-    
+
     // set threshold temperature
     if (temp > 25) {
         sendWhatsapp(packageID, temp, gpsLocation);
@@ -817,7 +828,7 @@ app.post('/tempData', function (req, res) {
                 return console.dir(error);
             }
         });
-    } 
+    }
 
     // Delete code once timely update works
     else {
