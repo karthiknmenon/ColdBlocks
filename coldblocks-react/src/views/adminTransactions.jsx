@@ -51,13 +51,15 @@ class AdminTransactions extends Component {
               if(data[i].transactionType=='AddParticipant'){
                 // var newStr = {}
                 // newStr += "participantInvoking :"+data[i].participantInvoking;
-                var newStr = {participantInvoking : data[i].participantInvoking}
+                var newStr = {participantInvoking : data[i].participantInvoking, transactionTimestamp : new Date (data[i].transactionTimestamp)}
                 // newStr = JSON.stringify(newStr);
                 str.push(newStr)
               }
               i+=1
         }
-        this.setState({apiData: newStr })
+        const sortedNewStr = str.sort((a, b) => b.transactionTimestamp - a.transactionTimestamp)
+        // this.setState({apiData: newStr })
+        console.log(sortedNewStr)
         // console.log(str[1].participantInvoking)
       })
   }
@@ -71,7 +73,7 @@ class AdminTransactions extends Component {
               <Card
                 title="Add Consumer"
                 content={
-                  <form>
+                  <form onSubmit={this.filterTransactions()}>
                     <FormInputs 
                       ncols={["col-md-5", "col-md-3", "col-md-4"]}
                       properties={[

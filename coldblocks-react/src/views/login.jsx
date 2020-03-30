@@ -82,11 +82,13 @@ class Login extends Component {
           //     url: reactURL+'/consumer/dashboard'
           // })
         }
-      //  save auth info
+
+      //  save auth info in local storage
       localStorage.setItem('username', user.username);
       localStorage.setItem('password', user.password);
       localStorage.setItem('token', "true");
       // window.location = this.state.url;  
+
       // save auth info for holder-change
       axios.post(nodeURL + "/getUserCred",
         { headers: {
@@ -105,9 +107,11 @@ class Login extends Component {
       else{
 
           history.push('/');
+
           //   this.setState({
           //     url: reactURL    
           // })            
+
           // call pop-up
           this.setState({ _notificationSystem: this.refs.notificationSystem });
           var _notificationSystem = this.refs.notificationSystem;
@@ -125,7 +129,8 @@ class Login extends Component {
           });
           console.log("inside else")
         }
-          // res.redirect(this.state.url)              
+        
+        // res.redirect(this.state.url)              
         // console.log(" inside else  url: "+this.state.url);
         })
         .catch(function (error) {
