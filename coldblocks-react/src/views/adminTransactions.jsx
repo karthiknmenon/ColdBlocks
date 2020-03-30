@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import { nodeURL } from "variables/Variables.jsx";
-
+import axios from "axios";
+import { FormInputs } from "components/FormInputs/FormInputs.jsx";
+import Button from "components/CustomButton/CustomButton.jsx";
 class AdminTransactions extends Component {
   constructor() {
     super()
@@ -35,11 +37,76 @@ class AdminTransactions extends Component {
     })
     .catch(console.log)
   }
+  filterTransactions(){
+    axios.get(nodeURL+`/api/ListTransactions`)
+      .then(res => {
+        console.log(res)
+        var data = res.data;
+        var length = data.length;
+        console.log(length)
+        var i = 0;
+        var str = [];
+        while(i<length){
+              data[i].transactionType=data[i].transactionType.slice(32);
+              if(data[i].transactionType=='AddParticipant'){
+                // var newStr = {}
+                // newStr += "participantInvoking :"+data[i].participantInvoking;
+                var newStr = {participantInvoking : data[i].participantInvoking}
+                // newStr = JSON.stringify(newStr);
+                str.push(newStr)
+              }
+              i+=1
+        }
+        this.setState({apiData: newStr })
+        // console.log(str[1].participantInvoking)
+      })
+  }
   render() {
     const {apiData} = this.state;
     return (
       <div className="content">
         <Grid fluid>
+        <Row>
+            <Col md={12}>
+              <Card
+                title="Add Consumer"
+                content={
+                  <form>
+                    <FormInputs 
+                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      properties={[
+                        {
+                          label: "Company (disabled)",
+                          type: "text",
+                          bsClass: "form-control",
+                          placeholder: "Company",
+                          defaultValue: "ColdBlocks",
+                          disabled: true
+                  
+                        },
+                        {
+                          label: "Consumer ID",
+                          type: "text",
+                          bsClass: "form-control",
+                          placeholder: "Consumer ID",                                          
+                        },
+                        {
+                          label: "Name",
+                          type: "text",
+                          bsClass: "form-control",
+                          placeholder: "Consumer Name",
+                        }
+                      ]}
+                    />       
+                    <Button bsStyle="success" pullRight fill type="submit">
+                      Submit
+                    </Button>
+                    <div className="clearfix" />
+                  </form>
+                }
+              />
+            </Col>
+          </Row>
           <Row>
             <Col md={12}>
               <Card
