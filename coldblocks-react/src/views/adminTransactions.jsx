@@ -110,7 +110,7 @@ class AdminTransactions extends Component {
         <Row>
             <Col md={12}>
               <Card
-                title="Add Consumer"
+                title="Query Transactions"
                 content={
                   <form onSubmit={this.handleSubmit}>
                     <FormInputs 
