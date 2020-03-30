@@ -63,13 +63,13 @@ class Login extends Component {
             //     url: reactURL+'/admin/dashboard'
             // })
         }
-        else if(user.username=="S01"){
+        else if(user.username==/S[0-9]*/){
           history.push('/supplier/dashboard');
           //   this.setState({
           //     url: reactURL+'/supplier/dashboard'
           // })
         }
-        else if(user.username=="D01"){
+        else if(user.username==/D[0-9]*/){
           history.push('/distributor/dashboard');
           //   this.setState({
           //     url: reactURL+'/distributor/dashboard'
