@@ -154,11 +154,13 @@ app.get('/api/ListConsumerId', function (req, res) {
 
     axios.get(restUrl + 'api/Consumer/' + queryID).then(function (response) {
         jsonResponse = response.data;
+        response.data["status"]="ok";
         res.send(response.data);
     }).then(function (response) {
         showID();
     }).catch(function (error) {
-        console.log(error);
+        console.log(JSON.stringify([{status : "error"}]))
+        res.send(JSON.stringify({status : "error"}))
     });
 
     function showID() {
