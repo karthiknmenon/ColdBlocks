@@ -6,11 +6,16 @@ import { nodeURL } from "variables/Variables.jsx";
 import axios from "axios";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from 'react-loader-spinner';
+
 class AdminTransactions extends Component {
   constructor() {
     super()
     this.state = {
-      apiData:{}
+      apiData:{},
+      filterTransactionType: '',
+      loading:false
     }
   }
   componentDidMount() {
@@ -22,7 +27,14 @@ class AdminTransactions extends Component {
       console.log(length)
       var i = 0;
       while(i<length){
-          data[i].transactionType=data[i].transactionType.slice(32);
+          data[i].transactionType = String(data[i].transactionType)
+          if(data[i].transactionType.match(/org\.coldblocks\.mynetwork\.TemperatureDrop/g)){
+            data[i].transactionType=data[i].transactionType.slice(25);
+          }
+          else{
+            data[i].transactionType=data[i].transactionType.slice(32);
+            // data[i].transactionType=data[i].transactionType;
+          }
           
           // if(data[i].participantInvoking)
           // {data[i].participantInvoking=data[i].participantInvoking.slice(54);}
@@ -37,11 +49,22 @@ class AdminTransactions extends Component {
     })
     .catch(console.log)
   }
+
+  handleChange = async event => {
+    this.setState({
+            filterTransactionType : event.target.value
+    })
+  }
+
   handleSubmit =  async event => {
     event.preventDefault();
-    this.filterTransactions();
+    this.setState({loading: true}, ()=>{
+      console.log("loader until fetch new data")
+    })
+    this.filterTransactions(this.state.filterTransactionType);
   }
-  filterTransactions(){
+
+  filterTransactions(e){
     axios.get(nodeURL+`/api/ListTransactions`)
       .then(res => {
         console.log(res)
@@ -51,16 +74,31 @@ class AdminTransactions extends Component {
         var i = 0;
         var str = [];
         while(i<length){
-              data[i].transactionType=data[i].transactionType.slice(32);
-              if(data[i].transactionType=='AddParticipant'){
-                var newStr = {participantInvoking : data[i].participantInvoking, transactionTimestamp : new Date (data[i].transactionTimestamp)}            
+              data[i].transactionType = String(data[i].transactionType)
+              if(data[i].transactionType.match(/org\.coldblocks\.mynetwork\.TemperatureDrop/g)){
+                data[i].transactionType=data[i].transactionType.slice(25);
+              }
+              else{
+                data[i].transactionType=data[i].transactionType.slice(32);
+                // data[i].transactionType=data[i].transactionType;
+              }
+              if(data[i].transactionType==e){
+                var newStr = {transactionType: e, participantInvoking : data[i].participantInvoking, transactionTimestamp : new Date (data[i].transactionTimestamp)}            
                 str.push(newStr)
               }
               i+=1
         }
-        const sortedNewStr = str.sort((a, b) => b.transactionTimestamp - a.transactionTimestamp)
+        var sortedNewStr = str.sort((a, b) => b.transactionTimestamp - a.transactionTimestamp)
+        var j=0;
+        while(j<sortedNewStr.length){
+          sortedNewStr[j].transactionTimestamp = String(sortedNewStr[j].transactionTimestamp);
+          j+=1;
+        }
         // this.setState({apiData: newStr })
         console.log(sortedNewStr)
+        this.setState({loading: false, apiData: sortedNewStr}, ()=>{
+          console.log("loader stops")
+        })
         // console.log(str[1].participantInvoking)
       })
   }
@@ -76,7 +114,7 @@ class AdminTransactions extends Component {
                 content={
                   <form onSubmit={this.handleSubmit}>
                     <FormInputs 
-                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      ncols={["col-md-5", "col-md-6"]}
                       properties={[
                         {
                           label: "Company (disabled)",
@@ -88,16 +126,11 @@ class AdminTransactions extends Component {
                   
                         },
                         {
-                          label: "Consumer ID",
+                          label: "Transaction Type",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Consumer ID",                                          
-                        },
-                        {
-                          label: "Name",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Consumer Name",
+                          onChange: this.handleChange,
+                          placeholder: "Transaction Type",                                          
                         }
                       ]}
                     />       
@@ -118,7 +151,17 @@ class AdminTransactions extends Component {
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
+                  <>
+                  {/* use boolean logic for loader or data */}
+                    {this.state.loading ? <Loader
+                    className="text-center"
+                    type="Rings"
+                    color="#757575"
+                    height={100}
+                    width={100}
+                    //3 secs
+          
+                    /> : <Table striped hover>
                     <thead>
                       <tr>
                         <th>Transaction Type</th>
@@ -139,6 +182,8 @@ class AdminTransactions extends Component {
                       ))}
                     </tbody>
                   </Table>
+                }
+                </>
                 }
               />
             </Col>
