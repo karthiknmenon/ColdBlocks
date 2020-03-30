@@ -82,11 +82,24 @@ class Login extends Component {
           //     url: reactURL+'/consumer/dashboard'
           // })
         }
-    //  save auth info
+      //  save auth info
       localStorage.setItem('username', user.username);
       localStorage.setItem('password', user.password);
       localStorage.setItem('token', "true");
       // window.location = this.state.url;  
+      // save auth info for holder-change
+      axios.post(nodeURL + "/getUserCred",
+        { headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+        { data : user})
+        .then( res => {
+            console.log("getCred done");
+        })
+        .catch(function (error){
+          console.log("error")
+        })
       }
 
       else{

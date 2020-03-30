@@ -1180,8 +1180,8 @@ var ousername;
 
 app.post("/getUserCred", (req, res) => {
     console.log("hi")
-    console.log(req.query.username)
-    ousername = req.query.username;
+    console.log(req.body.username)
+    ousername = req.body.username;
     console.log("from get cred username:" + ousername)
 })
 var qrOldHolder;
