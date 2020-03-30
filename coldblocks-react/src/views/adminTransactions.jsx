@@ -37,6 +37,10 @@ class AdminTransactions extends Component {
     })
     .catch(console.log)
   }
+  handleSubmit =  async event => {
+    event.preventDefault();
+    this.filterTransactions();
+  }
   filterTransactions(){
     axios.get(nodeURL+`/api/ListTransactions`)
       .then(res => {
@@ -49,10 +53,7 @@ class AdminTransactions extends Component {
         while(i<length){
               data[i].transactionType=data[i].transactionType.slice(32);
               if(data[i].transactionType=='AddParticipant'){
-                // var newStr = {}
-                // newStr += "participantInvoking :"+data[i].participantInvoking;
-                var newStr = {participantInvoking : data[i].participantInvoking, transactionTimestamp : new Date (data[i].transactionTimestamp)}
-                // newStr = JSON.stringify(newStr);
+                var newStr = {participantInvoking : data[i].participantInvoking, transactionTimestamp : new Date (data[i].transactionTimestamp)}            
                 str.push(newStr)
               }
               i+=1
@@ -73,7 +74,7 @@ class AdminTransactions extends Component {
               <Card
                 title="Add Consumer"
                 content={
-                  <form onSubmit={this.filterTransactions()}>
+                  <form onSubmit={this.handleSubmit}>
                     <FormInputs 
                       ncols={["col-md-5", "col-md-3", "col-md-4"]}
                       properties={[
