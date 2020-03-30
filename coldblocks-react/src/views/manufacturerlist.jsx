@@ -89,8 +89,6 @@ class ManufacturerList extends Component {
     })
     
   }
-
-  // To query wrt ID
     // To query wrt ID 
     fetchHandleSubmit =  async event => {
       event.preventDefault();

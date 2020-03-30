@@ -260,11 +260,16 @@ app.get('/api/ListDistributorsId', function (req, res) {
 
     axios.get(restUrl + 'api/Distributor/' + queryID).then(function (response) {
         jsonResponse = response.data;
+        response.data["status"] = "ok";
         res.send(response.data);
     }).then(function (response) {
         showID();
     }).catch(function (error) {
-        console.log(error);
+        // console.log(JSON.stringify([{status : "error"}]))
+        console.log("inside error")
+        res.send(JSON.stringify({
+            status: "error"
+        }))
     });
 
     function showID() {

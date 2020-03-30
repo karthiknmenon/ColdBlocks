@@ -198,12 +198,12 @@ class SupplierList extends Component {
               centered
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">Supploer Found</Modal.Title>
+            <Modal.Title id="contained-modal-title-vcenter">Supplier Found</Modal.Title>
           </Modal.Header>
           <Modal.Body className="text-center">
             <i className="ri-user-search-line ri-10x text-success"></i>
             <p className="text-success"><b>Success</b></p>
-            <p className="text-dark">Supploer with Supploer-ID <b>{this.state.fetchId}</b> found with Name <b>{this.state.fetchName}</b></p>
+            <p className="text-dark">Supplier with Supplier-ID <b>{this.state.fetchId}</b> found with Name <b>{this.state.fetchName}</b></p>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={this.fetchHandleClose}>

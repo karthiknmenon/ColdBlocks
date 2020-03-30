@@ -18,14 +18,18 @@ class DistributorList extends Component {
       dName: '',
       dId: '',
       postD: 0,
+      fetchId: '',
+      fetchName: '',
       loading:true
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
-		this.fHandleClose = this.fHandleClose.bind(this);
+    this.fHandleClose = this.fHandleClose.bind(this);
+    this.fetchHandleClose = this.fetchHandleClose.bind(this);
 		this.state = {
       show: false,
-      fShow: false
+      fShow: false,
+      fetchShow: false
 		};
   }
 
@@ -40,7 +44,11 @@ class DistributorList extends Component {
                     dId: event.target.value });
 
   }
- 
+  fetchHandleChange = event => {
+    this.setState({
+        fetchId : event.target.value
+    })
+  }
   handleSubmit = event => {
     event.preventDefault();
     
@@ -79,6 +87,30 @@ class DistributorList extends Component {
       console.log(error);
     })
     
+  }
+  // To query wrt ID 
+  fetchHandleSubmit =  async event => {
+    event.preventDefault();
+    const user = {
+      dID: String(this.state.fetchId)
+    };
+    axios.get(nodeURL+'/api/ListDistributorsId?dID='+user.dID)
+    .then(res => {
+        // console.log(res)
+        var data = res.data
+        console.log(data.status);
+        if(data.status=="error"){
+                this.setState({
+                  fShow: true
+              })  
+        }else{
+            this.setState({
+            fetchShow: true, fetchName : data.distributorName
+          }) 
+        }
+             
+    })
+  
   }
   fetchData(){
     fetch(nodeURL+'/api/ListDistributors')
@@ -120,6 +152,10 @@ class DistributorList extends Component {
 	}
   fHandleClose() {
     this.setState({ fShow: false });
+    this.fetchData();
+  }
+  fetchHandleClose() {
+    this.setState({ fetchShow: false });
     this.fetchData();
 	}
 	// handleShow() {
@@ -165,6 +201,26 @@ class DistributorList extends Component {
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.fetchShow} onHide={this.fetchHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Distributor Found</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-user-search-line ri-10x text-success"></i>
+            <p className="text-success"><b>Success</b></p>
+            <p className="text-dark">Distributor with Distributor-ID <b>{this.state.fetchId}</b> found with Name <b>{this.state.fetchName}</b></p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.fetchHandleClose}>
                 Close
               </Button>
           </Modal.Footer>
@@ -219,8 +275,34 @@ class DistributorList extends Component {
           </Row>
         </Grid>
         <Grid fluid>
-          <Row>
-            <Col md={12}>
+        <Row>
+            <Col md={4}>
+              <Card
+                title="Query Distributor"
+                category="Query Distributor wrt Distributor ID"
+                content={
+                  <form onSubmit={this.fetchHandleSubmit} >
+                    <FormInputs 
+                      ncols={["col-md-12"]}
+                      properties={[
+                        {
+                          label: "Distributor ID",
+                          type: "text",
+                          bsClass: "form-control",
+                          onChange: this.fetchHandleChange,
+                          placeholder: "Enter Distributor ID",                             
+                        },
+                      ]}
+                    />       
+                    <Button bsStyle="success" pullRight fill type="submit">
+                      Submit
+                    </Button>
+                    <div className="clearfix" />
+                  </form>
+                }
+              />
+            </Col>
+            <Col md={8}>
               <Card
                 title="Distributor Details"
                 category="Distributor Details with ID and Name"
