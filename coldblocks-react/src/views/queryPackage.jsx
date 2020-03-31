@@ -50,12 +50,6 @@ class QueryPackage extends Component {
     this.setState({
                     packageId: event.target.value });
   }
-  fetchDestinationChange = event => {
-    console.log("Invoked fetch ID change: "+event.target.value);
-    this.setState({
-            fetchId: event.target.value
-    })
-  }
   focusHolder = event => {
     this.setState({
        destination:true, id: true, location: true, apiHolder:'Holder'
@@ -86,33 +80,50 @@ class QueryPackage extends Component {
        holder: false, id: false, destination: false
     })
   }
-  focusId = event => {
+  fetchDestinationChange = event => {
+    console.log("Invoked fetch ID change: "+event.target.value);
     this.setState({
-       destination:true, holder: true, location: true, apiHolder: 'Id'
+            fetchId: event.target.value
     })
   }
-  blurId = event => {
+
+  fetchStatus = event => {
+    this.setState({
+       destination:true, holder: true, location: true, apiHolder: 'Status'
+    })
+  }
+
+  blurStatus = event => {
     this.setState({
        destination:false, holder: false, location: false
     })
   }
+
   fetchHolderChange = event => {
     console.log("Invoked fetch ID change: "+event.target.value);
     this.setState({
-            fetchId: event.target.value, destination:true
+            fetchId: event.target.value
     })
   }
   fetchLocationChange = event => {
     console.log("Invoked fetch ID change: "+event.target.value);
     this.setState({
-            fetchId: event.target.value, destination:true
+            fetchId: event.target.value
     })
   }
-  fetchIdChange = event => {
-    console.log("Invoked fetch ID change: "+event.target.value);
-    this.setState({
-            fetchId: event.target.value, destination:true
-    })
+  fetchStatusChange = event => {
+    console.log("Invoked fetch Status change: "+event.target.value);
+    if(event.target.value=="Ok"){
+      this.setState({
+        fetchId: 1
+      })
+    }
+    else{
+      this.setState({
+        fetchId: 0
+      })
+    }
+    
   }
  
   handleSubmit =  async event => {
@@ -183,6 +194,19 @@ class QueryPackage extends Component {
                         fShow: true
                     })  
             }else{
+                    var length = data.length;
+                    console.log(length)
+                    var i = 0;
+                    while(i<length){
+                      if(data[i].status==0){
+                          data[i].status="Tampered";
+                        // console.log("inside while status: 0")          
+                      }
+                      else{
+                        data[i].status="Ok";
+                      }
+                      i+=1;
+                    }
                     this.setState({
                         fetchShow: true, apiData : data, loading: false
                     }) 
@@ -202,6 +226,19 @@ class QueryPackage extends Component {
                         fShow: true
                     })  
             }else{
+                    var length = data.length;
+                    console.log(length)
+                    var i = 0;
+                    while(i<length){
+                      if(data[i].status==0){
+                          data[i].status="Tampered";
+                        // console.log("inside while status: 0")          
+                      }
+                      else{
+                        data[i].status="Ok";
+                      }
+                      i+=1;
+                    }
                     this.setState({
                         fetchShow: true, apiData : data, loading: false
                     }) 
@@ -221,16 +258,29 @@ class QueryPackage extends Component {
                         fShow: true
                     })  
             }else{
+                    var length = data.length;
+                    console.log(length)
+                    var i = 0;
+                    while(i<length){
+                      if(data[i].status==0){
+                          data[i].status="Tampered";
+                        // console.log("inside while status: 0")          
+                      }
+                      else{
+                        data[i].status="Ok";
+                      }
+                      i+=1;
+                    }
                     this.setState({
                         fetchShow: true, apiData : data, loading: false
                     }) 
             }
         })
     }
-    if(this.state.apiHolder=="Id")
+    if(this.state.apiHolder=="Status")
     {
         console.log("true id axios")
-        axios.get(nodeURL+`/api/ListPackagesByDestination?packageDestination=`+query.queryString)
+        axios.get(nodeURL+`/api/ListPackagesByStatus?packageStatus=`+query.queryString)
         .then(res => {
             // console.log(res)
             var data = res.data
@@ -240,7 +290,20 @@ class QueryPackage extends Component {
                         fShow: true
                     })  
             }else{
-                    this.setState({
+                  var length = data.length;
+                  console.log(length)
+                  var i = 0;
+                  while(i<length){
+                    if(data[i].status==0){
+                        data[i].status="Tampered";
+                      // console.log("inside while status: 0")          
+                    }
+                    else{
+                      data[i].status="Ok";
+                    }
+                    i+=1;
+                  }
+                  this.setState({
                         fetchShow: true, apiData : data, loading: false
                     }) 
             }
@@ -366,7 +429,7 @@ class QueryPackage extends Component {
                       ncols={["col-md-6","col-md-6","col-md-6","col-md-6"]}
                       properties={[
                         {
-                          label: "Destination",
+                          label: "Package Destination",
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Enter Destination Here",
@@ -376,7 +439,7 @@ class QueryPackage extends Component {
                           disabled : this.state.destination
                         },
                         {
-                          label: "Holder",
+                          label: "Package Holder",
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Enter Holder Here",
@@ -386,7 +449,7 @@ class QueryPackage extends Component {
                           disabled: this.state.holder            
                         },
                         {
-                          label: "Location",
+                          label: "Package Location",
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Enter Loaction Here",
@@ -396,13 +459,13 @@ class QueryPackage extends Component {
                           disabled: this.state.location            
                         },
                         {
-                          label: "Destination",
+                          label: "Package Status",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Enter Destination Here",
-                          onChange: this.fetchIdChange,
-                          onFocus: this.focusId,
-                          onBlur: this.blurId,
+                          placeholder: "Enter Status Here",
+                          onChange: this.fetchStatusChange,
+                          onFocus: this.fetchStatus,
+                          onBlur: this.blurStatus,
                           disabled: this.state.id            
                         },
                       ]}
