@@ -39,7 +39,7 @@ const dashboardRoutes = [
   {
     path: "/queryPackage",
     name: "Query Package",
-    icon: "ri-red-packet-fill",
+    icon: "ri-search-eye-line",
     component: QueryPackage,
     layout: "/admin"
   },
