@@ -426,7 +426,7 @@ class QueryPackage extends Component {
                 content={
                   <form onSubmit={this.fetchHandleSubmit} >
                     <FormInputs 
-                      ncols={["col-md-6","col-md-6","col-md-6","col-md-6"]}
+                      ncols={["col-md-6","col-md-6"]}
                       properties={[
                         {
                           label: "Package Destination",
@@ -447,7 +447,12 @@ class QueryPackage extends Component {
                           onFocus: this.focusHolder,
                           onBlur : this.blurHolder,
                           disabled: this.state.holder            
-                        },
+                        }
+                      ]}
+                    />       
+                    <FormInputs 
+                      ncols={["col-md-6","col-md-6"]}
+                      properties={[
                         {
                           label: "Package Location",
                           type: "text",
