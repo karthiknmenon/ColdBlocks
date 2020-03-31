@@ -857,7 +857,7 @@ app.post('/tempData', function (req, res) {
 
             // Update values of package using PUT
             const options = {
-                url: 'http://localhost:3000/api/TransitPackage/' + packageID,
+                url: restUrl+'api/TransitPackage/' + packageID,
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json',
@@ -926,7 +926,7 @@ app.post('/updatePackageDetails', function (req, res) {
         console.log("then")
         // Update values of package using PUT
         const options = {
-            url: 'http://localhost:3000/api/TransitPackage/' + packageID,
+            url: restUrl+'api/TransitPackage/' + packageID,
             method: 'PUT',
             headers: {
                 'content-type': 'application/json',
