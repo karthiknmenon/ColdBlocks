@@ -24,7 +24,8 @@ class QueryPackage extends Component {
       destionation: false,
       location: false,
       holder:false,
-      loading:true
+      loading:false,
+      apiLoader: ''
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
@@ -57,7 +58,7 @@ class QueryPackage extends Component {
   }
   focusHolder = event => {
     this.setState({
-       destination:true, id: true, location: true
+       destination:true, id: true, location: true, apiHolder:'Holder'
     })
   }
   blurHolder = event => {
@@ -67,7 +68,7 @@ class QueryPackage extends Component {
   }
   focusDestination = event => {
     this.setState({
-       holder:true, id: true, location: true
+       holder:true, id: true, location: true, apiHolder: 'Destination'
     })
   }
   blurDestination = event => {
@@ -77,17 +78,17 @@ class QueryPackage extends Component {
   }
   focusLocation = event => {
     this.setState({
-       destination:true, id: true, destination: true
+       destination:true, id: true, holder:  true, apiHolder: 'Location'
     })
   }
   blurLocation = event => {
     this.setState({
-       destination:false, id: false, destination: false
+       holder: false, id: false, destination: false
     })
   }
   focusId = event => {
     this.setState({
-       destination:true, holder: true, location: true
+       destination:true, holder: true, location: true, apiHolder: 'Id'
     })
   }
   blurId = event => {
@@ -164,26 +165,88 @@ class QueryPackage extends Component {
   // To query wrt ID 
   fetchHandleSubmit =  async event => {
     event.preventDefault();
-    const user = {
-      packageDestination: String(this.state.fetchId)
+    const query = {
+      queryString: String(this.state.fetchId)
     };
-    axios.get(nodeURL+`/api/ListPackagesByDestination?packageDestination=`+user.packageDestination)
-    .then(res => {
-        // console.log(res)
-        var data = res.data
-        console.log(data.status);
-        if(data.status=="error"){
-                this.setState({
-                  fShow: true
-              })  
-        }else{
-            this.setState({
-            fetchShow: true, apiData : data
-          }) 
-        }
-             
-    })
-  
+    console.log("dest"+this.state.apiHolder)
+    this.setState({loading: true})
+    if(this.state.apiHolder=="Destination")
+    {
+        console.log("true destination axios")
+        axios.get(nodeURL+`/api/ListPackagesByDestination?packageDestination=`+query.queryString)
+        .then(res => {
+            // console.log(res)
+            var data = res.data
+            console.log(data.status);
+            if(data.status=="error"){
+                    this.setState({
+                        fShow: true
+                    })  
+            }else{
+                    this.setState({
+                        fetchShow: true, apiData : data, loading: false
+                    }) 
+            }
+        })
+    }
+    if(this.state.apiHolder=="Holder")
+    {
+        console.log("true holder axios")
+        axios.get(nodeURL+`/api/ListPackagesByHolder?packageHolder=`+query.queryString)
+        .then(res => {
+            // console.log(res)
+            var data = res.data
+            console.log(data.status);
+            if(data.status=="error"){
+                    this.setState({
+                        fShow: true
+                    })  
+            }else{
+                    this.setState({
+                        fetchShow: true, apiData : data, loading: false
+                    }) 
+            }
+        })
+    }
+    if(this.state.apiHolder=="Location")
+    {
+        console.log("true location axios")
+        axios.get(nodeURL+`/api/ListPackagesByLocation?packageLocation=`+query.queryString)
+        .then(res => {
+            // console.log(res)
+            var data = res.data
+            console.log(data.status);
+            if(data.status=="error"){
+                    this.setState({
+                        fShow: true
+                    })  
+            }else{
+                    this.setState({
+                        fetchShow: true, apiData : data, loading: false
+                    }) 
+            }
+        })
+    }
+    if(this.state.apiHolder=="Id")
+    {
+        console.log("true id axios")
+        axios.get(nodeURL+`/api/ListPackagesByDestination?packageDestination=`+query.queryString)
+        .then(res => {
+            // console.log(res)
+            var data = res.data
+            console.log(data.status);
+            if(data.status=="error"){
+                    this.setState({
+                        fShow: true
+                    })  
+            }else{
+                    this.setState({
+                        fetchShow: true, apiData : data, loading: false
+                    }) 
+            }
+        })
+    }
+    event.target.reset();
   }
   fetchData(){
     fetch(nodeURL+'/api/ListPackages')
@@ -291,26 +354,6 @@ class QueryPackage extends Component {
               </Button>
           </Modal.Footer>
       </Modal>
-      <Modal show={this.state.fetchShow} onHide={this.fetchHandleClose}
-              {...this.props}
-              size="lg"
-              aria-labelledby="contained-modal-title-vcenter"
-              centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">Customer Found</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="text-center">
-            <i className="ri-user-search-line ri-10x text-success"></i>
-            <p className="text-success"><b>Success</b></p>
-            <p className="text-dark">Customer with Customer-ID <b>{this.state.fetchId}</b> found with Name <b>{this.state.fetchName}</b></p>
-          </Modal.Body>
-          <Modal.Footer>
-              <Button variant="secondary" onClick={this.fetchHandleClose}>
-                Close
-              </Button>
-          </Modal.Footer>
-        </Modal>
         <Grid fluid>
         <Row>
             <Col md={12}>
@@ -318,7 +361,7 @@ class QueryPackage extends Component {
                 title="Query Package"
 
                 content={
-                  <form onSubmit={this.handleSubmit} >
+                  <form onSubmit={this.fetchHandleSubmit} >
                     <FormInputs 
                       ncols={["col-md-6","col-md-6","col-md-6","col-md-6"]}
                       properties={[
