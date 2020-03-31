@@ -40,9 +40,15 @@ class AdminTransactions extends Component {
           // {data[i].participantInvoking=data[i].participantInvoking.slice(54);}
 
           data[i].transactionTimestamp = new Date(data[i].transactionTimestamp)
-          data[i].transactionTimestamp = String(data[i].transactionTimestamp).slice(0,25)
+          // data[i].transactionTimestamp = String(data[i].transactionTimestamp).slice(0,25)
           // console.log("inside while status: 0")          
             i += 1;
+      }
+      data = data.sort((a, b) => b.transactionTimestamp - a.transactionTimestamp)
+      var j=0;
+      while(j<data.length){
+        data[j].transactionTimestamp = String(data[j].transactionTimestamp).slice(0,25);
+        j+=1;
       }
       this.setState({ apiData: data })
       console.log(data);
