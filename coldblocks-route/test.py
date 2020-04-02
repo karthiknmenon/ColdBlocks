@@ -110,7 +110,7 @@ def get():
         routing.AddDimension(
             transit_callback_index,
             0,  # no slack
-            100000,  # vehicle maximum travel distance
+            70000,  # vehicle maximum travel distance
             True,  # start cumul to zero
             dimension_name)
         distance_dimension = routing.GetDimensionOrDie(dimension_name)
