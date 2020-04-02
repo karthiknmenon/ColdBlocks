@@ -8,17 +8,18 @@ from flask_cors import CORS
 import json
 import requests
 import urllib
+import ast
 app = Flask(__name__)
-CORS(app, resources={r"/": {"origins": "http://localhost:3001"}})
+CORS(app, resources={r"/sendLocation": {"origins": "http://localhost:3001"}})
 api = Api(app)
 get_vehicle= 0
 
-
+data = {}
 def create_data():
   """Creates the data."""
-  data = {}
   data['API_key'] = 'AIzaSyCTkzOzDdOn1vBbnVvLcf9WYuiypjtFO08'
-  data['addresses'] = ["Sector 11, CBD Belapur Navi Mumbai, Maharashtra 400614","Palava Lakeshore Greens, Usarghar Gaon, Thane, Maharashtra, India","Rajhans Co-operative Housing Society, Best Colony, Mankur, Mumbai, Maharashtra, India","Mangala Residency, Sector 24, Taloja Panchanand, Taloja, Navi Mumbai, Maharashtra, India","Sai Arcade Building, Shivaji Nagar, Kopargaon, Dombivli West, Dombivli, Maharashtra, India","Kaushalya Medical Foundation Trust Hospital, opp. Nitin Company, Ramabai Ambedkar Nagar, Ganeshwadi, Thane West, Thane, Maharashtra, India","Mumbra, Thane, Maharashtra, India","Today Pearl Co-Operative Housing Society, Sector 24, Kamothe, Panvel, Navi Mumbai, Maharashtra, India","twins hallmark, Sector 19A, Sector 20, Kopar Khairane, Navi Mumbai, Maharashtra, India","Sector 8, Kopar Khairane, Navi Mumbai, Maharashtra, India","Nerul Railway Station (W), Nerul East, Nerul West, Nerul, Navi Mumbai, Maharashtra","New Mhada Colony, Dr.Babsaheb Ambedker Nagar, Govandi East, Mumbai, Maharashtra 400043, India","Kolekar Hospital %26 ICCU, Chembur Gaothan, Chembur, Mumbai, Maharashtra, India","Sector 15, Kopar Khairane, Navi Mumbai, Maharashtra 400709, India","Shahabaz Village, Sector 20, CBD Belapur, Navi Mumbai, Maharashtra, India","Sector 5, CBD Belapur, Navi Mumbai, Maharashtra, India","Shree Dattamandir Naupada Village, Kamothe, Panvel, Navi Mumbai, Maharashtra 410206","Sector 10, Kamothe, Panvel, Navi Mumbai, Maharashtra, India","Prisha Apartment, Gothivali Village, Sector 30, Ghansoli, Navi Mumbai, Maharashtra, India","Diwale Koliwada Bus Stop, Sector 15, CBD Belapur, Navi Mumbai, Maharashtra, India","Gaondevi Mandir, Badlapur E, Anand Nagar, Gaodevi, Badlapur, Maharashtra, India","Koproli Bus Stand, Koproli, Maharashtra, India","Kopar Khairane, Navi Mumbai, Maharashtra, India"]                                 
+  # data['addresses'] = ["Sector 11, CBD Belapur Navi Mumbai, Maharashtra 400614","Palava Lakeshore Greens, Usarghar Gaon, Thane, Maharashtra, India","Rajhans Co-operative Housing Society, Best Colony, Mankur, Mumbai, Maharashtra, India","Mangala Residency, Sector 24, Taloja Panchanand, Taloja, Navi Mumbai, Maharashtra, India","Sai Arcade Building, Shivaji Nagar, Kopargaon, Dombivli West, Dombivli, Maharashtra, India","Kaushalya Medical Foundation Trust Hospital, opp. Nitin Company, Ramabai Ambedkar Nagar, Ganeshwadi, Thane West, Thane, Maharashtra, India","Mumbra, Thane, Maharashtra, India","Today Pearl Co-Operative Housing Society, Sector 24, Kamothe, Panvel, Navi Mumbai, Maharashtra, India","twins hallmark, Sector 19A, Sector 20, Kopar Khairane, Navi Mumbai, Maharashtra, India","Sector 8, Kopar Khairane, Navi Mumbai, Maharashtra, India","Nerul Railway Station (W), Nerul East, Nerul West, Nerul, Navi Mumbai, Maharashtra","New Mhada Colony, Dr.Babsaheb Ambedker Nagar, Govandi East, Mumbai, Maharashtra 400043, India","Kolekar Hospital %26 ICCU, Chembur Gaothan, Chembur, Mumbai, Maharashtra, India","Sector 15, Kopar Khairane, Navi Mumbai, Maharashtra 400709, India","Shahabaz Village, Sector 20, CBD Belapur, Navi Mumbai, Maharashtra, India","Sector 5, CBD Belapur, Navi Mumbai, Maharashtra, India","Shree Dattamandir Naupada Village, Kamothe, Panvel, Navi Mumbai, Maharashtra 410206","Sector 10, Kamothe, Panvel, Navi Mumbai, Maharashtra, India","Prisha Apartment, Gothivali Village, Sector 30, Ghansoli, Navi Mumbai, Maharashtra, India","Diwale Koliwada Bus Stop, Sector 15, CBD Belapur, Navi Mumbai, Maharashtra, India","Gaondevi Mandir, Badlapur E, Anand Nagar, Gaodevi, Badlapur, Maharashtra, India","Koproli Bus Stand, Koproli, Maharashtra, India","Kopar Khairane, Navi Mumbai, Maharashtra, India"]                                 
+  # data['addresses'] = ['1921+Elvis+Presley+Blvd+Memphis+TN','149+Union+Avenue+Memphis+TN','1034+Audubon+Drive+Memphis+TN']
   return data
   
 def create_distance_matrix(data):
@@ -79,28 +80,35 @@ def build_distance_matrix(response):
     distance_matrix.append(row_list)
   return distance_matrix
 
-########
-# Main #
-########
-def main():
-  """Entry point of the program"""
-  # Create the data.
-  data = create_data()
-  addresses = data['addresses']
-  API_key = data['API_key']
-  distance_matrix = create_distance_matrix(data)
-  print(distance_matrix)
+
+@app.route("/sendLocation", methods=['POST', 'GET'])
+def get():
+
+  if request.method=='POST':
+    """Entry point of the program"""
+    # Create the data.
+    global data
+    print (request.is_json)
+    content = request.get_json()
+    print(content['vehicleNo'])
+    # text_input = request.form["vehicleNo"]
+    text_input = content['vehicleNo']
+    text_input = ast.literal_eval(text_input) 
+    data['addresses'] = text_input
+    print("type data addr")
+    print(type(data['addresses']))
+    data = create_data()
+    addresses = data['addresses']
+    API_key = data['API_key']
+    distance_matrix = create_distance_matrix(data)
+    print(distance_matrix)
+    ar = jsonify([{"route":"hey"}])
+    return (ar)
+
+  if request.method=='GET':
+    ar = jsonify([{"route":"hey"}])
+    ar.headers.add('Access-Control-Allow-Origin', '*')
+    return (ar)
+
 if __name__ == '__main__':
-  main()
-
-# @app.route("/", methods=['POST', 'GET'])
-
-# def get():  
-#         main()
-#         # ar = jsonify(global_sol)
-#         return ("hey")
-
-
-if __name__ == '__main__':
-    # app.run(debug= True)
-    main()
+  app.run(debug= True)
