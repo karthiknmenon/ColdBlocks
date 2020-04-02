@@ -3,13 +3,16 @@ from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 from flask import jsonify, Flask, make_response,request, render_template
 from flask_restful import Resource, Api
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import json
 import ast 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/": {"origins": "http://localhost:3001"}})
+
 api = Api(app)
+
 get_vehicle= 0
+
 data = {}
 def create_data_model():
     """Stores the data for the problem."""
@@ -58,8 +61,14 @@ def print_solution(data, manager, routing, solution):
 
 @app.route("/", methods=['POST', 'GET'])
 def get():
+    if request.method == 'POST':
         global data
-        text_input = request.form["vehicleNo"]
+        print (request.is_json)
+        content = request.get_json()
+        print(content['vehicleNo'])
+        # text_input = request.form["vehicleNo"]
+        text_input = content['vehicleNo']
+        print(text_input)
         with open('data.txt', 'w') as data_file:
                 data_file.write(text_input)
         # return jsonify({'message': 'Data saved sucessfully!'}), 200
@@ -122,6 +131,10 @@ def get():
             return (ar)
         else:
             return("no solution")
+    if request.method == 'GET':
+        ar = jsonify([{"route":"hey"}])
+        ar.headers.add('Access-Control-Allow-Origin', '*')
+        return (ar)
 
 if __name__ == '__main__':
     app.run(debug= True)

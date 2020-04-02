@@ -9,7 +9,7 @@ import json
 import requests
 import urllib
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/": {"origins": "http://localhost:3001"}})
 api = Api(app)
 get_vehicle= 0
 
