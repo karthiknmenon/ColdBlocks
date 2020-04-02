@@ -140,6 +140,7 @@ def get():
         # sti = '\''+global_sol+'\''
         # sti = str(global_sol)
         # sti = '[{"$class":"org.coldblocks.mynetwork.TransitPackage","packageID":"H001","location":"Govt. Engineering College, Thrissur, Viyyur - Thanikkudam Road, Thrissur, Thanikkudam - 680009, Kerala, India","temperature":"32","destination":"RSET","holder":"S01","status":"0"},{"$class":"org.coldblocks.mynetwork.TransitPackage","packageID":"H002","location":"undefined","temperature":"undefined","destination":"RSET","holder":"S01","status":"1"}]'
+        main()
         ar = jsonify(global_sol)
         return (ar)
 
@@ -153,7 +154,7 @@ def post():
     with open('data.txt', 'r') as data_file:
             text_input = data_file.read()
     # print(text_input)
-    main()
+    # main()
     return make_response("hey")
 
 
