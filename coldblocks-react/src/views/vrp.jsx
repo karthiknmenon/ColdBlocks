@@ -6,7 +6,8 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
-
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 
 class vrp extends Component {
   constructor() {
@@ -14,10 +15,16 @@ class vrp extends Component {
     this.state = {
       apiData:{},
       vehicleNo: '',
-      postD: 0
+      vehicleLoc: '',
+      postD: 0,
+      loading: false
     }
   }
   nameChange = event => {
+    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+    this.setState({ vehicleLoc: event.target.value });
+  }
+  nnumberChange = event => {
     console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
     this.setState({ vehicleNo: event.target.value });
   }
@@ -30,9 +37,13 @@ class vrp extends Component {
     // console.log("user "+user.cId);
     // console.log("user "+user.vehicleNo);
     const user = {
-      vehicleNo : this.state.vehicleNo
+      vehicleNo : this.state.vehicleNo,
+      vehicleLoc : this.state.vehicleLoc
     }
-    await axios.post('http://127.0.0.1:5000/', 
+    this.setState({
+        loading: true
+    })
+    await axios.post('http://127.0.0.1:5000/sendLocation', 
     { headers: {    
               "Access-Control-Allow-Origin": "*",
               "Content-Type" : "application/json",
@@ -42,7 +53,7 @@ class vrp extends Component {
       // console.log(res);
       console.log(".then for post"+res.data);  
       this.setState({
-          apiData : res.data
+          loading: false, apiData : res.data
       })
     })
     .catch(function (error) {
@@ -50,11 +61,18 @@ class vrp extends Component {
     })    
   }
   componentDidMount() {
-    axios.get('http://127.0.0.1:5000/')
+    axios.get('http://127.0.0.1:5000/sendLocation')
       .then(res => {
         this.setState({ apiData: res.data })
       })
     // console.log("hi");
+  }
+  fetchRoute= event => {
+    this.setState({loading: true})
+    axios.post('http://127.0.0.1:5000/')
+      .then(res => {
+        this.setState({ loading:false, apiData: res.data })
+      })
   }
 
   render() {
@@ -69,7 +87,7 @@ class vrp extends Component {
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
-                      ncols={["col-md-3", "col-md-9",]}
+                      ncols={["col-md-3", "col-md-3","col-md-6"]}
                       properties={[
                         {
                           label: "Company (disabled)",
@@ -81,12 +99,20 @@ class vrp extends Component {
                   
                         },
                         {
-                          label: "Vehicle Capacities",
+                          label: "Vehicle Number",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Enter Vehicle Capacity",
-                          onChange:this.nameChange,
+                          placeholder: "Enter Number of Vehicles",
+                          onChange:this.nnumberChange,
                           name: "vehicleNo"
+                        },
+                        {
+                          label: "Enter Location",
+                          type: "text",
+                          bsClass: "form-control",
+                          placeholder: "Enter Geo Location as CSV",
+                          onChange:this.nameChange,
+                          name: "vehicleLoc"
                         },
                       ]}
                     />       
@@ -107,7 +133,20 @@ class vrp extends Component {
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
+                  <>
+                  <Button bsStyle="success" pullRight fill type="button" onClick={this.fetchRoute}>
+                      Submit
+                  </Button>
+                   {/* use boolean logic for loader or data */}
+                   {this.state.loading ? <Loader
+                    className="text-center"
+                    type="Rings"
+                    color="#757575"
+                    height={100}
+                    width={100}
+                    //3 secs
+          
+                    /> : <Table striped hover>
                     <thead>
                       <tr>
                         <th>Route</th>
@@ -129,6 +168,8 @@ class vrp extends Component {
                         ))}                                      
                     </tbody>
                   </Table>
+                   }
+                  </>
                 }
               />
             </Col>
