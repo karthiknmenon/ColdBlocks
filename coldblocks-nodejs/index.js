@@ -6,14 +6,42 @@ const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
-var crypto = require('crypto');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
 var cors = require('cors');
+
 // for GPS coordinates
 const opencage = require('opencage-api-client');
+
 // to read .env file for API-Key
 require('dotenv').config()
+
+// passport.js for auth
+const passport = require('passport');
+
+// connecting mongo to node 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/MyDatabase');
+
+
+const app = express();
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
+
+app.use(cors());
+
+app.use(passport.initialize());
+
+app.use(passport.session());
+
+// URL to composer-rest-server
+
+const restUrl = 'http://localhost:3000/';
+
 // open-cage API for reverse geo-encoding
 opencage.geocode({
     // hard-code latitude and longitude
@@ -41,28 +69,13 @@ opencage.geocode({
     console.log('error', error.message);
 });
 
-
+// QR Code Generator for Holder Change
 QRCode.toString('https://b88339e7.ngrok.io/qrHolderChange?packageID=H001', {
     type: 'terminal'
 }, function (err, url) {
     console.log(url)
 
 });
-
-// QRCode.toDataURL('https://www.google.com!', function (err, url) {
-//     console.log(url)
-//   });
-
-const app = express();
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
-app.use(cors());
-
-// URL to composer-rest-server
-
-const restUrl = 'http://localhost:3000/';
 
 // function to send messages via whatsapp
 
@@ -118,24 +131,11 @@ app.get('/api/ListConsumers', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("List Consumers")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['consumerID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // Get Consumer Details by ID
@@ -149,26 +149,19 @@ app.get('/api/ListConsumerId', function (req, res) {
 
     axios.get(restUrl + 'api/Consumer/' + queryID).then(function (response) {
         jsonResponse = response.data;
+        response.data["status"] = "ok";
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("List Consumers by ID")
     }).catch(function (error) {
-        console.log(error);
+        console.log(JSON.stringify([{
+            status: "error"
+        }]))
+        res.send(JSON.stringify({
+            status: "error"
+        }))
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['consumerID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // API to create a new consumer
@@ -218,24 +211,11 @@ app.get('/api/ListDistributors', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("List Distributors")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['distributorID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // API to list Distributor by ID 
@@ -249,26 +229,18 @@ app.get('/api/ListDistributorsId', function (req, res) {
 
     axios.get(restUrl + 'api/Distributor/' + queryID).then(function (response) {
         jsonResponse = response.data;
+        response.data["status"] = "ok";
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("List Distributors by ID")
     }).catch(function (error) {
-        console.log(error);
+        // console.log(JSON.stringify([{status : "error"}]))
+        console.log("inside error")
+        res.send(JSON.stringify({
+            status: "error"
+        }))
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['distributorID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 
@@ -316,24 +288,11 @@ app.get('/api/ListManufacturers', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("List Manufacturers")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['manufacturerID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // API to list Manufacturer by ID 
@@ -347,26 +306,18 @@ app.get('/api/ListManufacterersId', function (req, res) {
 
     axios.get(restUrl + 'api/Manufacturer/' + queryID).then(function (response) {
         jsonResponse = response.data;
+        response.data["status"] = "ok";
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("List Manufacturers by ID")
     }).catch(function (error) {
-        console.log(error);
+        // console.log(JSON.stringify([{status : "error"}]))
+        console.log("inside error")
+        res.send(JSON.stringify({
+            status: "error"
+        }))
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['manufacturerID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // API to create a new Manufacturer
@@ -412,24 +363,11 @@ app.get('/api/ListSuppliers', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("List Suppliers")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['supplierID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // API to list Supplier by ID 
@@ -443,26 +381,18 @@ app.get('/api/ListSuppliersId', function (req, res) {
 
     axios.get(restUrl + 'api/Supplier/' + queryID).then(function (response) {
         jsonResponse = response.data;
+        response.data["status"] = "ok";
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("List Suppliers by ID")
     }).catch(function (error) {
-        console.log(error);
+        // console.log(JSON.stringify([{status : "error"}]))
+        console.log("inside error")
+        res.send(JSON.stringify({
+            status: "error"
+        }))
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['supplierID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // API to create a new Supplier
@@ -507,24 +437,11 @@ app.get('/api/ListPackages', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("Named Query : List packages")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['packageID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // Query Package wrt destination 
@@ -540,24 +457,11 @@ app.get('/api/ListPackagesByDestination', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("Named Query : Package wrt Destination")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['packageID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // Query Package wrt holder 
@@ -571,26 +475,14 @@ app.get('/api/ListPackagesByHolder', function (req, res) {
 
     axios.get(restUrl + 'api/queries/packageHolder?packageHolder=' + queryHolder).then(function (response) {
         jsonResponse = response.data;
+        // response.data.fetchStatus = "1";
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("Named Query : Package wrt Holder")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['packageID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // Query Package wrt packageID
@@ -606,24 +498,11 @@ app.get('/api/ListPackagesById', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("Named Query : Package wrt ID")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['packageID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // Query Package wrt current Location 
@@ -639,24 +518,11 @@ app.get('/api/ListPackagesByLocation', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("Named Query : Package wrt Location")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['packageID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // Query Package wrt current Status 
@@ -672,24 +538,11 @@ app.get('/api/ListPackagesByStatus', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("Named Query : Package wrt Status")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['packageID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 
@@ -705,24 +558,11 @@ app.get('/api/ListTransitPackages', function (req, res) {
         jsonResponse = response.data;
         res.send(response.data);
     }).then(function (response) {
-        showID();
+        // showID();
+        console.log("Named Query : All Packages")
     }).catch(function (error) {
         console.log(error);
     });
-
-    function showID() {
-        var JSONobj = {};
-        var key = 1;
-        JSONobj[key] = [];
-
-        for (var i = 0; i < jsonResponse.length; i++) {
-            let x = jsonResponse[i]['packageID'];
-            JSONobj[key].push(x);
-
-        }
-        JSON.stringify(JSONobj);
-        console.log(JSONobj);
-    }
 });
 
 // API to create a new Transit Package
@@ -763,24 +603,29 @@ app.post('/api/CreateTransitPackage', function (req, res) {
 // read nodeMCU temperature data
 
 app.post('/tempData', function (req, res) {
+
     // AES-256 bit encryption
     var key = 'my passphrase';
+
     // add Temperature, packageID and gpsLocation to plaintext being encrypted
     var plaintext = String(req.body.Temperature);
     plaintext += ", " + req.body.packageID;
     plaintext += ", " + gpsLocation;
+
     // encrypted and decrypted text
     var encrypted = aes256.encrypt(key, plaintext);
     var decrypted = aes256.decrypt(key, encrypted);
+
     console.log("Encrypted text: " + encrypted);
     console.log("Decrypted text: " + decrypted);
-    // console.log(JSON.stringify(req.body));
+
     var temp = req.body.Temperature;
     console.log("Temperature: " + temp);
     var packageID = req.body.packageID;
     console.log("Package Id: " + packageID);
     // var gpsLocation = req.body.Location;
     console.log("Location: " + gpsLocation);
+
     // set threshold temperature
     if (temp > 25) {
         sendWhatsapp(packageID, temp, gpsLocation);
@@ -802,7 +647,10 @@ app.post('/tempData', function (req, res) {
                 return console.dir(error);
             }
         });
-    } else {
+    }
+
+    // Delete code once timely update works
+    else {
         var oldHolder;
         var oldDestination;
         var Oldstatus;
@@ -820,9 +668,10 @@ app.post('/tempData', function (req, res) {
 
         }).then(function (response) {
             console.log("then")
+
             // Update values of package using PUT
             const options = {
-                url: 'http://localhost:3000/api/TransitPackage/' + packageID,
+                url: restUrl + 'api/TransitPackage/' + packageID,
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json',
@@ -837,7 +686,6 @@ app.post('/tempData', function (req, res) {
                     "status": String(Oldstatus)
                 })
             };
-
 
             Request(options, function (err, res, body) {
                 // let json = JSON.parse(body);
@@ -892,7 +740,7 @@ app.post('/updatePackageDetails', function (req, res) {
         console.log("then")
         // Update values of package using PUT
         const options = {
-            url: 'http://localhost:3000/api/TransitPackage/' + packageID,
+            url: restUrl + 'api/TransitPackage/' + packageID,
             method: 'PUT',
             headers: {
                 'content-type': 'application/json',
@@ -956,104 +804,24 @@ app.get('/tempDrop', function (req, res) {
         console.log(error);
     });
 })
-// Old code for Holder Change
-// app.get('/HolderChange', function (req, res) {
-//     res.send("Holder Change Event Triggered Successfully.")
-//     // console.log(JSON.stringify(req.body));
-//     var oHolder = req.query.oldHolder;
-//     // var oHolder = "hyder";
-//     console.log("oldHolder: " + oHolder);
-//     var packageId = req.query.packageID;
-//     // var packageID = "H156";
-//     console.log("Package Id: " + packageId);
-//     var nHolder = req.query.newHolder;
-//     // var nHolder = "dsdsds";
-//     console.log("new Holder: " + nHolder);
-//     Request.post({
-//         "headers": {
-//             "content-type": "application/json"
-//         },
-//         "url": restUrl + "api/HolderChange",
-//         "body": JSON.stringify({
-//             "$class": "org.coldblocks.mynetwork.HolderChange",
-//             "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageId,
-//             "oldHolder": String(oHolder),
-//             "newHolder": String(nHolder)
-//         })
-//     }, (error, response, body) => {
-//         if (error) {
-//             return console.dir(error);
-//         }
-//     });
-// });
 
-// code for auth using passport.js
+// APIs for Temperature Drop Events 
+app.get('/api/TemperatureDrop', function (req, res) {
 
-const passport = require('passport');
-app.use(passport.initialize());
-app.use(passport.session());
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-app.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
-app.get('/error', (req, res) => res.send("error logging in"));
-
-passport.serializeUser(function (user, cb) {
-    cb(null, user.id);
-});
-
-passport.deserializeUser(function (id, cb) {
-    User.findById(id, function (err, user) {
-        cb(err, user);
+    axios.get(restUrl + 'api/TemperatureDrop').then(function (response) {
+        jsonResponse = response.data;
+        res.send(response.data);
+    }).then(function (response) {
+        // showID();
+        console.log("API for temperature drop event")
+    }).catch(function (error) {
+        console.log(error);
     });
 });
-
-// connecting mongo to node 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/MyDatabase');
-
-const Schema = mongoose.Schema;
-const UserDetail = new Schema({
-    username: String,
-    password: String
-});
-const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
-
-
-// local authconst LocalStrategy = require('passport-local').Strategy;
-const LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        UserDetails.findOne({
-            username: username
-        }, function (err, user) {
-            if (err) {
-                return done(err);
-            }
-
-            if (!user) {
-                return done(null, false);
-            }
-
-            if (user.password != password) {
-                return done(null, false);
-            }
-            return done(null, user);
-            var id = ObjectId;
-        });
-    }
-));
-
-app.post('/',
-    passport.authenticate('local', {
-        failureRedirect: '/error'
-    }),
-    function (req, res) {
-        //   res.redirect('/success?username='+req.user.username);
-        res.send("success");
-        //   res.redirect('/');
-        console.log("success");
-    }
-);
 
 // for data visualization of temperature values
 var temp_01 = [];
@@ -1136,13 +904,14 @@ app.get("/api/getCStatus", (req, res) => {
 })
 
 
-// for Auto Holder Change based on login
+
+// for Auto Holder Change based on login using QR Code Scanner
 var ousername;
 
 app.post("/getUserCred", (req, res) => {
     console.log("hi")
-    console.log(req.query.username)
-    ousername = req.query.username;
+    console.log(req.body.username)
+    ousername = req.body.username;
     console.log("from get cred username:" + ousername)
 })
 var qrOldHolder;
@@ -1179,67 +948,113 @@ app.get("/qrHolderChange", (req, res) => {
 
 })
 
-
-// to get info for user-card in dash
-
-// function storeId(param_username) {
-//     var MongoClient = require('mongodb').MongoClient;
-//     var url = "mongodb://localhost/MyDatabase";
-
-//     MongoClient.connect(url, function (err, db) {
-//         if (err) throw err;
-//         var dbo = db.db("MyDatabase");
-//         var query = {
-//             username: String(param_username)
-//         };
-//         dbo.collection("userInfo").find(query).toArray(function (err, result) {
-//             if (err) throw err;
-//             console.log(result[0]._id);
-//             findCredentials(result[0]._id);
-//             db.close();
-//         });
+// Old code for Holder Change
+// app.get('/HolderChange', function (req, res) {
+//     res.send("Holder Change Event Triggered Successfully.")
+//     // console.log(JSON.stringify(req.body));
+//     var oHolder = req.query.oldHolder;
+//     // var oHolder = "hyder";
+//     console.log("oldHolder: " + oHolder);
+//     var packageId = req.query.packageID;
+//     // var packageID = "H156";
+//     console.log("Package Id: " + packageId);
+//     var nHolder = req.query.newHolder;
+//     // var nHolder = "dsdsds";
+//     console.log("new Holder: " + nHolder);
+//     Request.post({
+//         "headers": {
+//             "content-type": "application/json"
+//         },
+//         "url": restUrl + "api/HolderChange",
+//         "body": JSON.stringify({
+//             "$class": "org.coldblocks.mynetwork.HolderChange",
+//             "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageId,
+//             "oldHolder": String(oHolder),
+//             "newHolder": String(nHolder)
+//         })
+//     }, (error, response, body) => {
+//         if (error) {
+//             return console.dir(error);
+//         }
 //     });
+// });
+
+// code for auth using passport.js
+
+
+app.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
+app.get('/error', (req, res) => res.send("error logging in"));
+
+passport.serializeUser(function (user, cb) {
+    cb(null, user.id);
+});
+
+passport.deserializeUser(function (id, cb) {
+    User.findById(id, function (err, user) {
+        cb(err, user);
+    });
+});
+
+
+const Schema = mongoose.Schema;
+const UserDetail = new Schema({
+    username: String,
+    password: String
+});
+const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
+
+
+// local authconst LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        UserDetails.findOne({
+            username: username
+        }, function (err, user) {
+            if (err) {
+                return done(err);
+            }
+
+            if (!user) {
+                return done(null, false);
+            }
+
+            if (user.password != password) {
+                return done(null, false);
+            }
+            return done(null, user);
+            var id = ObjectId;
+        });
+    }
+));
+
+app.post('/',
+    passport.authenticate('local', {
+        failureRedirect: '/error'
+    }),
+    function (req, res) {
+        //   res.redirect('/success?username='+req.user.username);
+        res.send("success");
+        //   res.redirect('/');
+        console.log("success");
+    }
+);
+
+// Show-ID function 
+
+// function showID() {
+//     var JSONobj = {};
+//     var key = 1;
+//     JSONobj[key] = [];
+
+//     for (var i = 0; i < jsonResponse.length; i++) {
+//         let x = jsonResponse[i]['consumerID'];
+//         JSONobj[key].push(x);
+
+//     }
+//     JSON.stringify(JSONobj);
+//     console.log(JSONobj);
 // }
-
-// app.get("/storeCredentials", (req, res) => {
-//     var userN = req.query.username;
-//     storeId(userN);
-// })
-
-// function findCredentials(objectId) {
-//     var MongoClient = require('mongodb').MongoClient;
-//     var url = "mongodb://localhost/MyDatabase";
-//     console.log("Inside function findCredentials: " + objectId);
-
-//     MongoClient.connect(url, function (err, db) {
-//         if (err) throw err;
-//         var dbo = db.db("MyDatabase");
-//         var query = {
-//             _id: objectId
-//         };
-//         dbo.collection("userInfo").find(query).toArray(function (err, result) {
-//             if (err) throw err;
-//             console.log(result[0]);
-//             var strName = result[0].username;
-//             var strPass = result[0].password;
-//             Request.post({
-//                 "headers": {
-//                     "content-type": "application/json"
-//                 },
-//                 "url": "http://localhost:4000/findCred",
-//                 "body": JSON.stringify({
-//                     "username" : String(strName),
-//                     "password" : String(strPass)
-//                 })
-//             }, (error, response, body) => {
-//                 if (error) {
-//                     return console.dir(error);
-//                 }
-//             });
-//             db.close();
-//         });
-//     });    
-// }
-
 
 app.listen(4000);

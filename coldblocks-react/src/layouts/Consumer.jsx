@@ -48,7 +48,7 @@ class Consumer extends Component {
       title: <span data-notify="icon" className="ri-star-smile-line" />,
       message: (
         <div>
-          ColdDash - a curated dashboard for ColdBlocks.
+          ColdDash - A Curated Dashboard for ColdBlocks
         </div>
       ),
       level: level,
@@ -129,7 +129,7 @@ class Consumer extends Component {
       title: <span data-notify="icon" className="ri-star-smile-line" />,
       message: (
         <div>
-          ColdDash - a curated dashboard for ColdBlocks.
+          ColdDash - A Curated Dashboard for ColdBlocks
         </div>
       ),
       level: level,
