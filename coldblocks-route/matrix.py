@@ -17,28 +17,10 @@ get_vehicle= 0
 def create_data():
   """Creates the data."""
   data = {}
-  # data['API_key'] = 'AIzaSyCTkzOzDdOn1vBbnVvLcf9WYuiypjtFO08'
-  data['addresses'] = ['3610+Hacks+Cross+Rd+Memphis+TN', # depot
-                     '1921+Elvis+Presley+Blvd+Memphis+TN',
-                     '149+Union+Avenue+Memphis+TN',
-                     '1034+Audubon+Drive+Memphis+TN',
-                     '1532+Madison+Ave+Memphis+TN',
-                     '706+Union+Ave+Memphis+TN',
-                     '3641+Central+Ave+Memphis+TN',
-                     '926+E+McLemore+Ave+Memphis+TN',
-                     '4339+Park+Ave+Memphis+TN',
-                     '600+Goodwyn+St+Memphis+TN',
-                     '2000+North+Pkwy+Memphis+TN',
-                     '262+Danny+Thomas+Pl+Memphis+TN',
-                     '125+N+Front+St+Memphis+TN',
-                     '5959+Park+Ave+Memphis+TN',
-                     '814+Scott+St+Memphis+TN',
-                     '1005+Tillman+St+Memphis+TN'
-                    ]                
-  data['num_vehicles'] = 1
-  data['depot'] = 0                      
+  data['API_key'] = 'AIzaSyCTkzOzDdOn1vBbnVvLcf9WYuiypjtFO08'
+  data['addresses'] = ["Sector 11, CBD Belapur Navi Mumbai, Maharashtra 400614","Palava Lakeshore Greens, Usarghar Gaon, Thane, Maharashtra, India","Rajhans Co-operative Housing Society, Best Colony, Mankur, Mumbai, Maharashtra, India","Mangala Residency, Sector 24, Taloja Panchanand, Taloja, Navi Mumbai, Maharashtra, India","Sai Arcade Building, Shivaji Nagar, Kopargaon, Dombivli West, Dombivli, Maharashtra, India","Kaushalya Medical Foundation Trust Hospital, opp. Nitin Company, Ramabai Ambedkar Nagar, Ganeshwadi, Thane West, Thane, Maharashtra, India","Mumbra, Thane, Maharashtra, India","Today Pearl Co-Operative Housing Society, Sector 24, Kamothe, Panvel, Navi Mumbai, Maharashtra, India","twins hallmark, Sector 19A, Sector 20, Kopar Khairane, Navi Mumbai, Maharashtra, India","Sector 8, Kopar Khairane, Navi Mumbai, Maharashtra, India","Nerul Railway Station (W), Nerul East, Nerul West, Nerul, Navi Mumbai, Maharashtra","New Mhada Colony, Dr.Babsaheb Ambedker Nagar, Govandi East, Mumbai, Maharashtra 400043, India","Kolekar Hospital %26 ICCU, Chembur Gaothan, Chembur, Mumbai, Maharashtra, India","Sector 15, Kopar Khairane, Navi Mumbai, Maharashtra 400709, India","Shahabaz Village, Sector 20, CBD Belapur, Navi Mumbai, Maharashtra, India","Sector 5, CBD Belapur, Navi Mumbai, Maharashtra, India","Shree Dattamandir Naupada Village, Kamothe, Panvel, Navi Mumbai, Maharashtra 410206","Sector 10, Kamothe, Panvel, Navi Mumbai, Maharashtra, India","Prisha Apartment, Gothivali Village, Sector 30, Ghansoli, Navi Mumbai, Maharashtra, India","Diwale Koliwada Bus Stop, Sector 15, CBD Belapur, Navi Mumbai, Maharashtra, India","Gaondevi Mandir, Badlapur E, Anand Nagar, Gaodevi, Badlapur, Maharashtra, India","Koproli Bus Stand, Koproli, Maharashtra, India","Kopar Khairane, Navi Mumbai, Maharashtra, India"]                                 
   return data
-
+  
 def create_distance_matrix(data):
   addresses = data["addresses"]
   API_key = data["API_key"]
@@ -49,6 +31,7 @@ def create_distance_matrix(data):
   max_rows = max_elements // num_addresses
   # num_addresses = q * max_rows + r (q = 2 and r = 4 in this example).
   q, r = divmod(num_addresses, max_rows)
+  
   dest_addresses = addresses
   distance_matrix = []
   # Send q requests, returning max_rows rows per request.
@@ -62,17 +45,19 @@ def create_distance_matrix(data):
     origin_addresses = addresses[q * max_rows: q * max_rows + r]
     response = send_request(origin_addresses, dest_addresses, API_key)
     distance_matrix += build_distance_matrix(response)
-  data['distance_matrix'] = distance_matrix
   return distance_matrix
 
 def send_request(origin_addresses, dest_addresses, API_key):
+  # print(origin_addresses)
+  # print("-")
   """ Build and send request for the given origin and destination addresses."""
   def build_address_str(addresses):
     # Build a pipe-separated string of addresses
+    
     address_str = ''
     for i in range(len(addresses) - 1):
-      address_str += addresses[i] + '|'
-    address_str += addresses[-1]
+      address_str += addresses[i].replace(" ", "+") + '|'
+    address_str += addresses[-1].replace(" ", "+")
     return address_str
 
   request = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial'
@@ -80,8 +65,11 @@ def send_request(origin_addresses, dest_addresses, API_key):
   dest_address_str = build_address_str(dest_addresses)
   request = request + '&origins=' + origin_address_str + '&destinations=' + \
                        dest_address_str + '&key=' + API_key
+
   jsonResult = urllib.request.urlopen(request).read()
-  response = json.loads(jsonResult)
+  
+  response = json.loads(jsonResult.decode('utf-8'))
+  # print(response)
   return response
 
 def build_distance_matrix(response):
@@ -91,101 +79,28 @@ def build_distance_matrix(response):
     distance_matrix.append(row_list)
   return distance_matrix
 
-def print_solution(data, manager, routing, solution):
-    global global_sol
-    global jsonData
-    global_sol = []
-    """Prints solution on console."""
-    max_route_distance = 0
-    for vehicle_id in range(data['num_vehicles']):
-        index = routing.Start(vehicle_id)
-        # plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
-        plan_output = ''
-        route_distance = 0
-        while not routing.IsEnd(index):
-            jsonData = '{}'
-            jsonDataParsed = json.loads(jsonData)
-            plan_output += ' {} -> '.format(manager.IndexToNode(index))
-            previous_index = index
-            index = solution.Value(routing.NextVar(index))
-            route_distance += routing.GetArcCostForVehicle(
-                previous_index, index, vehicle_id)
-        plan_output += '{}\n'.format(manager.IndexToNode(index))
-        plan_output += 'Distance of the route: {}m\n'.format(route_distance)
-        print(plan_output)
-        max_route_distance = max(route_distance, max_route_distance)
-        sol_dict = {"route" : str(plan_output)}
-        # print(sol_dict)
-        jsonDataParsed.update(sol_dict)  
-        # jsonData = json.dumps(jsonDataParsed)        
-        global_sol.append(jsonDataParsed)
-        print("JSON data")
-        print(jsonDataParsed)
-        print("global array")
-        print(global_sol)   
-    print('Maximum of the route distances: {}m'.format(max_route_distance))
-
-
+########
+# Main #
+########
 def main():
   """Entry point of the program"""
   # Create the data.
   data = create_data()
   addresses = data['addresses']
   API_key = data['API_key']
-  data['distance_matrix'] = create_distance_matrix(data)
-  print("data matrix")
-  print(data['distance_matrix'])
+  distance_matrix = create_distance_matrix(data)
+  print(distance_matrix)
+if __name__ == '__main__':
+  main()
 
-  manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
-                                           data['num_vehicles'], data['depot'])
+# @app.route("/", methods=['POST', 'GET'])
 
-  # Create Routing Model.
-  routing = pywrapcp.RoutingModel(manager)
-
-  # Create and register a transit callback.
-  def distance_callback(from_index, to_index):
-      """Returns the distance between the two nodes."""
-      # Convert from routing variable Index to distance matrix NodeIndex.
-      from_node = manager.IndexToNode(from_index)
-      to_node = manager.IndexToNode(to_index)
-      return data['distance_matrix'][from_node][to_node]
-
-  transit_callback_index = routing.RegisterTransitCallback(distance_callback)
-
-  # Define cost of each arc.
-  routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
-
-  # Add Distance constraint.
-  dimension_name = 'Distance'
-  routing.AddDimension(
-      transit_callback_index,
-      0,  # no slack
-      70000,  # vehicle maximum travel distance
-      True,  # start cumul to zero
-      dimension_name)
-  distance_dimension = routing.GetDimensionOrDie(dimension_name)
-  distance_dimension.SetGlobalSpanCostCoefficient(100)
-
-  # Setting first solution heuristic.
-  search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-  search_parameters.first_solution_strategy = (
-      routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
-
-  # Solve the problem.
-  solution = routing.SolveWithParameters(search_parameters)
-
-  # Print solution on console.
-  if solution:
-      print_solution(data, manager, routing, solution)
-
-
-@app.route("/", methods=['POST', 'GET'])
-
-def get():  
-        main()
-        ar = jsonify(global_sol)
-        return (ar)
+# def get():  
+#         main()
+#         # ar = jsonify(global_sol)
+#         return ("hey")
 
 
 if __name__ == '__main__':
-    app.run(debug= True)
+    # app.run(debug= True)
+    main()
