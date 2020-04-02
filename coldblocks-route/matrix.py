@@ -19,10 +19,22 @@ def create_data():
   data = {}
   # data['API_key'] = 'AIzaSyCTkzOzDdOn1vBbnVvLcf9WYuiypjtFO08'
   data['addresses'] = ['3610+Hacks+Cross+Rd+Memphis+TN', # depot
-                       '1921+Elvis+Presley+Blvd+Memphis+TN',
-                       '149+Union+Avenue+Memphis+TN',
-                       '1034+Audubon+Drive+Memphis+TN',
-                      ]                    
+                     '1921+Elvis+Presley+Blvd+Memphis+TN',
+                     '149+Union+Avenue+Memphis+TN',
+                     '1034+Audubon+Drive+Memphis+TN',
+                     '1532+Madison+Ave+Memphis+TN',
+                     '706+Union+Ave+Memphis+TN',
+                     '3641+Central+Ave+Memphis+TN',
+                     '926+E+McLemore+Ave+Memphis+TN',
+                     '4339+Park+Ave+Memphis+TN',
+                     '600+Goodwyn+St+Memphis+TN',
+                     '2000+North+Pkwy+Memphis+TN',
+                     '262+Danny+Thomas+Pl+Memphis+TN',
+                     '125+N+Front+St+Memphis+TN',
+                     '5959+Park+Ave+Memphis+TN',
+                     '814+Scott+St+Memphis+TN',
+                     '1005+Tillman+St+Memphis+TN'
+                    ]                
   data['num_vehicles'] = 1
   data['depot'] = 0                      
   return data
@@ -80,9 +92,9 @@ def build_distance_matrix(response):
   return distance_matrix
 
 def print_solution(data, manager, routing, solution):
-    # global global_sol
-    # global jsonData
-    # global_sol = []
+    global global_sol
+    global jsonData
+    global_sol = []
     """Prints solution on console."""
     max_route_distance = 0
     for vehicle_id in range(data['num_vehicles']):
@@ -101,17 +113,18 @@ def print_solution(data, manager, routing, solution):
         plan_output += '{}\n'.format(manager.IndexToNode(index))
         plan_output += 'Distance of the route: {}m\n'.format(route_distance)
         print(plan_output)
-        # max_route_distance = max(route_distance, max_route_distance)
-        # sol_dict = {"route" : str(plan_output)}
+        max_route_distance = max(route_distance, max_route_distance)
+        sol_dict = {"route" : str(plan_output)}
         # print(sol_dict)
-        # jsonDataParsed.update(sol_dict)  
+        jsonDataParsed.update(sol_dict)  
         # jsonData = json.dumps(jsonDataParsed)        
-        # global_sol.append(jsonDataParsed)
-        # print("JSON data")
-        # print(jsonDataParsed)
-        # print("global array")
-        # print(global_sol)   
+        global_sol.append(jsonDataParsed)
+        print("JSON data")
+        print(jsonDataParsed)
+        print("global array")
+        print(global_sol)   
     print('Maximum of the route distances: {}m'.format(max_route_distance))
+
 
 def main():
   """Entry point of the program"""
@@ -120,15 +133,14 @@ def main():
   addresses = data['addresses']
   API_key = data['API_key']
   data['distance_matrix'] = create_distance_matrix(data)
+  print("data matrix")
   print(data['distance_matrix'])
-  # data['distance_matrix'] = distance_matrix
-  # print(data['distance_matrix'])
+
   manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
                                            data['num_vehicles'], data['depot'])
 
   # Create Routing Model.
   routing = pywrapcp.RoutingModel(manager)
-
 
   # Create and register a transit callback.
   def distance_callback(from_index, to_index):
@@ -148,7 +160,7 @@ def main():
   routing.AddDimension(
       transit_callback_index,
       0,  # no slack
-      3000,  # vehicle maximum travel distance
+      70000,  # vehicle maximum travel distance
       True,  # start cumul to zero
       dimension_name)
   distance_dimension = routing.GetDimensionOrDie(dimension_name)
@@ -167,14 +179,13 @@ def main():
       print_solution(data, manager, routing, solution)
 
 
-# @app.route("/", methods=['POST', 'GET'])
-# def get():
-#         global global_sol    
-#         ar = jsonify(global_sol)
-#         return (ar)
+@app.route("/", methods=['POST', 'GET'])
 
-# global_sol = []
+def get():  
+        main()
+        ar = jsonify(global_sol)
+        return (ar)
+
 
 if __name__ == '__main__':
-    main()
-    # app.run(debug= True)
+    app.run(debug= True)
