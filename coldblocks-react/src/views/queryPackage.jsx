@@ -208,7 +208,7 @@ class QueryPackage extends Component {
                       i+=1;
                     }
                     this.setState({
-                        fetchShow: true, apiData : data, loading: false
+                        show: true, apiData : data, loading: false
                     }) 
             }
         })
@@ -240,7 +240,7 @@ class QueryPackage extends Component {
                       i+=1;
                     }
                     this.setState({
-                        fetchShow: true, apiData : data, loading: false
+                        show: true, apiData : data, loading: false
                     }) 
             }
         })
@@ -272,7 +272,7 @@ class QueryPackage extends Component {
                       i+=1;
                     }
                     this.setState({
-                        fetchShow: true, apiData : data, loading: false
+                        show: true, apiData : data, loading: false
                     }) 
             }
         })
@@ -304,7 +304,7 @@ class QueryPackage extends Component {
                     i+=1;
                   }
                   this.setState({
-                        fetchShow: true, apiData : data, loading: false
+                        show: true, apiData : data, loading: false
                     }) 
             }
         })

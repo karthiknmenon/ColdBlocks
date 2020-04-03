@@ -567,6 +567,9 @@ app.get('/api/ListPackages', function (req, res) {
 
     axios.get(restUrl + 'api/queries/AllPackages').then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -587,6 +590,9 @@ app.get('/api/ListPackagesByDestination', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageDestination?packageDestination=' + queryDestination).then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -607,7 +613,9 @@ app.get('/api/ListPackagesByHolder', function (req, res) {
 
     axios.get(restUrl + 'api/queries/packageHolder?packageHolder=' + queryHolder).then(function (response) {
         jsonResponse = response.data;
-        // response.data.fetchStatus = "1";
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -628,6 +636,9 @@ app.get('/api/ListPackagesById', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageId?packageid=' + queryID).then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -648,6 +659,9 @@ app.get('/api/ListPackagesByLocation', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageLocation?packageLocation=' + queryLocation).then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -668,11 +682,18 @@ app.get('/api/ListPackagesByStatus', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=' + queryStatus).then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
         console.log("Named Query : Package wrt Status")
+        // console.log(response)
     }).catch(function (error) {
+        res.send(JSON.stringify([{
+            status: "error"
+        }]))
         console.log(error);
     });
 });
