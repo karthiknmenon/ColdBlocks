@@ -796,7 +796,7 @@ app.post('/updatePackageDetails', function (req, res) {
 //         console.log("PUT method");
 //     }), 3000);
 
-// To edit distribuot details 
+// To edit distributor details 
 app.post('/editDistributor', function (req, res){
     const options = {
     url: 'http://localhost:3000/api/Distributor/'+req.body.distributorId,
@@ -809,6 +809,38 @@ app.post('/editDistributor', function (req, res){
             "distributorID": String(req.body.distributorId),
             "distributorName": String(req.body.distributorName)
     })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
+// To edit consumer details 
+app.post('/editConsumer', function (req, res){
+    console.log(req.body.consumerId)
+    const options = {
+        url: 'http://localhost:3000/api/Consumer/'+req.body.consumerId,
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.Consumer",
+                "consumerID": String(req.body.consumerId),
+                "consumerName": String(req.body.consumerName)
+        })
     };
     Request(options, function (err, response, body) {
         // let json = JSON.parse(body);

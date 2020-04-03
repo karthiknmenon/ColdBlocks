@@ -262,7 +262,7 @@ class DistributorList extends Component {
               centered
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">Distributor Found</Modal.Title>
+            <Modal.Title id="contained-modal-title-vcenter">Edit Information</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Row className="text-center">
