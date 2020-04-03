@@ -8,7 +8,8 @@ import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
 import * as ReactBootstrap from 'react-bootstrap';
 import 'remixicon/fonts/remixicon.css'
-
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 class DistributorList extends Component {
   constructor() {
     super()
@@ -16,14 +17,19 @@ class DistributorList extends Component {
       apiData:{},
       dName: '',
       dId: '',
-      postD: 0
+      postD: 0,
+      fetchId: '',
+      fetchName: '',
+      loading:true
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
-		this.fHandleClose = this.fHandleClose.bind(this);
+    this.fHandleClose = this.fHandleClose.bind(this);
+    this.fetchHandleClose = this.fetchHandleClose.bind(this);
 		this.state = {
       show: false,
-      fShow: false
+      fShow: false,
+      fetchShow: false
 		};
   }
 
@@ -38,7 +44,11 @@ class DistributorList extends Component {
                     dId: event.target.value });
 
   }
- 
+  fetchHandleChange = event => {
+    this.setState({
+        fetchId : event.target.value
+    })
+  }
   handleSubmit = event => {
     event.preventDefault();
     
@@ -50,7 +60,10 @@ class DistributorList extends Component {
     };
     // console.log("user "+user.dId);
     // console.log("user "+user.dName);
-    
+    this.setState({loading: true}, ()=>{
+      console.log("loader until fetch new data")
+    })
+
     axios.post(nodeURL+`/api/CreateDistribtuor`, 
     { headers: {
               "Content-Type": "application/json",
@@ -75,11 +88,35 @@ class DistributorList extends Component {
     })
     
   }
+  // To query wrt ID 
+  fetchHandleSubmit =  async event => {
+    event.preventDefault();
+    const user = {
+      dID: String(this.state.fetchId)
+    };
+    axios.get(nodeURL+'/api/ListDistributorsId?dID='+user.dID)
+    .then(res => {
+        // console.log(res)
+        var data = res.data
+        console.log(data.status);
+        if(data.status=="error"){
+                this.setState({
+                  fShow: true
+              })  
+        }else{
+            this.setState({
+            fetchShow: true, fetchName : data.distributorName
+          }) 
+        }
+             
+    })
+  
+  }
   fetchData(){
     fetch(nodeURL+'/api/ListDistributors')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ apiData: data })
+      this.setState({loading: false, apiData: data })
       // console.log(data);
     })
     .catch(console.log)
@@ -90,7 +127,7 @@ class DistributorList extends Component {
     .then(res => res.json())
     .then((data) => {
       console.log(data);
-      this.setState({ apiData: data })
+      this.setState({loading: false, apiData: data })
     })
     .catch(console.log)
   }
@@ -115,6 +152,10 @@ class DistributorList extends Component {
 	}
   fHandleClose() {
     this.setState({ fShow: false });
+    this.fetchData();
+  }
+  fetchHandleClose() {
+    this.setState({ fetchShow: false });
     this.fetchData();
 	}
 	// handleShow() {
@@ -160,6 +201,26 @@ class DistributorList extends Component {
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.fetchShow} onHide={this.fetchHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Distributor Found</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-user-search-line ri-10x text-success"></i>
+            <p className="text-success"><b>Success</b></p>
+            <p className="text-dark">Distributor with Distributor-ID <b>{this.state.fetchId}</b> found with Name <b>{this.state.fetchName}</b></p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.fetchHandleClose}>
                 Close
               </Button>
           </Modal.Footer>
@@ -214,37 +275,77 @@ class DistributorList extends Component {
           </Row>
         </Grid>
         <Grid fluid>
-          <Row>
-            <Col md={12}>
+        <Row>
+            <Col md={4}>
+              <Card
+                title="Query Distributor"
+                category="Query Distributor wrt Distributor ID"
+                content={
+                  <form onSubmit={this.fetchHandleSubmit} >
+                    <FormInputs 
+                      ncols={["col-md-12"]}
+                      properties={[
+                        {
+                          label: "Distributor ID",
+                          type: "text",
+                          bsClass: "form-control",
+                          onChange: this.fetchHandleChange,
+                          placeholder: "Enter Distributor ID",                             
+                        },
+                      ]}
+                    />       
+                    <Button bsStyle="success" pullRight fill type="submit">
+                      Submit
+                    </Button>
+                    <div className="clearfix" />
+                  </form>
+                }
+              />
+            </Col>
+            <Col md={8}>
               <Card
                 title="Distributor Details"
                 category="Distributor Details with ID and Name"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th>Distributor ID</th>
-                        <th>
-                          Distributor Name
-                        </th>
-                      </tr>
+                  <>
+                  {/* use boolean logic for loader or data */}
+                    {
+                      this.state.loading ? <Loader
+                      className="text-center"
+                      type="Rings"
+                      color="#757575"
+                      height={100}
+                      width={100}
+                      //3 secs
+          
+                    /> : <Table striped hover>
+                            <thead>
+                              <tr>
+                                <th>Distributor ID</th>
+                                <th>
+                                  Distributor Name
+                                </th>
+                              </tr>
 
-                    </thead>
-                    <tbody>                     
-                      {Array.isArray(apiData) && apiData.map(object => (
-                        <>
-                          <tr>
-                            <td>{object.distributorID}</td>
-                            <td>{object.distributorName}</td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </Table>
+                            </thead>
+                            <tbody>                     
+                              {Array.isArray(apiData) && apiData.map(object => (
+                                <>
+                                  <tr>
+                                    <td>{object.distributorID}</td>
+                                    <td>{object.distributorName}</td>
+                                  </tr>
+                                </>
+                              ))}
+                            </tbody>
+                         </Table>
+                    } 
+                </>
                 }
               />
+              
             </Col>
           </Row>
         </Grid>

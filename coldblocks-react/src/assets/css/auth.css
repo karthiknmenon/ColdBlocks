@@ -1,13 +1,14 @@
-.coldblocks-logo{
+.coldblocks-logo {
     margin-top: 32px;
-    height:250px;
-    width:350px;
+    height: 250px;
+    width: 350px;
     margin-bottom: 88px;
 }
+
 @media (max-width: 992px) {
-    .coldblocks-logo{
-        margin:0 0 16px 0;
-        height:200px;
-        width:250px;
+    .coldblocks-logo {
+        margin: 0 0 16px 0;
+        height: 200px;
+        width: 250px;
     }
 }

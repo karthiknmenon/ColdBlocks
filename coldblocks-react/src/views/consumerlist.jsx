@@ -8,6 +8,8 @@ import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
 import * as ReactBootstrap from 'react-bootstrap';
 import 'remixicon/fonts/remixicon.css'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 class ConsumerList extends Component {
   constructor() {
     super()
@@ -15,14 +17,19 @@ class ConsumerList extends Component {
       apiData:{},
       cName: '',
       cId: '',
-      postD: 0
+      postD: 0,
+      fetchId: '',
+      fetchName: '',
+      loading:true
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 		this.fHandleClose = this.fHandleClose.bind(this);
+		this.fetchHandleClose = this.fetchHandleClose.bind(this);
 		this.state = {
       show: false,
-      fShow: false
+      fShow: false,
+      fetchShow: false
 		};
   }
   nameChange = event => {
@@ -33,6 +40,12 @@ class ConsumerList extends Component {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
                     cId: event.target.value });
+  }
+  fetchHandleChange = event => {
+    console.log("Invoked fetch ID change: "+event.target.value);
+    this.setState({
+            fetchId: event.target.value
+    })
   }
  
   handleSubmit =  async event => {
@@ -47,7 +60,9 @@ class ConsumerList extends Component {
 
     // console.log("user "+user.cId);
     // console.log("user "+user.cName);
-
+    this.setState({loading: true}, ()=>{
+      console.log("loader until fetch new data")
+    })
     axios.post(nodeURL+`/api/CreateConsumer`, 
     { headers: {
               "Content-Type": "application/json",
@@ -76,11 +91,35 @@ class ConsumerList extends Component {
         console.log("post callback called"+this.state.postD);
       })   
   }
+  // To query wrt ID 
+  fetchHandleSubmit =  async event => {
+  event.preventDefault();
+    const user = {
+      cId: String(this.state.fetchId)
+    };
+    axios.get(nodeURL+`/api/ListConsumerId?cID=`+user.cId)
+    .then(res => {
+        // console.log(res)
+        var data = res.data
+        console.log(data.status);
+        if(data.status=="error"){
+                this.setState({
+                  fShow: true
+              })  
+        }else{
+            this.setState({
+            fetchShow: true, fetchName : data.consumerName
+          }) 
+        }
+             
+    })
+  
+  }
   fetchData(){
     fetch(nodeURL+'/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ apiData: data })
+      this.setState({ loading: false, apiData: data })
       // console.log(data);
     })
     .catch(console.log)
@@ -90,7 +129,7 @@ class ConsumerList extends Component {
     fetch(nodeURL+'/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ apiData: data })
+      this.setState({ loading: false,apiData: data })
       // console.log(data);
     })
     .catch(console.log)
@@ -117,6 +156,10 @@ class ConsumerList extends Component {
 	}
   fHandleClose() {
     this.setState({ fShow: false });
+    this.fetchData();
+	}
+  fetchHandleClose() {
+    this.setState({ fetchShow: false });
     this.fetchData();
 	}
 	// handleShow() {
@@ -161,7 +204,27 @@ class ConsumerList extends Component {
             <p className="text-danger">Transaction Failed</p>
           </Modal.Body>
           <Modal.Footer>
-              <Button variant="secondary" onClick={this.handleClose}>
+              <Button variant="secondary" onClick={this.fHandleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.fetchShow} onHide={this.fetchHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Customer Found</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-user-search-line ri-10x text-success"></i>
+            <p className="text-success"><b>Success</b></p>
+            <p className="text-dark">Customer with Customer-ID <b>{this.state.fetchId}</b> found with Name <b>{this.state.fetchName}</b></p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.fetchHandleClose}>
                 Close
               </Button>
           </Modal.Footer>
@@ -215,34 +278,76 @@ class ConsumerList extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={12}>
+            <Col md={4}>
+              <Card
+                title="Query Consumer"
+                category="Query Consumer wrt Consumer ID"
+                content={
+                  <form onSubmit={this.fetchHandleSubmit} >
+                    <FormInputs 
+                      ncols={["col-md-12"]}
+                      properties={[
+                        {
+                          label: "Consumer ID",
+                          type: "text",
+                          bsClass: "form-control",
+                          onChange: this.fetchHandleChange,
+                          placeholder: "Enter Consumer ID",                             
+                        },
+                      ]}
+                    />       
+                    <Button bsStyle="success" pullRight fill type="submit">
+                      Submit
+                    </Button>
+                    <div className="clearfix" />
+                  </form>
+                }
+              />
+            </Col>
+          {/* </Row>
+          <Row> */}
+            <Col md={8}>
+              
               <Card
                 title="Consumer Details"
                 category="Consumer Details with ID and Name"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        <th>Consumer ID</th>
-                        <th>
-                          Consumer Name
-                        </th>
-                      </tr>
+                  <>
+                  {/* use boolean logic for loader or data */}
+                    {this.state.loading ? <Loader
+                    className="text-center"
+                    type="Rings"
+                    color="#757575"
+                    height={100}
+                    width={100}
+                    //3 secs
+          
+                    /> : <Table striped hover>
+                      <thead>
+                        <tr>
+                          <th>Consumer ID</th>
+                          <th>
+                            Consumer Name
+                          </th>
+                        </tr>
 
-                    </thead>
-                    <tbody>                     
-                      {Array.isArray(apiData) && apiData.map(object => (
-                        <>
-                          <tr>
-                            <td>{object.consumerID}</td>
-                            <td>{object.consumerName}</td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>                     
+                        {Array.isArray(apiData) && apiData.map(object => (
+                          <>
+                            <tr>
+                              <td>{object.consumerID}</td>
+                              <td>{object.consumerName}</td>
+                            </tr>
+                          </>
+                        ))}
+                      </tbody>
+                    </Table>
+                    }
+                  </>
+                  
                 }
               />
             </Col>
