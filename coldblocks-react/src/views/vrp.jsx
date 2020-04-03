@@ -149,6 +149,7 @@ class vrp extends Component {
                     /> : <Table striped hover>
                     <thead>
                       <tr>
+                        <th>Vehicle ID</th>
                         <th>Route</th>
                         <th>Distance</th>
                       </tr>
@@ -161,6 +162,7 @@ class vrp extends Component {
                             <tr>
                               {/* <td>{object.consumerID}</td> */}
                               
+                              <td>{object.vehicleId}</td>
                               <td>{object.route}</td>
                               <td>{object.distance}</td>
                               
