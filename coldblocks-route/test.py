@@ -38,20 +38,21 @@ def print_solution(data, manager, routing, solution):
         # plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
         plan_output = ''
         route_distance = 0
-        while not routing.IsEnd(index):
+        dist_route = ''
+        while not routing.IsEnd(index):            
             jsonData = '{}'
             jsonDataParsed = json.loads(jsonData)
-            plan_output += ' {} -> '.format(manager.IndexToNode(index))
+            plan_output += ' {} -> '.format(data['addresses'][manager.IndexToNode(index)])
             previous_index = index
             index = solution.Value(routing.NextVar(index))
             route_distance += routing.GetArcCostForVehicle(
                 previous_index, index, vehicle_id)
         total_distance += route_distance
-        plan_output += '{}\n'.format(manager.IndexToNode(index))
-        plan_output += 'Distance of the route: {}m\n'.format(route_distance)
+        plan_output += '{}\n'.format(data['addresses'][manager.IndexToNode(index)])
+        dist_route += 'Distance of the route: {}m\n'.format(route_distance)
         print(plan_output)
         max_route_distance = max(route_distance, max_route_distance)
-        sol_dict = {"route" : str(plan_output)}
+        sol_dict = {"route" : str(plan_output), "distance": str(dist_route)}
         jsonDataParsed.update(sol_dict)  
         # jsonData = json.dumps(jsonDataParsed)        
         global_sol.append(jsonDataParsed)

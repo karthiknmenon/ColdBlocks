@@ -150,6 +150,7 @@ class vrp extends Component {
                     <thead>
                       <tr>
                         <th>Route</th>
+                        <th>Distance</th>
                       </tr>
 
                     </thead>
@@ -161,6 +162,7 @@ class vrp extends Component {
                               {/* <td>{object.consumerID}</td> */}
                               
                               <td>{object.route}</td>
+                              <td>{object.distance}</td>
                               
                             </tr>
                             
