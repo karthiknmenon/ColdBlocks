@@ -19,16 +19,19 @@ class ManufacturerList extends Component {
       mName:{},
       fetchId: '',
       fetchName: '',
-      loading:true
+      loading:true,
+      editId:''
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
     this.fHandleClose = this.fHandleClose.bind(this);
     this.fetchHandleClose = this.fetchHandleClose.bind(this);
-		this.state = {
+    this.editHandleClose = this.editHandleClose.bind(this);
+    this.state = {
       show: false,
       fShow: false,
-      fetchHandleClose: false
+      fetchHandleClose: false,
+      editShow:false
 		};
   }
 
@@ -52,42 +55,73 @@ class ManufacturerList extends Component {
  
   handleSubmit = event => {
     event.preventDefault();
-    
-    // console.log("state "+this.state.mID);
-    // console.log("state "+this.state.mName);
-    const user = {
-      mID: String(this.state.mID),
-      mName: String(this.state.mName)
-    };
-    // console.log("user "+user.mID);
-    // console.log("user "+user.mName);
-    this.setState({loading: true}, ()=>{
-      console.log("loader until fetch new data")
-    })
+    // console.log("edit Id: "+this.state.editId)
+    // console.log(event.target.name)
+    if(event.target.name=="editInfo"){
+        console.log("edit details")
+        const user = {
+          manufacturerId: String(this.state.editId),
+          manufacturerName: String(this.state.mName)
+        }
+        console.log("user data being sent : "+user.distributorName)
+        this.setState({loading: true}, ()=>{
+          console.log("loader until fetch new data")
+        })
+        axios.post(`http://localhost:4000/editManufacturer`,
+        { headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+        {data : user})
+        .then(res => {
+          console.log(res.data);
+          if(res.data=="success"){ 
+            this.setState({ show: true, editShow:false }, ()=>{
+            console.log("Set State for Show")
+            });  
+          }
+          else{
+            this.setState({ fShow: true }, ()=>{
+              console.log("Set State for Show")
+            });  
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
+    else{
+        const user = {
+          mID: String(this.state.mID),
+          mName: String(this.state.mName)
+        };
+        this.setState({loading: true}, ()=>{
+          console.log("loader until fetch new data")
+        })
 
-    axios.post(nodeURL+`/api/CreateManufacturer`, 
-    { headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
-    { data: user})
-    .then(res => {
-      console.log(res.data);
-      if(res.data=="success"){ 
-        this.setState({ show: true }, ()=>{
-        console.log("Set State for Show")
-        });  
-      }
-      else{
-        this.setState({ fShow: true }, ()=>{
-          console.log("Set State for Show")
-        });  
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    
+        axios.post(nodeURL+`/api/CreateManufacturer`, 
+        { headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                  'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+        { data: user})
+        .then(res => {
+          console.log(res.data);
+          if(res.data=="success"){ 
+            this.setState({ show: true }, ()=>{
+            console.log("Set State for Show")
+            });  
+          }
+          else{
+            this.setState({ fShow: true }, ()=>{
+              console.log("Set State for Show")
+            });  
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
   }
     // To query wrt ID 
     fetchHandleSubmit =  async event => {
@@ -122,6 +156,13 @@ class ManufacturerList extends Component {
     })
     .catch(console.log)
   }
+  // for PUT request to update
+  editInfo = event => {
+    console.log(event.target.value)
+    this.setState({
+      editId: event.target.value, editShow: true
+    })
+  }  
   componentDidMount() {
     // console.log("hi");
     fetch(nodeURL+'/api/ListManufacturers')
@@ -142,6 +183,10 @@ class ManufacturerList extends Component {
   }
   fetchHandleClose() {
     this.setState({ fetchShow: false });
+    this.fetchData();
+  }
+  editHandleClose() {
+    this.setState({ editShow: false });
     this.fetchData();
 	}
 	// handleShow() {
@@ -211,6 +256,49 @@ class ManufacturerList extends Component {
               </Button>
           </Modal.Footer>
         </Modal>
+        <Modal show={this.state.editShow} onHide={this.editHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Edit Information</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Row className="text-center">
+            <i className="ri-edit-box-line ri-5x text-dark"></i>
+            <p className="text-muted">Edit Distributor Information</p>
+            </Row>
+            <form onSubmit={this.handleSubmit} name="editInfo" >
+                      <FormInputs 
+                        ncols={["col-md-6", "col-md-6"]}
+                        properties={[
+                          {
+                            label: "Distributor ID",
+                            type: "text",
+                            bsClass: "form-control",
+                            defaultValue:this.state.editId,
+                            disabled:true                          
+                          },
+                          {
+                            label: "Name",
+                            type: "text",
+                            bsClass: "form-control",
+                            placeholder: "Distributor Name",
+                            onChange:this.nameChange,
+                            name: "dName",
+                            
+                          }
+                        ]}
+                      />       
+                      <div className="clearfix" />
+                      <Button bsStyle="success" fill type="submit" >
+                        Submit
+                      </Button>
+              </form>
+          </Modal.Body>
+        </Modal>        
           <Grid fluid>
             <Row>
             <Col md={12}>
@@ -313,6 +401,9 @@ class ManufacturerList extends Component {
                         <th>
                           Manufacturer Name
                         </th>
+                        <th className="text-center">
+                          Edit
+                        </th>
                       </tr>
 
                     </thead>
@@ -322,6 +413,7 @@ class ManufacturerList extends Component {
                           <tr>
                             <td>{object.manufacturerID}</td>
                             <td>{object.manufacturerName}</td>
+                            <td className="text-center"><Button bsStyle="warning" bsSize="xs" value={object.manufacturerID} onClick={this.editInfo}>Edit</Button>{' '}</td>
                           </tr>
                         </>
                       ))}

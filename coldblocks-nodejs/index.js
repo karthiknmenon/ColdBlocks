@@ -334,7 +334,7 @@ app.post('/api/CreateManufacturer', function (req, res) {
         "url": restUrl + "api/Manufacturer",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Manufacturer",
-            "manufacturerID": String(req.body.mId),
+            "manufacturerID": String(req.body.mID),
             "manufacturerName": String(req.body.mName)
         })
     }, (error, response, body) => {
@@ -872,6 +872,38 @@ app.post('/editSupplier', function (req, res){
                 "$class": "org.coldblocks.mynetwork.Supplier",
                 "supplierID": String(req.body.supplierId),
                 "supplierName": String(req.body.supplierName)
+        })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
+// API To Edit Manufacturer Details 
+app.post('/editManufacturer', function (req, res){
+    console.log(req.body.manufacturerId)
+    const options = {
+        url: 'http://localhost:3000/api/Manufacturer/'+req.body.manufacturerId,
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.Manufacturer",
+                "manufacturerID": String(req.body.manufacturerId),
+                "manufacturerName": String(req.body.manufacturerName)
         })
     };
     Request(options, function (err, response, body) {
