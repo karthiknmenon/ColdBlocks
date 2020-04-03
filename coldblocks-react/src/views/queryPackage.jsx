@@ -317,6 +317,7 @@ class QueryPackage extends Component {
     .then((data) => {
       var JSONdata = JSON.stringify(data);
       var length = data.length;
+      console.log(data)
       console.log(length)
       var i = 0;
       while(i<length){
@@ -360,15 +361,16 @@ class QueryPackage extends Component {
   }
   handleClose() {
     this.setState({ show: false });
-    this.fetchData();
+    // setInterval(this.fetchData(),10000)
   }
   fHandleClose() {
     this.setState({ fShow: false });
-    this.fetchData();
+    // setInterval(this.fetchData(),10000)
   }
   fetchHandleClose() {
     this.setState({ fetchShow: false });
-    this.fetchData();
+    this.fetchData()
+    
 	}
 
 	// handleShow() {
@@ -488,11 +490,11 @@ class QueryPackage extends Component {
             <Col md={12}>
               <Card
                 title="Package Details"
-                category="Complete Package Details"
+                category="Complete Package Details " 
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <>
+                  <>    
                   {/* use boolean logic for loader or data */}
                     {
                       this.state.loading ? <Loader
@@ -541,6 +543,7 @@ class QueryPackage extends Component {
                     </tbody>
                   </Table>
                 }
+                <Button bsStyle="primary" simple pullRight onClick={this.fetchHandleClose}>Refresh</Button>
                 </>
                 }
               />
