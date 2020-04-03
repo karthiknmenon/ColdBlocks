@@ -838,24 +838,28 @@ app.get("/api/chartTemp", (req, res) => {
     var event = new Date();
     var eventHours = event.getHours();
     var eventMinutes = event.getMinutes();
-    dateLabel.push(String(eventHours)+String(":"+eventMinutes))
-    console.log("date array:"+dateLabel)
-    if(seenPackage.includes(String(packageId))){
+    if (dateLabel.includes(String(eventHours) + String(":" + eventMinutes))) {
+        console.log("Same Time, Don't push into DateLabel")
+    } else {
+        dateLabel.push(String(eventHours) + String(":" + eventMinutes))
+        console.log("date array:" + dateLabel)
+    }
+
+    if (seenPackage.includes(String(packageId))) {
         console.log("old package")
         packageId = String(packageId).slice(1)
-        packageId = parseInt(packageId)        
+        packageId = parseInt(packageId)
         // console.log(packageId)
         // Since array index starts from 0 => (packageId - 1 )
-        chart_temp[packageId-1].push(req.query.temperature)
-    }
-    else{
+        chart_temp[packageId - 1].push(req.query.temperature)
+    } else {
         var temp = []
         seenPackage.push(String(packageId))
         console.log("new package")
         temp.push(req.query.temperature)
-        const arr = temp.map(x=>x)
+        const arr = temp.map(x => x)
         chart_temp.push(arr)
-    }    
+    }
     console.log(chart_temp);
 })
 // data visualization of temperature values
@@ -866,6 +870,9 @@ app.get("/api/getTemp", (req, res) => {
 
 app.get("/api/getLabel", (req, res) => {
     res.send(dateLabel);
+})
+app.get("/api/getPackageInfo", (req, res) => {
+    res.send(seenPackage);
 })
 
 // data visualization for status values

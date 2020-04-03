@@ -14,7 +14,8 @@ class Chart extends Component {
     this.state = {
       temp: [],
       status: [],
-      dateLabel: []
+      dateLabel: [],
+      package:[]
     }
   }
   componentDidMount() {
@@ -58,6 +59,17 @@ class Chart extends Component {
             })
             console.log(this.state.temp)
       })
+    axios.get(nodeURL+`/api/getPackageInfo`)
+      .then(res => {
+            console.log("res for datelabel: "+res)
+            console.log("res.data for datelabel: "+res.data)
+            this.setState({
+              package : res.data
+            }, ()=>{
+              console.log("callback for setState of datelabel");
+            })
+            console.log(this.state.temp)
+      })
   }
   createLegend(json) {
     var legend = [];
@@ -66,6 +78,17 @@ class Chart extends Component {
       legend.push(<i className={type} key={i} />);
       legend.push(" ");
       legend.push(json["names"][i]);
+    }
+    return legend;
+  }
+  createLegendLine() {
+    var legend = [];
+    for (var i = 0; i < this.state.package.length; i++) {
+      var type = "fa fa-circle text-" + legendSales["types"][i];
+      legend.push(<i className={type} key={i} />);
+      legend.push(" ");
+      legend.push(this.state.package[i]);
+      console.log("legend for line"+legend)
     }
     return legend;
   }
@@ -144,7 +167,7 @@ class Chart extends Component {
                     />                    
                   }
                   legend={
-                    <div className="legend">{this.createLegend(legendSales)}</div>
+                    <div className="legend">{this.createLegendLine()}</div>
                   }
                  
                 />
