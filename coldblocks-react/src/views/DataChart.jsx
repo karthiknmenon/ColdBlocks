@@ -15,25 +15,43 @@ class Chart extends Component {
       temp: [],
       status: [],
       dateLabel: [],
-      package:[]
+      package:[],
+      statusOk:'',
+      statusTampered:''
     }
   }
   componentDidMount() {
-    axios.get(nodeURL+`/api/chartStatus`)
+    axios.get(nodeURL+`/api/ListPackagesByStatus?packageStatus=1`)
     .then(res => {
           console.log("res.data: "+res.data)
-          console.log(this.state.status)
+          this.setState({
+                statusOk : res.data.length
+          })
+          console.log("Ok :"+this.state.statusOk)
     })
-    axios.get(nodeURL+`/api/getCStatus`)
-      .then(res => {
-            console.log("res.data: "+res.data)
-            this.setState({
-              status : res.data
-            }, ()=>{
-              console.log("callback for setState of status");
-            })
-            console.log(this.state.status)
-      })
+    axios.get(nodeURL+`/api/ListPackagesByStatus?packageStatus=0`)
+    .then(res => {
+          console.log("res.data: "+res.data)
+          this.setState({
+                statusTampered : res.data.length
+          })
+          console.log("Tampered: "+this.state.statusTampered)
+    })
+    // axios.get(nodeURL+`/api/chartStatus`)
+    // .then(res => {
+    //       console.log("res.data: "+res.data)
+    //       console.log(this.state.status)
+    // })
+    // axios.get(nodeURL+`/api/getCStatus`)
+    //   .then(res => {
+    //         console.log("res.data: "+res.data)
+    //         this.setState({
+    //           status : res.data
+    //         }, ()=>{
+    //           console.log("callback for setState of status");
+    //         })
+    //         console.log(this.state.status)
+    //   })
     axios.get(nodeURL+`/api/getTemp`)
       .then(res => {
             console.log("res.data: "+res.data)
@@ -90,10 +108,10 @@ class Chart extends Component {
     return legend;
   }
   render() {
-    var total_pie= this.state.status[0]+this.state.status[1];
+    var total_pie= this.state.statusOk+this.state.statusTampered;
     var dataPie = {
-      labels: [String(((this.state.status[0]/total_pie)*100).toFixed(2))+'%', String(((this.state.status[1]/total_pie)*100).toFixed(2)+'%')],
-      series: this.state.status
+      labels: [String(((this.state.statusOk/total_pie)*100).toFixed(2))+'%', String(((this.state.statusTampered/total_pie)*100).toFixed(2)+'%')],
+      series: [this.state.statusOk, this.state.statusTampered]
     };
     console.log(dataPie)
 
