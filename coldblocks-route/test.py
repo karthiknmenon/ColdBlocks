@@ -49,7 +49,7 @@ def print_solution(data, manager, routing, solution):
                 previous_index, index, vehicle_id)
         total_distance += route_distance
         plan_output += '{}\n'.format(data['addresses'][manager.IndexToNode(index)])
-        dist_route += 'Distance of the route: {}m\n'.format(route_distance)
+        dist_route += '{}m\n'.format(route_distance)
         print(plan_output)
         max_route_distance = max(route_distance, max_route_distance)
         sol_dict = {"vehicleId":str(vehicle_id+1), "route" : str(plan_output), "distance": str(dist_route)}
@@ -210,7 +210,7 @@ def getMatrix():
         return (ar)
 
     if request.method=='GET':
-        ar = jsonify([{"route":"hey"}])
+        ar = jsonify([{"route" : "null", "vehicleId" : "null", "distance" : "null"}])
         ar.headers.add('Access-Control-Allow-Origin', '*')
         return (ar)
 

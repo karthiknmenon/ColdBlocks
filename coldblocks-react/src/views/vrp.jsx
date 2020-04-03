@@ -1,6 +1,6 @@
 
 import React, { Component } from "react";
-import { Grid, Row, Col, Table } from "react-bootstrap";
+import { Grid, Row, Col, Table, Modal } from "react-bootstrap";
 import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
@@ -17,8 +17,14 @@ class vrp extends Component {
       vehicleNo: '',
       vehicleLoc: '',
       postD: 0,
-      loading: false
+      loading: false,
     }
+      this.handleClose = this.handleClose.bind(this);
+      this.fHandleClose = this.fHandleClose.bind(this);      
+      this.state = {
+        show: false,
+        fShow: false,        
+      };      
   }
   nameChange = event => {
     console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
@@ -31,17 +37,12 @@ class vrp extends Component {
  
   handleSubmit =  async event => {
     event.preventDefault();
-    
-    // console.log("state "+this.state.cId);
-    // console.log("state "+this.state.vehicleNo);
-    // console.log("user "+user.cId);
-    // console.log("user "+user.vehicleNo);
     const user = {
       vehicleNo : this.state.vehicleNo,
       vehicleLoc : this.state.vehicleLoc
     }
     this.setState({
-        loading: true
+        loading: true, show: true
     })
     await axios.post('http://127.0.0.1:5000/sendLocation', 
     { headers: {    
@@ -71,14 +72,63 @@ class vrp extends Component {
     this.setState({loading: true})
     axios.post('http://127.0.0.1:5000/')
       .then(res => {
-        this.setState({ loading:false, apiData: res.data })
+        this.setState({ loading:false, apiData: res.data, show:false })
       })
   }
-
+  handleClose() {
+    this.setState({ show: false });
+	}
+  fHandleClose() {
+    this.setState({ fShow: false });
+	}
+	// handleShow() {
+	// 	this.setState({ show: true });
+  // }
   render() {
     const {apiData} = this.state;
     return (
       <div className="content">
+        <Modal show={this.state.show} onHide={this.handleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Success</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-laugh-line ri-10x text-success"></i>
+            <p className="text-success">Distance Matrix Was Successfully Computed</p>
+            <Button bsStyle="success" outline type="button" onClick={this.fetchRoute}>
+                      Generate Routes
+            </Button>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.fShow} onHide={this.fHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Transaction Failed</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <i className="ri-emotion-unhappy-line ri-10x text-danger"></i>
+            <p className="text-danger">Transaction Failed</p>
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={this.fHandleClose}>
+                Close
+              </Button>
+          </Modal.Footer>
+        </Modal>
           <Grid fluid>
           <Row>
             <Col md={12}>
@@ -134,9 +184,6 @@ class vrp extends Component {
                 ctTableResponsive
                 content={
                   <>
-                  <Button bsStyle="success" pullRight fill type="button" onClick={this.fetchRoute}>
-                      Submit
-                  </Button>
                    {/* use boolean logic for loader or data */}
                    {this.state.loading ? <Loader
                     className="text-center"
