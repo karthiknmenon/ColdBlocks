@@ -427,6 +427,134 @@ app.post('/api/CreateSupplier', function (req, res) {
     });
 })
 
+// Queries to Edit Information 
+// API To Edit Distributor Details 
+app.post('/editDistributor', function (req, res){
+    const options = {
+    url: 'http://localhost:3000/api/Distributor/'+req.body.distributorId,
+    method: 'PUT',
+    headers: {
+        'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+            "$class": "org.coldblocks.mynetwork.Distributor",
+            "distributorID": String(req.body.distributorId),
+            "distributorName": String(req.body.distributorName)
+    })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
+// API To Edit Consumer Details 
+app.post('/editConsumer', function (req, res){
+    console.log(req.body.consumerId)
+    const options = {
+        url: 'http://localhost:3000/api/Consumer/'+req.body.consumerId,
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.Consumer",
+                "consumerID": String(req.body.consumerId),
+                "consumerName": String(req.body.consumerName)
+        })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
+// API To Edit Supplier Details 
+app.post('/editSupplier', function (req, res){
+    console.log(req.body.supplierId)
+    const options = {
+        url: 'http://localhost:3000/api/Supplier/'+req.body.supplierId,
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.Supplier",
+                "supplierID": String(req.body.supplierId),
+                "supplierName": String(req.body.supplierName)
+        })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
+// API To Edit Manufacturer Details 
+app.post('/editManufacturer', function (req, res){
+    console.log(req.body.manufacturerId)
+    const options = {
+        url: 'http://localhost:3000/api/Manufacturer/'+req.body.manufacturerId,
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.Manufacturer",
+                "manufacturerID": String(req.body.manufacturerId),
+                "manufacturerName": String(req.body.manufacturerName)
+        })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
 // Named Queries
 
 // API to fetch all packages 
@@ -795,133 +923,6 @@ app.post('/updatePackageDetails', function (req, res) {
 //         // let json = JSON.parse(body);
 //         console.log("PUT method");
 //     }), 3000);
-
-// API To Edit Distributor Details 
-app.post('/editDistributor', function (req, res){
-    const options = {
-    url: 'http://localhost:3000/api/Distributor/'+req.body.distributorId,
-    method: 'PUT',
-    headers: {
-        'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-            "$class": "org.coldblocks.mynetwork.Distributor",
-            "distributorID": String(req.body.distributorId),
-            "distributorName": String(req.body.distributorName)
-    })
-    };
-    Request(options, function (err, response, body) {
-        // let json = JSON.parse(body);
-        console.log("PUT method");
-            if (err) {
-                return console.dir(error);
-            } else {
-                if (JSON.parse(body).hasOwnProperty('error')) {
-                    res.send("error")
-                } else {
-                    console.log("Success");
-                    res.send("success")
-                    console.dir(JSON.parse(body));
-                }
-            }
-        })
-})
-
-// API To Edit Consumer Details 
-app.post('/editConsumer', function (req, res){
-    console.log(req.body.consumerId)
-    const options = {
-        url: 'http://localhost:3000/api/Consumer/'+req.body.consumerId,
-        method: 'PUT',
-        headers: {
-            'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-                "$class": "org.coldblocks.mynetwork.Consumer",
-                "consumerID": String(req.body.consumerId),
-                "consumerName": String(req.body.consumerName)
-        })
-    };
-    Request(options, function (err, response, body) {
-        // let json = JSON.parse(body);
-        console.log("PUT method");
-            if (err) {
-                return console.dir(error);
-            } else {
-                if (JSON.parse(body).hasOwnProperty('error')) {
-                    res.send("error")
-                } else {
-                    console.log("Success");
-                    res.send("success")
-                    console.dir(JSON.parse(body));
-                }
-            }
-        })
-})
-
-// API To Edit Supplier Details 
-app.post('/editSupplier', function (req, res){
-    console.log(req.body.supplierId)
-    const options = {
-        url: 'http://localhost:3000/api/Supplier/'+req.body.supplierId,
-        method: 'PUT',
-        headers: {
-            'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-                "$class": "org.coldblocks.mynetwork.Supplier",
-                "supplierID": String(req.body.supplierId),
-                "supplierName": String(req.body.supplierName)
-        })
-    };
-    Request(options, function (err, response, body) {
-        // let json = JSON.parse(body);
-        console.log("PUT method");
-            if (err) {
-                return console.dir(error);
-            } else {
-                if (JSON.parse(body).hasOwnProperty('error')) {
-                    res.send("error")
-                } else {
-                    console.log("Success");
-                    res.send("success")
-                    console.dir(JSON.parse(body));
-                }
-            }
-        })
-})
-
-// API To Edit Manufacturer Details 
-app.post('/editManufacturer', function (req, res){
-    console.log(req.body.manufacturerId)
-    const options = {
-        url: 'http://localhost:3000/api/Manufacturer/'+req.body.manufacturerId,
-        method: 'PUT',
-        headers: {
-            'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-                "$class": "org.coldblocks.mynetwork.Manufacturer",
-                "manufacturerID": String(req.body.manufacturerId),
-                "manufacturerName": String(req.body.manufacturerName)
-        })
-    };
-    Request(options, function (err, response, body) {
-        // let json = JSON.parse(body);
-        console.log("PUT method");
-            if (err) {
-                return console.dir(error);
-            } else {
-                if (JSON.parse(body).hasOwnProperty('error')) {
-                    res.send("error")
-                } else {
-                    console.log("Success");
-                    res.send("success")
-                    console.dir(JSON.parse(body));
-                }
-            }
-        })
-})
 
 // Print Temperature Drop events
 
