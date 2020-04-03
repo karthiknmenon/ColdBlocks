@@ -19,10 +19,6 @@ class Chart extends Component {
     }
   }
   componentDidMount() {
-    // app.get("/api/chartTemp", (req,res)=>{
-    //     console.log("res.body.temperature: "+req.query.temperature)
-    //     chart_temp.push(req.query.temperature)
-    //     console.log(chart_temp);
     axios.get(nodeURL+`/api/chartStatus`)
     .then(res => {
           console.log("res.data: "+res.data)
@@ -71,14 +67,15 @@ class Chart extends Component {
             console.log(this.state.temp)
       })
   }
-  createLegend(json) {
+  createLegend() {
     var legend = [];
-    for (var i = 0; i < json["names"].length; i++) {
-      var type = "fa fa-circle text-" + json["types"][i];
-      legend.push(<i className={type} key={i} />);
-      legend.push(" ");
-      legend.push(json["names"][i]);
-    }
+    // for (var i = 0; i < json["names"].length; i++) {
+    //   var type = "fa fa-circle text-" + json["types"][i];
+    //   legend.push(<i className={type} key={i} />);
+    //   legend.push(" ");
+    //   legend.push(json["names"][i]);
+    // }
+    legend = [<i className="fa fa-circle text-danger" key="1" />, ,"Tampered", <i className="fa fa-circle text-info" key="2" />, ,"Ok"];
     return legend;
   }
   createLegendLine() {
