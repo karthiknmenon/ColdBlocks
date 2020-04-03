@@ -52,7 +52,7 @@ def print_solution(data, manager, routing, solution):
         dist_route += '{}m\n'.format(route_distance)
         print(plan_output)
         max_route_distance = max(route_distance, max_route_distance)
-        sol_dict = {"vehicleId":str(vehicle_id+1), "route" : str(plan_output), "distance": str(dist_route)}
+        sol_dict = {"vehicleId":str(vehicle_id+1), "route" : str(plan_output).replace('+',' '), "distance": str(dist_route)}
         jsonDataParsed.update(sol_dict)  
         # jsonData = json.dumps(jsonDataParsed)        
         global_sol.append(jsonDataParsed)
@@ -206,7 +206,7 @@ def getMatrix():
         distance_matrix = create_distance_matrix(data)
         data['distance_matrix'] = distance_matrix
         print(data['distance_matrix'])
-        ar = jsonify([{"route":"hey"}])
+        ar = jsonify([{"route" : "null", "vehicleId" : "null", "distance" : "null"}])
         return (ar)
 
     if request.method=='GET':

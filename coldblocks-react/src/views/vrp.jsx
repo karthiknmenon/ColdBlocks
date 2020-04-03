@@ -42,7 +42,7 @@ class vrp extends Component {
       vehicleLoc : this.state.vehicleLoc
     }
     this.setState({
-        loading: true, show: true
+        loading: true
     })
     await axios.post('http://127.0.0.1:5000/sendLocation', 
     { headers: {    
@@ -54,7 +54,7 @@ class vrp extends Component {
       // console.log(res);
       console.log(".then for post"+res.data);  
       this.setState({
-          loading: false, apiData : res.data
+          loading: false, apiData : res.data, show: true
       })
     })
     .catch(function (error) {
