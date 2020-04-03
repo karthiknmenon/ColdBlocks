@@ -5,7 +5,7 @@ import Card from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import axios from 'axios';
-import { nodeURL } from "variables/Variables.jsx";
+import { nodeURL, reactURL } from "variables/Variables.jsx";
 import * as ReactBootstrap from 'react-bootstrap';
 import 'remixicon/fonts/remixicon.css'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -20,29 +20,30 @@ class DistributorList extends Component {
       postD: 0,
       fetchId: '',
       fetchName: '',
-      loading:true
+      loading:true,
+      editId:''
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
     this.fHandleClose = this.fHandleClose.bind(this);
     this.fetchHandleClose = this.fetchHandleClose.bind(this);
+    this.editHandleClose = this.editHandleClose.bind(this);
 		this.state = {
       show: false,
       fShow: false,
-      fetchShow: false
+      fetchShow: false,
+      editShow:false
 		};
   }
 
   nameChange = event => {
     console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
     this.setState({ dName: event.target.value });
-
   }
   idChange = event => {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
                     dId: event.target.value });
-
   }
   fetchHandleChange = event => {
     this.setState({
@@ -51,41 +52,74 @@ class DistributorList extends Component {
   }
   handleSubmit = event => {
     event.preventDefault();
-    
-    // console.log("state "+this.state.dId);
-    // console.log("state "+this.state.dName);
-    const user = {
-      dId: String(this.state.dId),
-      dName: String(this.state.dName)
-    };
-    // console.log("user "+user.dId);
-    // console.log("user "+user.dName);
-    this.setState({loading: true}, ()=>{
-      console.log("loader until fetch new data")
-    })
-
-    axios.post(nodeURL+`/api/CreateDistribtuor`, 
-    { headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
-    { data: user})
-    .then(res => {
-      console.log(res.data);
-      if(res.data=="success"){ 
-        this.setState({ show: true }, ()=>{
-        console.log("Set State for Show")
-        });  
+    console.log("edit Id: "+this.state.editId)
+    console.log(event.target.name)
+    if(event.target.name=="editInfo"){
+      console.log("edit details")
+      const user = {
+        distributorId: String(this.state.editId),
+        distributorName: String(this.state.dName)
       }
-      else{
-        this.setState({ fShow: true }, ()=>{
+      console.log("user data being sent : "+user.distributorName)
+      this.setState({loading: true}, ()=>{
+        console.log("loader until fetch new data")
+      })
+      console.log("edit URL: "+ reactURL+`/api/Distributor/`+this.state.editId)
+      axios.post(`http://localhost:4000/editDistributor/`,
+      { headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+      {data : user})
+      .then(res => {
+        console.log(res.data);
+        if(res.data=="success"){ 
+          this.setState({ show: true, editShow:false }, ()=>{
           console.log("Set State for Show")
-        });  
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+          });  
+        }
+        else{
+          this.setState({ fShow: true }, ()=>{
+            console.log("Set State for Show")
+          });  
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
+    else{
+      const user = {
+        dId: String(this.state.dId),
+        dName: String(this.state.dName)
+      };
+      this.setState({loading: true}, ()=>{
+        console.log("loader until fetch new data")
+      })
+
+      axios.post(nodeURL+`/api/CreateDistribtuor`, 
+      { headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+      { data: user})
+      .then(res => {
+        console.log(res.data);
+        if(res.data=="success"){ 
+          this.setState({ show: true }, ()=>{
+          console.log("Set State for Show")
+          });  
+        }
+        else{
+          this.setState({ fShow: true }, ()=>{
+            console.log("Set State for Show")
+          });  
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
     
   }
   // To query wrt ID 
@@ -121,6 +155,13 @@ class DistributorList extends Component {
     })
     .catch(console.log)
   }
+  // for PUT request to update
+  editInfo = event => {
+    console.log(event.target.value)
+    this.setState({
+      editId: event.target.value, editShow: true
+    })
+  }
   componentDidMount() {
     // console.log("hi");
     fetch(nodeURL+'/api/ListDistributors')
@@ -130,21 +171,6 @@ class DistributorList extends Component {
       this.setState({loading: false, apiData: data })
     })
     .catch(console.log)
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.postD !== this.state.postD) {
-      console.log('postD state has changed.');
-      fetch(nodeURL+'/api/ListDistributors')
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({ apiData: data },
-          ()=>{
-            console.log("callback function")
-            console.log(this.state.apiData);
-          })
-      })
-      .catch(console.log)
-    }
   }
   handleClose() {
     this.setState({ show: false });
@@ -156,6 +182,10 @@ class DistributorList extends Component {
   }
   fetchHandleClose() {
     this.setState({ fetchShow: false });
+    this.fetchData();
+	}
+  editHandleClose() {
+    this.setState({ editShow: false });
     this.fetchData();
 	}
 	// handleShow() {
@@ -224,6 +254,49 @@ class DistributorList extends Component {
                 Close
               </Button>
           </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.editShow} onHide={this.editHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Edit Information</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Row className="text-center">
+            <i className="ri-edit-box-line ri-5x text-dark"></i>
+            <p className="text-muted">Edit Distributor Information</p>
+            </Row>
+            <form onSubmit={this.handleSubmit} name="editInfo" >
+                      <FormInputs 
+                        ncols={["col-md-6", "col-md-6"]}
+                        properties={[
+                          {
+                            label: "Distributor ID",
+                            type: "text",
+                            bsClass: "form-control",
+                            defaultValue:this.state.editId,
+                            disabled:true                          
+                          },
+                          {
+                            label: "Name",
+                            type: "text",
+                            bsClass: "form-control",
+                            placeholder: "Distributor Name",
+                            onChange:this.nameChange,
+                            name: "dName",
+                            
+                          }
+                        ]}
+                      />       
+                      <div className="clearfix" />
+                      <Button bsStyle="success" fill type="submit" >
+                        Submit
+                      </Button>
+              </form>
+          </Modal.Body>
         </Modal>
           <Grid fluid>
             <Row>
@@ -327,6 +400,9 @@ class DistributorList extends Component {
                                 <th>
                                   Distributor Name
                                 </th>
+                                <th className="text-center">
+                                  Edit
+                                </th>
                               </tr>
 
                             </thead>
@@ -336,6 +412,7 @@ class DistributorList extends Component {
                                   <tr>
                                     <td>{object.distributorID}</td>
                                     <td>{object.distributorName}</td>
+                                    <td className="text-center"><Button bsStyle="warning" bsSize="xs" value={object.distributorID} onClick={this.editInfo}>Edit</Button>{' '}</td>
                                   </tr>
                                 </>
                               ))}

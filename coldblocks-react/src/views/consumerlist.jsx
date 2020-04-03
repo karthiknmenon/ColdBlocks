@@ -20,16 +20,19 @@ class ConsumerList extends Component {
       postD: 0,
       fetchId: '',
       fetchName: '',
-      loading:true
+      loading:true,
+      editId:''
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 		this.fHandleClose = this.fHandleClose.bind(this);
-		this.fetchHandleClose = this.fetchHandleClose.bind(this);
+    this.fetchHandleClose = this.fetchHandleClose.bind(this);
+    this.editHandleClose = this.editHandleClose.bind(this);
 		this.state = {
       show: false,
       fShow: false,
-      fetchShow: false
+      fetchShow: false,
+      editShow:false
 		};
   }
   nameChange = event => {
@@ -50,46 +53,77 @@ class ConsumerList extends Component {
  
   handleSubmit =  async event => {
     event.preventDefault();
-    
-    // console.log("state "+this.state.cId);
-    // console.log("state "+this.state.cName);
-    const user = {
-      cId: String(this.state.cId),
-      cName: String(this.state.cName)
-    };
-
-    // console.log("user "+user.cId);
-    // console.log("user "+user.cName);
-    this.setState({loading: true}, ()=>{
-      console.log("loader until fetch new data")
-    })
-    axios.post(nodeURL+`/api/CreateConsumer`, 
-    { headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
-    { data: user})
-    .then(res => {
-      // console.log(res);
-          console.log("from node"+res.data);
-          if(res.data=="success"){ 
-            this.setState({ show: true }, ()=>{
+    console.log("edit Id: "+this.state.editId)
+    console.log(event.target.name)
+    if(event.target.name=="editInfo"){
+      console.log("edit details")
+      const user = {
+        consumerId: String(this.state.editId),
+        consumerName: String(this.state.cName)
+      }
+      console.log("user data being sent : "+user.distributorName)
+      this.setState({loading: true}, ()=>{
+        console.log("loader until fetch new data")
+      })
+      axios.post(nodeURL+`/editConsumer/`,
+      { headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+      {data : user})
+      .then(res => {
+        console.log(res.data);
+        if(res.data=="success"){ 
+          this.setState({ show: true, editShow:false }, ()=>{
+          console.log("Set State for Show")
+          });  
+        }
+        else{
+          this.setState({ fShow: true }, ()=>{
             console.log("Set State for Show")
-            });  
-          }
-          else{
-            this.setState({ fShow: true }, ()=>{
+          });  
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
+    else{
+      const user = {
+        cId: String(this.state.cId),
+        cName: String(this.state.cName)
+      };
+      this.setState({loading: true}, ()=>{
+        console.log("loader until fetch new data")
+      })
+      axios.post(nodeURL+`/api/CreateConsumer`, 
+      { headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+      { data: user})
+      .then(res => {
+        // console.log(res);
+            console.log("from node"+res.data);
+            if(res.data=="success"){ 
+              this.setState({ show: true }, ()=>{
               console.log("Set State for Show")
-            });  
-          }
-    })
-    .catch(function (error) {
-      console.log("error from catch"+error);
-    })    
-    this.setState({postD:1},
-      ()=>{
-        console.log("post callback called"+this.state.postD);
-      })   
+              });  
+            }
+            else{
+              this.setState({ fShow: true }, ()=>{
+                console.log("Set State for Show")
+              });  
+            }
+      })
+      .catch(function (error) {
+        console.log("error from catch"+error);
+      })    
+      this.setState({postD:1},
+        ()=>{
+          console.log("post callback called"+this.state.postD);
+        })   
+    }
   }
   // To query wrt ID 
   fetchHandleSubmit =  async event => {
@@ -123,6 +157,13 @@ class ConsumerList extends Component {
       // console.log(data);
     })
     .catch(console.log)
+  }
+  // for PUT request to update
+  editInfo = event => {
+    console.log(event.target.value)
+    this.setState({
+      editId: event.target.value, editShow: true
+    })
   }
   componentDidMount() {
     // console.log("hi");
@@ -160,6 +201,10 @@ class ConsumerList extends Component {
 	}
   fetchHandleClose() {
     this.setState({ fetchShow: false });
+    this.fetchData();
+  }
+  editHandleClose() {
+    this.setState({ editShow: false });
     this.fetchData();
 	}
 	// handleShow() {
@@ -228,6 +273,49 @@ class ConsumerList extends Component {
                 Close
               </Button>
           </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.editShow} onHide={this.editHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Edit Information</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Row className="text-center">
+            <i className="ri-edit-box-line ri-5x text-dark"></i>
+            <p className="text-muted">Edit Consumer Information</p>
+            </Row>
+            <form onSubmit={this.handleSubmit} name="editInfo" >
+                      <FormInputs 
+                        ncols={["col-md-6", "col-md-6"]}
+                        properties={[
+                          {
+                            label: "Consumer ID",
+                            type: "text",
+                            bsClass: "form-control",
+                            defaultValue:this.state.editId,
+                            disabled:true                          
+                          },
+                          {
+                            label: "Name",
+                            type: "text",
+                            bsClass: "form-control",
+                            placeholder: "Consumer Name",
+                            onChange:this.nameChange,
+                            name: "dName",
+                            
+                          }
+                        ]}
+                      />       
+                      <div className="clearfix" />
+                      <Button bsStyle="success" fill type="submit" >
+                        Submit
+                      </Button>
+              </form>
+          </Modal.Body>
         </Modal>
           <Grid fluid>
           <Row>
@@ -331,6 +419,9 @@ class ConsumerList extends Component {
                           <th>
                             Consumer Name
                           </th>
+                          <th className="text-center">
+                            Edit
+                          </th>
                         </tr>
 
                       </thead>
@@ -340,6 +431,7 @@ class ConsumerList extends Component {
                             <tr>
                               <td>{object.consumerID}</td>
                               <td>{object.consumerName}</td>
+                              <td className="text-center"><Button bsStyle="warning" bsSize="xs" value={object.consumerID} onClick={this.editInfo}>Edit</Button>{' '}</td>
                             </tr>
                           </>
                         ))}

@@ -104,6 +104,10 @@ app.get('/api/ListTransactions', (req, res) => {
 
     axios.get(restUrl + 'api/system/historian').then(function (response) {
         jsonResponse = response.data;
+        // console.log(response.data[0].transactionTimestamp)
+        // let x = response.data.sort(function(a, b){
+        //     return a.transactionTimestamp - b.transactionTimestamp;            
+        // });
         res.send(response.data);
     }).then(function (response) {
         // res.send(jsonResponse[0]['consumerID']);
@@ -330,7 +334,7 @@ app.post('/api/CreateManufacturer', function (req, res) {
         "url": restUrl + "api/Manufacturer",
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Manufacturer",
-            "manufacturerID": String(req.body.mId),
+            "manufacturerID": String(req.body.mID),
             "manufacturerName": String(req.body.mName)
         })
     }, (error, response, body) => {
@@ -421,6 +425,134 @@ app.post('/api/CreateSupplier', function (req, res) {
             }
         }
     });
+})
+
+// Queries to Edit Information 
+// API To Edit Distributor Details 
+app.post('/editDistributor', function (req, res){
+    const options = {
+    url: 'http://localhost:3000/api/Distributor/'+req.body.distributorId,
+    method: 'PUT',
+    headers: {
+        'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+            "$class": "org.coldblocks.mynetwork.Distributor",
+            "distributorID": String(req.body.distributorId),
+            "distributorName": String(req.body.distributorName)
+    })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
+// API To Edit Consumer Details 
+app.post('/editConsumer', function (req, res){
+    console.log(req.body.consumerId)
+    const options = {
+        url: 'http://localhost:3000/api/Consumer/'+req.body.consumerId,
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.Consumer",
+                "consumerID": String(req.body.consumerId),
+                "consumerName": String(req.body.consumerName)
+        })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
+// API To Edit Supplier Details 
+app.post('/editSupplier', function (req, res){
+    console.log(req.body.supplierId)
+    const options = {
+        url: 'http://localhost:3000/api/Supplier/'+req.body.supplierId,
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.Supplier",
+                "supplierID": String(req.body.supplierId),
+                "supplierName": String(req.body.supplierName)
+        })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
+// API To Edit Manufacturer Details 
+app.post('/editManufacturer', function (req, res){
+    console.log(req.body.manufacturerId)
+    const options = {
+        url: 'http://localhost:3000/api/Manufacturer/'+req.body.manufacturerId,
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+                "$class": "org.coldblocks.mynetwork.Manufacturer",
+                "manufacturerID": String(req.body.manufacturerId),
+                "manufacturerName": String(req.body.manufacturerName)
+        })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
 })
 
 // Named Queries
@@ -824,30 +956,37 @@ app.get('/api/TemperatureDrop', function (req, res) {
 });
 
 // for data visualization of temperature values
-var temp_01 = [];
-var temp_02 = [];
-var temp_03 = [];
 var dateLabel = [];
 var chart_temp = [];
-var chart_temp = [temp_01, temp_02, temp_03];
+var seenPackage = [];
 app.get("/api/chartTemp", (req, res) => {
     console.log("res.body.temperature: " + req.query.temperature);
     console.log("res.body.id: " + req.query.packageId);
     var packageId = req.query.packageId;
-    if (packageId == "H001") {
-        temp_01.push(parseInt(req.query.temperature));
-        var event = new Date();
-        var eventH = event.getHours();
-        dateLabel.push(String(eventH) + ':00');
-        // chart_temp.push(temp_01);
+    var event = new Date();
+    var eventHours = event.getHours();
+    var eventMinutes = event.getMinutes();
+    if (dateLabel.includes(String(eventHours) + String(":" + eventMinutes))) {
+        console.log("Same Time, Don't push into DateLabel")
+    } else {
+        dateLabel.push(String(eventHours) + String(":" + eventMinutes))
+        console.log("date array:" + dateLabel)
     }
-    if (packageId == "H002") {
-        temp_02.push(parseInt(req.query.temperature));
-        // chart_temp.push(temp_02);
-    }
-    if (packageId == "H003") {
-        temp_03.push(parseInt(req.query.temperature));
-        // chart_temp.push(temp_03);
+
+    if (seenPackage.includes(String(packageId))) {
+        console.log("old package")
+        packageId = String(packageId).slice(1)
+        packageId = parseInt(packageId)
+        // console.log(packageId)
+        // Since array index starts from 0 => (packageId - 1 )
+        chart_temp[packageId - 1].push(req.query.temperature)
+    } else {
+        var temp = []
+        seenPackage.push(String(packageId))
+        console.log("new package")
+        temp.push(req.query.temperature)
+        const arr = temp.map(x => x)
+        chart_temp.push(arr)
     }
     console.log(chart_temp);
 })
@@ -859,6 +998,9 @@ app.get("/api/getTemp", (req, res) => {
 
 app.get("/api/getLabel", (req, res) => {
     res.send(dateLabel);
+})
+app.get("/api/getPackageInfo", (req, res) => {
+    res.send(seenPackage);
 })
 
 // data visualization for status values

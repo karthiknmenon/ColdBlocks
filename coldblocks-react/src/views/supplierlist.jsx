@@ -19,16 +19,19 @@ class SupplierList extends Component {
       sName:{},
       fetchId: '',
       fetchName: '',
-      loading:true
+      loading:true,
+      editId:''
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
     this.fHandleClose = this.fHandleClose.bind(this);
     this.fetchHandleClose = this.fetchHandleClose.bind(this);
+    this.editHandleClose = this.editHandleClose.bind(this);
 		this.state = {
       show: false,
       fShow: false,
-      fetchShow: false
+      fetchShow: false,
+      editShow:false
 		};
   }
   
@@ -52,43 +55,72 @@ class SupplierList extends Component {
  
   handleSubmit = event => {
     event.preventDefault();
-    
-    // console.log("state "+this.state.sId);
-    // console.log("state "+this.state.sName);
-
-    const user = {
-      sId: String(this.state.sId),
-      sName: String(this.state.sName)
-    };
-
-    // console.log("user "+user.sId);
-    // console.log("user "+user.sName);
-    this.setState({loading: true}, ()=>{
-      console.log("loader until fetch new data")
-    })
-
-    axios.post(nodeURL+`/api/CreateSupplier`, 
-    { headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
-    { data: user})
-    .then(res => {
-      console.log(res.data);
-      if(res.data=="success"){ 
-        this.setState({ show: true }, ()=>{
-        console.log("Set State for Show")
-        });  
+    console.log("edit Id: "+this.state.editId)
+    console.log(event.target.name)
+    if(event.target.name=="editInfo"){
+      console.log("edit details")
+      const user = {
+        supplierId: String(this.state.editId),
+        supplierName: String(this.state.sName)
       }
-      else{
-        this.setState({ fShow: true }, ()=>{
+      this.setState({loading: true}, ()=>{
+        console.log("loader until fetch new data")
+      })
+      axios.post(nodeURL+`/editSupplier/`,
+      { headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+      {data : user})
+      .then(res => {
+        console.log(res.data);
+        if(res.data=="success"){ 
+          this.setState({ show: true, editShow:false }, ()=>{
           console.log("Set State for Show")
-        });  
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })   
+          });  
+        }
+        else{
+          this.setState({ fShow: true }, ()=>{
+            console.log("Set State for Show")
+          });  
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
+    else{
+      const user = {
+        sId: String(this.state.sId),
+        sName: String(this.state.sName)
+      };
+      this.setState({loading: true}, ()=>{
+        console.log("loader until fetch new data")
+      })
+
+      axios.post(nodeURL+`/api/CreateSupplier`, 
+      { headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+      { data: user})
+      .then(res => {
+        console.log(res.data);
+        if(res.data=="success"){ 
+          this.setState({ show: true }, ()=>{
+          console.log("Set State for Show")
+          });  
+        }
+        else{
+          this.setState({ fShow: true }, ()=>{
+            console.log("Set State for Show")
+          });  
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })  
+    } 
   }
   // To query wrt ID 
   fetchHandleSubmit =  async event => {
@@ -123,6 +155,13 @@ class SupplierList extends Component {
     })
     .catch(console.log)
   }
+    // for PUT request to update
+    editInfo = event => {
+      console.log(event.target.value)
+      this.setState({
+        editId: event.target.value, editShow: true
+      })
+    }
   componentDidMount() {
     // console.log("hi");
     fetch(nodeURL+'/api/ListSuppliers')
@@ -142,6 +181,10 @@ class SupplierList extends Component {
   }
   fetchHandleClose() {
     this.setState({ fetchShow: false });
+    this.fetchData();
+  }
+  editHandleClose() {
+    this.setState({ editShow: false });
     this.fetchData();
 	}
 	// handleShow() {
@@ -210,6 +253,49 @@ class SupplierList extends Component {
                 Close
               </Button>
           </Modal.Footer>
+        </Modal>
+        <Modal show={this.state.editShow} onHide={this.editHandleClose}
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">Edit Information</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Row className="text-center">
+            <i className="ri-edit-box-line ri-5x text-dark"></i>
+            <p className="text-muted">Edit Supplier Information</p>
+            </Row>
+            <form onSubmit={this.handleSubmit} name="editInfo" >
+                      <FormInputs 
+                        ncols={["col-md-6", "col-md-6"]}
+                        properties={[
+                          {
+                            label: "Supplier ID",
+                            type: "text",
+                            bsClass: "form-control",
+                            defaultValue:this.state.editId,
+                            disabled:true                          
+                          },
+                          {
+                            label: "Name",
+                            type: "text",
+                            bsClass: "form-control",
+                            placeholder: "Supplier Name",
+                            onChange:this.nameChange,
+                            name: "dName",
+                            
+                          }
+                        ]}
+                      />       
+                      <div className="clearfix" />
+                      <Button bsStyle="success" fill type="submit" >
+                        Submit
+                      </Button>
+              </form>
+          </Modal.Body>
         </Modal>
         <Grid fluid>
             <Row>
@@ -313,6 +399,9 @@ class SupplierList extends Component {
                         <th>
                           Supplier Name
                         </th>
+                        <th className="text-center">
+                          Edit
+                        </th>
                       </tr>
 
                     </thead>
@@ -322,6 +411,7 @@ class SupplierList extends Component {
                           <tr>
                             <td>{object.supplierID}</td>
                             <td>{object.supplierName}</td>
+                            <td className="text-center"><Button bsStyle="warning" bsSize="xs" value={object.supplierID} onClick={this.editInfo}>Edit</Button>{' '}</td>
                           </tr>
                         </>
                       ))}

@@ -14,14 +14,11 @@ class Chart extends Component {
     this.state = {
       temp: [],
       status: [],
-      dateLabel: []
+      dateLabel: [],
+      package:[]
     }
   }
   componentDidMount() {
-    // app.get("/api/chartTemp", (req,res)=>{
-    //     console.log("res.body.temperature: "+req.query.temperature)
-    //     chart_temp.push(req.query.temperature)
-    //     console.log(chart_temp);
     axios.get(nodeURL+`/api/chartStatus`)
     .then(res => {
           console.log("res.data: "+res.data)
@@ -47,40 +44,48 @@ class Chart extends Component {
             })
             console.log(this.state.temp)
       })
+    axios.get(nodeURL+`/api/getLabel`)
+      .then(res => {
+            console.log("res for datelabel: "+res)
+            console.log("res.data for datelabel: "+res.data)
+            this.setState({
+              dateLabel : res.data
+            }, ()=>{
+              console.log("callback for setState of datelabel");
+            })
+            console.log(this.state.temp)
+      })
+    axios.get(nodeURL+`/api/getPackageInfo`)
+      .then(res => {
+            console.log("res for datelabel: "+res)
+            console.log("res.data for datelabel: "+res.data)
+            this.setState({
+              package : res.data
+            }, ()=>{
+              console.log("callback for setState of datelabel");
+            })
+            console.log(this.state.temp)
+      })
   }
-  // componentDidUpdate(prevProps,prevState){
-  //   if (this.state.status !== prevState.status) {
-  //       axios.get(nodeURL+`/api/getCStatus`)
-  //         .then(res => {
-  //               console.log("res.data: "+res.data)
-  //               this.setState({
-  //                 status : res.data
-  //               }, ()=>{
-  //                 console.log("callback for setState of status");
-  //               })
-  //               console.log(this.state.status)
-  //         })
-  //   }
-  //   if (this.state.temp !== prevState.temp) {
-  //       axios.get(nodeURL+`/api/getTemp`)
-  //         .then(res => {
-  //               console.log("res.data: "+res.data)
-  //               this.setState({
-  //                 temp : res.data
-  //               }, ()=>{
-  //                 console.log("callback for setState of temp");
-  //               })
-  //               console.log(this.state.temp)
-  //         })
-  //   }
-  // }
-  createLegend(json) {
+  createLegend() {
     var legend = [];
-    for (var i = 0; i < json["names"].length; i++) {
-      var type = "fa fa-circle text-" + json["types"][i];
+    // for (var i = 0; i < json["names"].length; i++) {
+    //   var type = "fa fa-circle text-" + json["types"][i];
+    //   legend.push(<i className={type} key={i} />);
+    //   legend.push(" ");
+    //   legend.push(json["names"][i]);
+    // }
+    legend = [<i className="fa fa-circle text-danger" key="1" />, ,"Tampered", <i className="fa fa-circle text-info" key="2" />, ,"Ok"];
+    return legend;
+  }
+  createLegendLine() {
+    var legend = [];
+    for (var i = 0; i < this.state.package.length; i++) {
+      var type = "fa fa-circle text-" + legendSales["types"][i];
       legend.push(<i className={type} key={i} />);
       legend.push(" ");
-      legend.push(json["names"][i]);
+      legend.push(this.state.package[i]);
+      console.log("legend for line"+legend)
     }
     return legend;
   }
@@ -159,7 +164,7 @@ class Chart extends Component {
                     />                    
                   }
                   legend={
-                    <div className="legend">{this.createLegend(legendSales)}</div>
+                    <div className="legend">{this.createLegendLine()}</div>
                   }
                  
                 />
