@@ -828,31 +828,34 @@ app.get('/api/TemperatureDrop', function (req, res) {
 });
 
 // for data visualization of temperature values
-var temp_01 = [];
-var temp_02 = [];
-var temp_03 = [];
 var dateLabel = [];
 var chart_temp = [];
-var chart_temp = [temp_01, temp_02, temp_03];
+var seenPackage = [];
 app.get("/api/chartTemp", (req, res) => {
     console.log("res.body.temperature: " + req.query.temperature);
     console.log("res.body.id: " + req.query.packageId);
     var packageId = req.query.packageId;
-    if (packageId == "H001") {
-        temp_01.push(parseInt(req.query.temperature));
-        var event = new Date();
-        var eventH = event.getHours();
-        dateLabel.push(String(eventH) + ':00');
-        // chart_temp.push(temp_01);
+    var event = new Date();
+    var eventHours = event.getHours();
+    var eventMinutes = event.getMinutes();
+    dateLabel.push(String(eventHours)+String(":"+eventMinutes))
+    console.log("date array:"+dateLabel)
+    if(seenPackage.includes(String(packageId))){
+        console.log("old package")
+        packageId = String(packageId).slice(1)
+        packageId = parseInt(packageId)        
+        // console.log(packageId)
+        // Since array index starts from 0 => (packageId - 1 )
+        chart_temp[packageId-1].push(req.query.temperature)
     }
-    if (packageId == "H002") {
-        temp_02.push(parseInt(req.query.temperature));
-        // chart_temp.push(temp_02);
-    }
-    if (packageId == "H003") {
-        temp_03.push(parseInt(req.query.temperature));
-        // chart_temp.push(temp_03);
-    }
+    else{
+        var temp = []
+        seenPackage.push(String(packageId))
+        console.log("new package")
+        temp.push(req.query.temperature)
+        const arr = temp.map(x=>x)
+        chart_temp.push(arr)
+    }    
     console.log(chart_temp);
 })
 // data visualization of temperature values
