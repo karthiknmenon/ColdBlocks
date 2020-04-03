@@ -796,6 +796,37 @@ app.post('/updatePackageDetails', function (req, res) {
 //         console.log("PUT method");
 //     }), 3000);
 
+// To edit distribuot details 
+app.post('/editDistributor', function (req, res){
+    const options = {
+    url: 'http://localhost:3000/api/Distributor/'+req.body.distributorId,
+    method: 'PUT',
+    headers: {
+        'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+            "$class": "org.coldblocks.mynetwork.Distributor",
+            "distributorID": String(req.body.distributorId),
+            "distributorName": String(req.body.distributorName)
+    })
+    };
+    Request(options, function (err, response, body) {
+        // let json = JSON.parse(body);
+        console.log("PUT method");
+            if (err) {
+                return console.dir(error);
+            } else {
+                if (JSON.parse(body).hasOwnProperty('error')) {
+                    res.send("error")
+                } else {
+                    console.log("Success");
+                    res.send("success")
+                    console.dir(JSON.parse(body));
+                }
+            }
+        })
+})
+
 // Print Temperature Drop events
 
 app.get('/tempDrop', function (req, res) {
