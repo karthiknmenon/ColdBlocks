@@ -567,6 +567,9 @@ app.get('/api/ListPackages', function (req, res) {
 
     axios.get(restUrl + 'api/queries/AllPackages').then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -587,6 +590,9 @@ app.get('/api/ListPackagesByDestination', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageDestination?packageDestination=' + queryDestination).then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -607,7 +613,9 @@ app.get('/api/ListPackagesByHolder', function (req, res) {
 
     axios.get(restUrl + 'api/queries/packageHolder?packageHolder=' + queryHolder).then(function (response) {
         jsonResponse = response.data;
-        // response.data.fetchStatus = "1";
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -628,6 +636,9 @@ app.get('/api/ListPackagesById', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageId?packageid=' + queryID).then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -648,6 +659,9 @@ app.get('/api/ListPackagesByLocation', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageLocation?packageLocation=' + queryLocation).then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
@@ -668,11 +682,18 @@ app.get('/api/ListPackagesByStatus', function (req, res) {
 
     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=' + queryStatus).then(function (response) {
         jsonResponse = response.data;
+        for(var i=0;i<jsonResponse.length;i++){
+            response.data[i]["fetchStatus"]="success"
+        }
         res.send(response.data);
     }).then(function (response) {
         // showID();
         console.log("Named Query : Package wrt Status")
+        // console.log(response)
     }).catch(function (error) {
+        res.send(JSON.stringify([{
+            status: "error"
+        }]))
         console.log(error);
     });
 });
@@ -1003,47 +1024,50 @@ app.get("/api/getPackageInfo", (req, res) => {
     res.send(seenPackage);
 })
 
+
+// Old Code to Plot Pie Chart for Package Status
+
 // data visualization for status values
-var status = []
-app.get("/api/chartStatus", (req, res) => {
-    status = [];
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// var status = []
+// app.get("/api/chartStatus", (req, res) => {
+//     status = [];
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-    axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=0').then(function (response) {
-        jsonResponse = response.data;
-        // status.push(jsonResponse.length);
-        status[0] = jsonResponse.length;
-        // status[2] = jsonResponse.length;
-        console.log("status 0:" + status);
-    }).then(function (response) {
-        console.log(".then for chartStatus 0")
-    }).catch(function (error) {
-        console.log(error);
-    });
-    axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
-            jsonResponse = response.data;
-            // status[2] += jsonResponse.length;
-            // status.push(jsonResponse.length);
-            status[1] = jsonResponse.length;
-            console.log("status 1:" + status);
-            console.log("total:" + status[2])
-        }).then(function (response) {
-            console.log(".then for chartStatus 1")
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+//     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=0').then(function (response) {
+//         jsonResponse = response.data;
+//         // status.push(jsonResponse.length);
+//         status[0] = jsonResponse.length;
+//         // status[2] = jsonResponse.length;
+//         console.log("status 0:" + status);
+//     }).then(function (response) {
+//         console.log(".then for chartStatus 0")
+//     }).catch(function (error) {
+//         console.log(error);
+//     });
+//     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
+//             jsonResponse = response.data;
+//             // status[2] += jsonResponse.length;
+//             // status.push(jsonResponse.length);
+//             status[1] = jsonResponse.length;
+//             console.log("status 1:" + status);
+//             console.log("total:" + status[2])
+//         }).then(function (response) {
+//             console.log(".then for chartStatus 1")
+//         })
+//         .catch(function (error) {
+//             console.log(error);
+//         });
 
 
-})
+// })
 // data visualization of temperature values
-app.get("/api/getCStatus", (req, res) => {
-    console.log("called getTemp with values: " + status);
-    status = status.reverse();
-    res.send(status);
-})
+// app.get("/api/getCStatus", (req, res) => {
+//     console.log("called getTemp with values: " + status);
+//     status = status.reverse();
+//     res.send(status);
+// })
 
 
 
