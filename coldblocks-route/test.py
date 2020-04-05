@@ -11,6 +11,7 @@ import ast
 import urllib
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "http://localhost:3001"}})
+import config
 
 api = Api(app)
 
@@ -20,7 +21,7 @@ data = {}
 def create_data_model():
     """Stores the data for the problem."""
     global data
-    data['API_key'] = 'AIzaSyCTkzOzDdOn1vBbnVvLcf9WYuiypjtFO08'
+    data['API_key'] = config.api_key
     # data['num_vehicles'] = 4
     data['depot'] = 0
     return data

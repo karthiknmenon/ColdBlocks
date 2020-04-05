@@ -18,7 +18,9 @@ app/**/*.js.map
 node_modules/
 bower_components/
 
+# Hide APIs
 .env
+config.py
 # IDEs and editors
 .idea/
 
