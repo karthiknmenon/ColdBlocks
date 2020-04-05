@@ -55,7 +55,7 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
 
 # Setup and Installation
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To download and setup - 
-&nbsp;&nbsp;&nbsp;&nbsp; `git clone https://github.com/mojojojo20/ColdBlocks.git`
+&nbsp;&nbsp;&nbsp;&nbsp; `git clone https://github.com/mojojojo20/ColdBlocks.git` <br/>
 &nbsp;&nbsp;&nbsp;&nbsp; `cd ColdBlocks`
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;1. composer-rest-server
