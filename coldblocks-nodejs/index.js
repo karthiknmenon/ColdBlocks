@@ -805,51 +805,51 @@ app.post('/tempData', function (req, res) {
     }
 
     // Delete code once timely update works
-    else {
-        var oldHolder;
-        var oldDestination;
-        var Oldstatus;
-        // send API Post for TemperatureDrop Event
-        axios.get(restUrl + 'api/TransitPackage/' + packageID).then(function (response) {
-            jsonResponse = response.data;
-            console.log("response from axios of put:" + jsonResponse);
-            oldHolder = response.data.holder;
-            console.log("response.data.holder:" + response.data.holder)
-            oldDestination = response.data.destination;
-            console.log("response.data.destination:" + response.data.destination)
-            Oldstatus = response.data.status;
-            console.log("response.data.status:" + response.data.status)
-            // response.send(response.data);
+    // else {
+    //     var oldHolder;
+    //     var oldDestination;
+    //     var Oldstatus;
+    //     // send API Post for TemperatureDrop Event
+    //     axios.get(restUrl + 'api/TransitPackage/' + packageID).then(function (response) {
+    //         jsonResponse = response.data;
+    //         console.log("response from axios of put:" + jsonResponse);
+    //         oldHolder = response.data.holder;
+    //         console.log("response.data.holder:" + response.data.holder)
+    //         oldDestination = response.data.destination;
+    //         console.log("response.data.destination:" + response.data.destination)
+    //         Oldstatus = response.data.status;
+    //         console.log("response.data.status:" + response.data.status)
+    //         // response.send(response.data);
 
-        }).then(function (response) {
-            console.log("then")
+    //     }).then(function (response) {
+    //         console.log("then")
 
-            // Update values of package using PUT
-            const options = {
-                url: restUrl + 'api/TransitPackage/' + packageID,
-                method: 'PUT',
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "$class": "org.coldblocks.mynetwork.TransitPackage",
-                    "packageID": String(packageID),
-                    "location": String(gpsLocation),
-                    "temperature": String(req.body.Temperature),
-                    "destination": String(oldDestination),
-                    "holder": String(oldHolder),
-                    "status": String(Oldstatus)
-                })
-            };
+    //         // Update values of package using PUT
+    //         const options = {
+    //             url: restUrl + 'api/TransitPackage/' + packageID,
+    //             method: 'PUT',
+    //             headers: {
+    //                 'content-type': 'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //                 "$class": "org.coldblocks.mynetwork.TransitPackage",
+    //                 "packageID": String(packageID),
+    //                 "location": String(gpsLocation),
+    //                 "temperature": String(req.body.Temperature),
+    //                 "destination": String(oldDestination),
+    //                 "holder": String(oldHolder),
+    //                 "status": String(Oldstatus)
+    //             })
+    //         };
 
-            Request(options, function (err, res, body) {
-                // let json = JSON.parse(body);
-                console.log("PUT method");
-            })
-        }).catch(function (error) {
-            console.log(error);
-        });
-    }
+    //         Request(options, function (err, res, body) {
+    //             // let json = JSON.parse(body);
+    //             console.log("PUT method");
+    //         })
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     });
+    // }
 });
 
 // Timed Updates for package using PUT 
@@ -921,32 +921,6 @@ app.post('/updatePackageDetails', function (req, res) {
 
 });
 
-
-// Update values of package when tampered using PUT
-
-// const options = {
-//     url: 'http://localhost:3000/api/TransitPackage/A103',
-//     method: 'PUT',
-//     headers: {
-//         'content-type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//         "$class": "org.coldblocks.mynetwork.TransitPackage",
-//         "packageID": "A103",
-//         "location": "asd",
-//         "temperature": String(temp),
-//         "destination": "mum",
-//         "holder": "den",
-//         "status": "0"
-//     })
-// };
-
-// setTimeout(
-//     Request(options, function (err, res, body) {
-//         // let json = JSON.parse(body);
-//         console.log("PUT method");
-//     }), 3000);
-
 // Print Temperature Drop events
 
 app.get('/tempDrop', function (req, res) {
@@ -982,10 +956,10 @@ app.get('/api/TemperatureDrop', function (req, res) {
 var dateLabel = [];
 var chart_temp = [];
 var seenPackage = [];
-app.get("/api/chartTemp", (req, res) => {
-    console.log("res.body.temperature: " + req.query.temperature);
-    console.log("res.body.id: " + req.query.packageId);
-    var packageId = req.query.packageId;
+app.post("/api/chartTemp", (req, res) => {
+    console.log("res.body.temperature: " + req.body.Temperature);
+    console.log("res.body.id: " + req.body.packageID);
+    var packageID = req.body.packageID;
     var event = new Date();
     var eventHours = event.getHours();
     var eventMinutes = event.getMinutes();
@@ -996,18 +970,18 @@ app.get("/api/chartTemp", (req, res) => {
         console.log("date array:" + dateLabel)
     }
 
-    if (seenPackage.includes(String(packageId))) {
+    if (seenPackage.includes(String(packageID))) {
         console.log("old package")
-        packageId = String(packageId).slice(1)
-        packageId = parseInt(packageId)
-        // console.log(packageId)
-        // Since array index starts from 0 => (packageId - 1 )
-        chart_temp[packageId - 1].push(req.query.temperature)
+        packageID = String(packageID).slice(1)
+        packageID = parseInt(packageID)
+        // console.log(packageID)
+        // Since array index starts from 0 => (packageID - 1 )
+        chart_temp[packageID - 1].push(req.body.Temperature)
     } else {
         var temp = []
-        seenPackage.push(String(packageId))
+        seenPackage.push(String(packageID))
         console.log("new package")
-        temp.push(req.query.temperature)
+        temp.push(req.body.Temperature)
         const arr = temp.map(x => x)
         chart_temp.push(arr)
     }
@@ -1019,59 +993,14 @@ app.get("/api/getTemp", (req, res) => {
     res.send(chart_temp);
 })
 
+// Time for Line-Chart X-Axis
 app.get("/api/getLabel", (req, res) => {
     res.send(dateLabel);
 })
+// Package Info for Creating Labels
 app.get("/api/getPackageInfo", (req, res) => {
     res.send(seenPackage);
 })
-
-
-// Old Code to Plot Pie Chart for Package Status
-
-// data visualization for status values
-// var status = []
-// app.get("/api/chartStatus", (req, res) => {
-//     status = [];
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-//     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=0').then(function (response) {
-//         jsonResponse = response.data;
-//         // status.push(jsonResponse.length);
-//         status[0] = jsonResponse.length;
-//         // status[2] = jsonResponse.length;
-//         console.log("status 0:" + status);
-//     }).then(function (response) {
-//         console.log(".then for chartStatus 0")
-//     }).catch(function (error) {
-//         console.log(error);
-//     });
-//     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
-//             jsonResponse = response.data;
-//             // status[2] += jsonResponse.length;
-//             // status.push(jsonResponse.length);
-//             status[1] = jsonResponse.length;
-//             console.log("status 1:" + status);
-//             console.log("total:" + status[2])
-//         }).then(function (response) {
-//             console.log(".then for chartStatus 1")
-//         })
-//         .catch(function (error) {
-//             console.log(error);
-//         });
-
-
-// })
-// data visualization of temperature values
-// app.get("/api/getCStatus", (req, res) => {
-//     console.log("called getTemp with values: " + status);
-//     status = status.reverse();
-//     res.send(status);
-// })
-
-
 
 // for Auto Holder Change based on login using QR Code Scanner
 var ousername;
@@ -1115,37 +1044,6 @@ app.get("/qrHolderChange", (req, res) => {
     console.log("username inside get qr:" + ousername)
 
 })
-
-// Old code for Holder Change
-// app.get('/HolderChange', function (req, res) {
-//     res.send("Holder Change Event Triggered Successfully.")
-//     // console.log(JSON.stringify(req.body));
-//     var oHolder = req.query.oldHolder;
-//     // var oHolder = "hyder";
-//     console.log("oldHolder: " + oHolder);
-//     var packageId = req.query.packageID;
-//     // var packageID = "H156";
-//     console.log("Package Id: " + packageId);
-//     var nHolder = req.query.newHolder;
-//     // var nHolder = "dsdsds";
-//     console.log("new Holder: " + nHolder);
-//     Request.post({
-//         "headers": {
-//             "content-type": "application/json"
-//         },
-//         "url": restUrl + "api/HolderChange",
-//         "body": JSON.stringify({
-//             "$class": "org.coldblocks.mynetwork.HolderChange",
-//             "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageId,
-//             "oldHolder": String(oHolder),
-//             "newHolder": String(nHolder)
-//         })
-//     }, (error, response, body) => {
-//         if (error) {
-//             return console.dir(error);
-//         }
-//     });
-// });
 
 // code for auth using passport.js
 
@@ -1224,5 +1122,108 @@ app.post('/',
 //     JSON.stringify(JSONobj);
 //     console.log(JSONobj);
 // }
+
+
+
+// Update values of package when tampered using PUT
+
+// const options = {
+//     url: 'http://localhost:3000/api/TransitPackage/A103',
+//     method: 'PUT',
+//     headers: {
+//         'content-type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//         "$class": "org.coldblocks.mynetwork.TransitPackage",
+//         "packageID": "A103",
+//         "location": "asd",
+//         "temperature": String(temp),
+//         "destination": "mum",
+//         "holder": "den",
+//         "status": "0"
+//     })
+// };
+
+// setTimeout(
+//     Request(options, function (err, res, body) {
+//         // let json = JSON.parse(body);
+//         console.log("PUT method");
+//     }), 3000);
+
+// Old code for Holder Change
+// app.get('/HolderChange', function (req, res) {
+//     res.send("Holder Change Event Triggered Successfully.")
+//     // console.log(JSON.stringify(req.body));
+//     var oHolder = req.query.oldHolder;
+//     // var oHolder = "hyder";
+//     console.log("oldHolder: " + oHolder);
+//     var packageId = req.query.packageID;
+//     // var packageID = "H156";
+//     console.log("Package Id: " + packageId);
+//     var nHolder = req.query.newHolder;
+//     // var nHolder = "dsdsds";
+//     console.log("new Holder: " + nHolder);
+//     Request.post({
+//         "headers": {
+//             "content-type": "application/json"
+//         },
+//         "url": restUrl + "api/HolderChange",
+//         "body": JSON.stringify({
+//             "$class": "org.coldblocks.mynetwork.HolderChange",
+//             "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageId,
+//             "oldHolder": String(oHolder),
+//             "newHolder": String(nHolder)
+//         })
+//     }, (error, response, body) => {
+//         if (error) {
+//             return console.dir(error);
+//         }
+//     });
+// });
+
+
+// Old Code to Plot Pie Chart for Package Status
+
+// data visualization for status values
+// var status = []
+// app.get("/api/chartStatus", (req, res) => {
+//     status = [];
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+//     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=0').then(function (response) {
+//         jsonResponse = response.data;
+//         // status.push(jsonResponse.length);
+//         status[0] = jsonResponse.length;
+//         // status[2] = jsonResponse.length;
+//         console.log("status 0:" + status);
+//     }).then(function (response) {
+//         console.log(".then for chartStatus 0")
+//     }).catch(function (error) {
+//         console.log(error);
+//     });
+//     axios.get(restUrl + 'api/queries/PackageStatus?packageStatus=1').then(function (response) {
+//             jsonResponse = response.data;
+//             // status[2] += jsonResponse.length;
+//             // status.push(jsonResponse.length);
+//             status[1] = jsonResponse.length;
+//             console.log("status 1:" + status);
+//             console.log("total:" + status[2])
+//         }).then(function (response) {
+//             console.log(".then for chartStatus 1")
+//         })
+//         .catch(function (error) {
+//             console.log(error);
+//         });
+
+
+// })
+// data visualization of temperature values
+// app.get("/api/getCStatus", (req, res) => {
+//     console.log("called getTemp with values: " + status);
+//     status = status.reverse();
+//     res.send(status);
+// })
 
 app.listen(4000);
