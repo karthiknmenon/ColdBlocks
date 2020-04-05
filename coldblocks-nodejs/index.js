@@ -1,7 +1,4 @@
-// twilio sandbox - join flag-sharp
-const accountSid = 'ACe72fa712ccadfebda35cfee9aeb3c9d4';
-const authToken = '13b758715b01c14a7be78f911495c0d2';
-const client = require('twilio')(accountSid, authToken);
+
 const express = require('express');
 const axios = require('axios');
 var bodyParser = require('body-parser');
@@ -15,6 +12,11 @@ const opencage = require('opencage-api-client');
 
 // to read .env file for API-Key
 require('dotenv').config()
+
+// twilio sandbox - join flag-sharp
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
 
 // passport.js for auth
 const passport = require('passport');
