@@ -9,7 +9,7 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
 * __coldAR__
     __Status Check__ for customers by just scanning a qr-code.
 * __Route Optimization__
-    Route Optimization based on __CVRP__ is implemented using Python and op-2 algorithm.
+    Route Optimization based on __CVRP__ is implemented using Python and op-2 algorithm. Google or-tools is used for the same using Gooogle Maps API and Google Directions API.
 * __Progressive Web App__ using angularJS and reactJS for admin and other actors of the use case.
 * __Android App__ for QR-Code scanning.
 
@@ -100,9 +100,11 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     * Compile and Upload sketch to nodeMCU ESP8266 module using Arduino IDE
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;7. Route Optimization - 
-* `cd routing`
+* `cd coldblocks-route`
+    * Requires __Google Maps API, Directions API__    
     * `python3 vrp.py`
     * `curl 127.0.0.1:5000\`
+    * Path `/sendLocation` to POST Addresses and path `/` to GET Optimal Path
 
 Icon Library - Remix Icons
 
