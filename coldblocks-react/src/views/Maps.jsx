@@ -1,16 +1,16 @@
 
 import React from "react";
 import {Card} from "components/Card/Card"
-// mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
-// react components used to create a google map
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker
 } from "react-google-maps";
-// key = AIzaSyCTkzOzDdOn1vBbnVvLcf9WYuiypjtFO08
 
+// const maps_api = process.env.REACT_APP_MAPS_API_KEY
+// const maps_url = "https://maps.googleapis.com/maps/api/js?key="+maps_api
+const maps_url = "https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
 const CustomMap = withScriptjs(
   withGoogleMap(props => (
     <GoogleMap
@@ -29,44 +29,11 @@ const CustomMap = withScriptjs(
 function Maps({ ...prop }) {
   return (
     <CustomMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE"
+      googleMapURL={maps_url}
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={<div style={{ height: `100vh` }} />}
       mapElement={<div style={{ height: `100%` }} />}
     />
   );
 }
-
-// export default Maps;
-// class Maps extends React.Component {
-//   componentDidMount() {
-//     this.map = new mapboxgl.Map({
-//       container: this.mapContainer,
-//       style: 'mapbox://styles/mapbox/streets-v9'
-//     });
-//   }
-
-//   render() {
-//     const style = {
-//       height:'100%',
-//       width: '100%'
-//     };
-
-//     return (
-//       // <CustomMap
-//       //       googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE"
-//       //       loadingElement={<div style={{ height: `100%` }} />}
-//       //       containerElement={<div style={{ height: `100vh` }} />}
-//       //       mapElement={<div style={{ height: `100%` }} />}
-//       //     />
-//         <Card 
-//           title="Maps"
-//           content={
-//             <div style={style} ref={el => this.mapContainer = el} />
-//           }
-//         />
-//       )
-//   }
-// }
-
 export default Maps;
