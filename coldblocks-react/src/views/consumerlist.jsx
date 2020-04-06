@@ -146,8 +146,7 @@ class ConsumerList extends Component {
           }) 
         }
              
-    })
-  
+    })  
   }
   fetchData(){
     fetch(nodeURL+'/api/ListConsumers')
