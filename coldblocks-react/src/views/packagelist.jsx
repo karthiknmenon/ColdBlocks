@@ -184,9 +184,6 @@ class PackageList extends Component {
     this.setState({ fetchShow: false });
     this.fetchData();
   }
-	// handleShow() {
-	// 	this.setState({ show: true });
-	// }
   render() {
     const {apiData} = this.state;
     var Modal = ReactBootstrap.Modal;
