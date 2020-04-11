@@ -160,53 +160,51 @@ class Login extends Component {
                 <Card
                 
                     title="Login"
-                    category="Enter Auth Info for ColdDash"                
+                    category="Enter Auth Info for ColdDash"                               
                     content={
-                      <form onSubmit={this.handleSubmit}>
-                      <FormInputs 
-                        ncols={["col-md-12"]}
-                        properties={[
-                          {
-                            label: "User Name",
-                            type: "text",
-                            bsClass: "form-control",
-                            placeholder: "Enter User Name",
-                            // defaultValue: "ColdBlocks",
-                            onChange:this.nameChange,
-                            name: "username"
-                            // disabled: true
-                    
-                          },
-                        ]}
-                      />  
-                       <FormInputs 
-                        ncols={["col-md-12"]}
-                        properties={[
-                          {
-                            label: "Password",
-                            type: "password",
-                            bsClass: "form-control",
-                            placeholder: "Enter Password",
-                            // defaultValue: "ColdBlocks",
-                            onChange:this.passChange,
-                            name: "password"
-                            // disabled: true
-                    
-                          },
-                        ]}
-                      />       
-                      <Button bsStyle="success" pullRight fill type="submit">
-                        Submit
-                      </Button>
-                      <div className="clearfix" />
-                    </form>
+                      <>
+                          <form onSubmit={this.handleSubmit}>
+                          <FormInputs 
+                            ncols={["col-md-12"]}
+                            properties={[
+                              {
+                                label: "User-ID",
+                                type: "text",
+                                bsClass: "form-control",
+                                placeholder: "Enter User-ID",                            
+                                onChange:this.nameChange,
+                                name: "username"                                                
+                              },
+                            ]}
+                          />  
+                          <FormInputs 
+                            ncols={["col-md-12"]}
+                            properties={[
+                              {
+                                label: "Password",
+                                type: "password",
+                                bsClass: "form-control",
+                                placeholder: "Enter Password",                            
+                                onChange:this.passChange,
+                                name: "password"                                                
+                              },
+                            ]}
+                          />       
+                          <Button bsStyle="success" pullRight fill type="submit">
+                            Submit
+                          </Button>
+                          <div className="clearfix" />
+                        </form>
+                        
+                      </>
                     }
                   />
+                  <p className="text-center text-muted" style={{margin:"0"}}>ColdDash - A Curated Dashboard for ColdBlocks</p>
                 </Col>
                 <Col lg={3}></Col>
             </Row>
         </Grid>
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </div>
     );
   }
