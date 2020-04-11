@@ -1,7 +1,7 @@
 [build]
   command = "npm run build"
   publish="coldblocks-react/build"
-  base = "./coldblocks-react"
+  base = "."
 
 [[redirects]]
 from = "/*"
