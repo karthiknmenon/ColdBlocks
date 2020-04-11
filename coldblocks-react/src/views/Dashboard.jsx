@@ -34,30 +34,58 @@ class Dashboard extends Component {
     const userN = localStorage.getItem('username');
     const userD = localStorage.getItem('password');
     this.setState({userName:userN,userId: userD});
-    fetch(nodeURL+'/api/ListPackages')
-    .then(res => res.json())
-    .then((data) => {
-      var JSONdata = JSON.stringify(data);
-      var length = data.length;
-      console.log(length)
-      var i = 0;
-      while(i<length){
-        if(data[i].status==0){
-            data[i].status="Tampered";
-          // console.log("inside while status: 0")          
+    if(userN=="admin"){
+        fetch(nodeURL+'/api/ListPackages')
+        .then(res => res.json())
+        .then((data) => {
+          var JSONdata = JSON.stringify(data);
+          var length = data.length;
+          console.log(length)
+          var i = 0;
+          while(i<length){
+            if(data[i].status==0){
+                data[i].status="Tampered";
+              // console.log("inside while status: 0")          
+            }
+            else{
+              data[i].status="Ok";
+            }
+            i+=1;
+          }
+          // console.log("data"+(data[0]))
+          this.setState({ apiData: data }, ()=>{
+            console.log("callback for setState");
+          })
+          // console.log(data);
+        })
+        .catch(console.log)
+    }
+    else{
+      fetch(nodeURL+'/api/ListPackagesByHolder?packageHolder='+userN)
+      .then(res => res.json())
+      .then((data) => {
+        var JSONdata = JSON.stringify(data);
+        var length = data.length;
+        console.log(length)
+        var i = 0;
+        while(i<length){
+          if(data[i].status==0){
+              data[i].status="Tampered";
+            // console.log("inside while status: 0")          
+          }
+          else{
+            data[i].status="Ok";
+          }
+          i+=1;
         }
-        else{
-          data[i].status="Ok";
-        }
-        i+=1;
-      }
-      // console.log("data"+(data[0]))
-      this.setState({ apiData: data }, ()=>{
-        console.log("callback for setState");
+        // console.log("data"+(data[0]))
+        this.setState({ apiData: data }, ()=>{
+          console.log("callback for setState");
+        })
+        // console.log(data);
       })
-      // console.log(data);
-    })
-    .catch(console.log)
+      .catch(console.log)
+    }
   }
   idChange = event => {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
