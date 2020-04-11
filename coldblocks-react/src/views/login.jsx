@@ -9,7 +9,6 @@ import axios from 'axios';
 import { style } from "variables/Variables.jsx";
 import NotificationSystem from "react-notification-system";
 import 'remixicon/fonts/remixicon.css'
-import Footer from "components/Footer/Footer"
 import { reactURL, nodeURL } from "variables/Variables.jsx";
 
 // **TODO** Custom CSS for logIn
@@ -43,16 +42,10 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { history } = this.props;
-    
-    // console.log("state "+this.state.password);
-    // console.log("state "+this.state.username);
     const user = {
       password: String(this.state.password),
       username: String(this.state.username)
     };
-    // console.log("user "+user.password);
-    // console.log("user "+user.username);
-    
     axios.post(nodeURL+`/?username=`+user.username+`&password=`+user.password+``)
     .then(res => {
       if(res.data=="success"){
@@ -204,7 +197,6 @@ class Login extends Component {
                 <Col lg={3}></Col>
             </Row>
         </Grid>
-        {/* <Footer></Footer> */}
       </div>
     );
   }
