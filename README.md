@@ -1,5 +1,7 @@
 ![ColdBlocks](https://user-images.githubusercontent.com/41678651/71070470-d75e8000-21a0-11ea-9a20-0853cdaa476b.jpg)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9f3ad704-89f9-4565-8af1-6372c6a8b5de/deploy-status)](https://app.netlify.com/sites/flamboyant-yonath-585b38/deploys)
+
 # Specification
 ColdBlocks is a temperature guided route optimization algorithm which uses blockchain for secure transactions throughout the Cold Chain Network. ColdBlocks is based on the following technologies - 
 * __IoT__
