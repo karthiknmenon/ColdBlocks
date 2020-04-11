@@ -192,7 +192,7 @@ class Login extends Component {
                       </>
                     }
                   />
-                  <p className="text-center text-muted" style={{margin:"0"}}>ColdDash - A Curated Dashboard for ColdBlocks</p>
+                  {/* <p className="text-center text-muted" style={{margin:"0"}}>ColdDash - A Curated Dashboard for ColdBlocks</p> */}
                 </Col>
                 <Col lg={3}></Col>
             </Row>
