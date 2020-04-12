@@ -993,7 +993,9 @@ app.post("/getUserCred", (req, res) => {
 })
 var qrOldHolder;
 app.get("/qrHolderChange", (req, res) => {
-
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log("inside qr holder change for cred:" + req.query.packageID);
     axios.get('http://localhost:4000/api/ListPackagesById?packageId=' + req.query.packageID).then(function (response) {
         jsonResponse = response.data;
@@ -1035,6 +1037,11 @@ app.get("/qrHolderChange", (req, res) => {
 // Auth
 app.post('/blockAuth', (req,res)=>{
     // console.log("block auth"+req.query.username+" "+req.query.password)
+    
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     if(req.body.username=="admin"){
         res.send("success")
     } else if(/S[0-9]*/.test(String(req.body.username))){   
