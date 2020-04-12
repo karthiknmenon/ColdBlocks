@@ -6,6 +6,7 @@ var Request = require('request');
 var aes256 = require('aes256');
 var QRCode = require('qrcode');
 var cors = require('cors');
+const SHA256 = require("crypto-js/sha256");
 
 // for GPS coordinates
 const opencage = require('opencage-api-client');
@@ -187,7 +188,7 @@ app.post('/api/CreateConsumer', function (req, res) {
             "$class": "org.coldblocks.mynetwork.Consumer",
             "consumerID": String(req.body.cId),
             "consumerName": String(req.body.cName),
-            "password": String(req.body.password)
+            "password": String(SHA256(req.body.password))
         })
     }, (error, response, body) => {
         if (error) {
@@ -265,7 +266,7 @@ app.post('/api/CreateDistribtuor', function (req, res) {
             "$class": "org.coldblocks.mynetwork.Distributor",
             "distributorID": String(req.body.dId),
             "distributorName": String(req.body.dName),
-            "password": String(req.body.password)
+            "password": String(SHA256(req.body.password))
         })
     }, (error, response, body) => {
         if (error) {
@@ -341,7 +342,7 @@ app.post('/api/CreateManufacturer', function (req, res) {
             "$class": "org.coldblocks.mynetwork.Manufacturer",
             "manufacturerID": String(req.body.mID),
             "manufacturerName": String(req.body.mName),
-            "password": String(req.body.password),
+            "password": String(SHA256(req.body.password)),
         })
     }, (error, response, body) => {
         if (error) {
@@ -417,7 +418,7 @@ app.post('/api/CreateSupplier', function (req, res) {
             "$class": "org.coldblocks.mynetwork.Supplier",
             "supplierID": String(req.body.sId),
             "supplierName": String(req.body.sName),
-            "password": String(req.body.password)
+            "password": String(SHA256(req.body.password))
         })
     }, (error, response, body) => {
         if (error) {
@@ -1019,69 +1020,7 @@ app.get("/qrHolderChange", (req, res) => {
     console.log("username inside get qr:" + ousername)
 
 })
-
-// code for auth using passport.js
-
-
-app.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
-app.get('/error', (req, res) => res.send("error logging in"));
-
-passport.serializeUser(function (user, cb) {
-    cb(null, user.id);
-});
-
-passport.deserializeUser(function (id, cb) {
-    User.findById(id, function (err, user) {
-        cb(err, user);
-    });
-});
-
-
-const Schema = mongoose.Schema;
-const UserDetail = new Schema({
-    username: String,
-    password: String
-});
-const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
-
-
-// local authconst LocalStrategy = require('passport-local').Strategy;
-const LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        UserDetails.findOne({
-            username: username
-        }, function (err, user) {
-            if (err) {
-                return done(err);
-            }
-
-            if (!user) {
-                return done(null, false);
-            }
-
-            if (user.password != password) {
-                return done(null, false);
-            }
-            return done(null, user);
-            var id = ObjectId;
-        });
-    }
-));
-
-app.post('/',
-    passport.authenticate('local', {
-        failureRedirect: '/error'
-    }),
-    function (req, res) {
-        //   res.redirect('/success?username='+req.user.username);
-        res.send("success");
-        //   res.redirect('/');
-        console.log("success");
-    }
-);
-
+// Auth
 app.post('/blockAuth', (req,res)=>{
     // console.log("block auth"+req.query.username+" "+req.query.password)
     if(req.body.username=="admin"){
@@ -1094,7 +1033,7 @@ app.post('/blockAuth', (req,res)=>{
             // res.send(response.data);
             console.log("Password: "+response.data.password)
             console.log("Password Query: "+req.body.password)
-            if(response.data.password==String(req.body.password)){
+            if(response.data.password==String(SHA256(req.body.password))){
                 res.send("success")
             }
             else{
@@ -1115,7 +1054,7 @@ app.post('/blockAuth', (req,res)=>{
             // res.send(response.data);
             console.log("Password: "+response.data.password)
             console.log("Password Query: "+req.body.password)
-            if(response.data.password==String(req.body.password)){
+            if(response.data.password==String(SHA256(req.body.password))){
                 res.send("success")
             }
             else{
@@ -1136,7 +1075,7 @@ app.post('/blockAuth', (req,res)=>{
             // res.send(response.data);
             console.log("Password: "+response.data.password)
             console.log("Password Query: "+req.body.password)
-            if(response.data.password==String(req.body.password)){
+            if(response.data.password==String(SHA256(req.body.password))){
                 res.send("success")
             }
             else{
@@ -1152,6 +1091,68 @@ app.post('/blockAuth', (req,res)=>{
         res.send("failure")
     }
 })
+
+// code for auth using passport.js
+
+
+// app.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
+// app.get('/error', (req, res) => res.send("error logging in"));
+
+// passport.serializeUser(function (user, cb) {
+//     cb(null, user.id);
+// });
+
+// passport.deserializeUser(function (id, cb) {
+//     User.findById(id, function (err, user) {
+//         cb(err, user);
+//     });
+// });
+
+
+// const Schema = mongoose.Schema;
+// const UserDetail = new Schema({
+//     username: String,
+//     password: String
+// });
+// const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
+
+
+// // local authconst LocalStrategy = require('passport-local').Strategy;
+// const LocalStrategy = require('passport-local').Strategy;
+
+// passport.use(new LocalStrategy(
+//     function (username, password, done) {
+//         UserDetails.findOne({
+//             username: username
+//         }, function (err, user) {
+//             if (err) {
+//                 return done(err);
+//             }
+
+//             if (!user) {
+//                 return done(null, false);
+//             }
+
+//             if (user.password != password) {
+//                 return done(null, false);
+//             }
+//             return done(null, user);
+//             var id = ObjectId;
+//         });
+//     }
+// ));
+
+// app.post('/',
+//     passport.authenticate('local', {
+//         failureRedirect: '/error'
+//     }),
+//     function (req, res) {
+//         //   res.redirect('/success?username='+req.user.username);
+//         res.send("success");
+//         //   res.redirect('/');
+//         console.log("success");
+//     }
+// );
 
 // Show-ID function 
 
