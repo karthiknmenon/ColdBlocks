@@ -20,7 +20,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 // passport.js for auth
-const passport = require('passport');
+// const passport = require('passport');
 
 // connecting mongo to node 
 const mongoose = require('mongoose');
@@ -37,9 +37,9 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-app.use(passport.initialize());
+// app.use(passport.initialize());
 
-app.use(passport.session());
+// app.use(passport.session());
 
 // URL to composer-rest-server
 
