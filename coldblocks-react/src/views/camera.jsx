@@ -23,10 +23,11 @@ class ColdAR extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
   
-  handleScan = () => {
-    this.setState({
+  handleScan = (data) => {
+    if(data=="success")
+    {this.setState({
       show: true
-    })
+    })}
   }
   handleError = err => {
     console.error(err)
