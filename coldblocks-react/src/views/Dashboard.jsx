@@ -34,7 +34,7 @@ class Dashboard extends Component {
     const userN = localStorage.getItem('username');
     const userD = localStorage.getItem('password');
     this.setState({userName:userN,userId: userD});
-    if(userN=="admin"){
+    if(String(userN)=="admin"){
         fetch(nodeURL+'/api/ListPackages')
         .then(res => res.json())
         .then((data) => {

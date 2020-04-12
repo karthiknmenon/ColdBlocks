@@ -56,18 +56,27 @@ class Login extends Component {
       if(res.data=="success"){
         if(user.username=="admin"){
           console.log("admin");
+          localStorage.setItem('username', user.username);
+          localStorage.setItem('password', user.password);
+          localStorage.setItem('token', "true");
           history.push('/admin/dashboard');
             //   this.setState({
             //     url: reactURL+'/admin/dashboard'
             // })
         }
         else if(/S[0-9]*/.test(String(user.username))){
+          localStorage.setItem('username', user.username);
+          localStorage.setItem('password', user.password);
+          localStorage.setItem('token', "true");
           history.push('/supplier/dashboard');
           //   this.setState({
           //     url: reactURL+'/supplier/dashboard'
           // })
         }
         else if(/D[0-9]*/.test(String(user.username))){
+          localStorage.setItem('username', user.username);
+          localStorage.setItem('password', user.password);
+          localStorage.setItem('token', "true");
           history.push('/distributor/dashboard');
           //   this.setState({
           //     url: reactURL+'/distributor/dashboard'
@@ -75,6 +84,9 @@ class Login extends Component {
         }
         // if(user.username=="C01"){
         else{
+          localStorage.setItem('username', user.username);
+      localStorage.setItem('password', user.password);
+      localStorage.setItem('token', "true");
           history.push('/consumer/dashboard');
           //   this.setState({
           //     url: reactURL+'/consumer/dashboard'
@@ -82,9 +94,9 @@ class Login extends Component {
         }
 
       //  save auth info in local storage
-      localStorage.setItem('username', user.username);
-      localStorage.setItem('password', user.password);
-      localStorage.setItem('token', "true");
+      // localStorage.setItem('username', user.username);
+      // localStorage.setItem('password', user.password);
+      // localStorage.setItem('token', "true");
       // window.location = this.state.url;  
 
       // save auth info for holder-change
