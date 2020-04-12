@@ -21,7 +21,8 @@ class ManufacturerList extends Component {
       fetchId: '',
       fetchName: '',
       loading:true,
-      editId:''
+      editId:'',
+      editPass: ''
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
@@ -66,7 +67,8 @@ class ManufacturerList extends Component {
         console.log("edit details")
         const user = {
           manufacturerId: String(this.state.editId),
-          manufacturerName: String(this.state.mName)          
+          manufacturerName: String(this.state.mName),
+          password: String(this.state.password)          
         }
         console.log("user data being sent : "+user.distributorName)
         this.setState({loading: true}, ()=>{
@@ -165,9 +167,10 @@ class ManufacturerList extends Component {
   // for PUT request to update
   editInfo = event => {
     console.log(event.target.value)
-    this.setState({
-      editId: event.target.value, editShow: true
-    })
+      var splitIndex = String(event.target.value).indexOf(',')
+      this.setState({
+        editId: event.target.value.slice(0,splitIndex), editShow: true, editPass: event.target.value.slice(splitIndex+1)
+      }, () => {console.log("editID: "+this.state.editId+" edit Pass:"+this.state.editPass)})
   }  
   componentDidMount() {
     // console.log("hi");
@@ -278,7 +281,7 @@ class ManufacturerList extends Component {
             </Row>
             <form onSubmit={this.handleSubmit} name="editInfo" >
                       <FormInputs 
-                        ncols={["col-md-6", "col-md-6"]}
+                        ncols={["col-md-4", "col-md-4","col-md-4"]}
                         properties={[
                           {
                             label: "Distributor ID",
@@ -294,6 +297,15 @@ class ManufacturerList extends Component {
                             placeholder: "Distributor Name",
                             onChange:this.nameChange,
                             name: "dName",
+                            
+                          },
+                          {
+                            label: "Password",
+                            type: "password",
+                            bsClass: "form-control",
+                            defaultValue: this.state.editPass,                            
+                            onChange:this.passChange,
+                            name: "password",
                             
                           }
                         ]}
@@ -428,7 +440,7 @@ class ManufacturerList extends Component {
                           <tr>
                             <td>{object.manufacturerID}</td>
                             <td>{object.manufacturerName}</td>
-                            <td className="text-center"><Button bsStyle="warning" bsSize="xs" value={object.manufacturerID} onClick={this.editInfo}>Edit</Button>{' '}</td>
+                            <td className="text-center"><Button bsStyle="warning" bsSize="xs" value={String(object.manufacturerID)+String(','+object.password)} onClick={this.editInfo}>Edit</Button>{' '}</td>
                           </tr>
                         </>
                       ))}

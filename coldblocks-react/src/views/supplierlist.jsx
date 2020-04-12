@@ -21,7 +21,8 @@ class SupplierList extends Component {
       fetchId: '',
       fetchName: '',
       loading:true,
-      editId:''
+      editId:'',
+      editPass:'',
     }
     // this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
@@ -66,7 +67,8 @@ class SupplierList extends Component {
       console.log("edit details")
       const user = {
         supplierId: String(this.state.editId),
-        supplierName: String(this.state.sName)
+        supplierName: String(this.state.sName),
+        password: String(this.state.password)
       }
       this.setState({loading: true}, ()=>{
         console.log("loader until fetch new data")
@@ -164,9 +166,10 @@ class SupplierList extends Component {
     // for PUT request to update
     editInfo = event => {
       console.log(event.target.value)
+      var splitIndex = String(event.target.value).indexOf(',')
       this.setState({
-        editId: event.target.value, editShow: true
-      })
+        editId: event.target.value.slice(0,splitIndex), editShow: true, editPass: event.target.value.slice(splitIndex+1)
+      }, () => {console.log("editID: "+this.state.editId+" edit Pass:"+this.state.editPass)})
     }
   componentDidMount() {
     // console.log("hi");
@@ -276,7 +279,7 @@ class SupplierList extends Component {
             </Row>
             <form onSubmit={this.handleSubmit} name="editInfo" >
                       <FormInputs 
-                        ncols={["col-md-6", "col-md-6"]}
+                        ncols={["col-md-4", "col-md-4", "col-md-4"]}
                         properties={[
                           {
                             label: "Supplier ID",
@@ -291,6 +294,15 @@ class SupplierList extends Component {
                             bsClass: "form-control",
                             placeholder: "Supplier Name",
                             onChange:this.nameChange,
+                            name: "dName",
+                            
+                          },
+                          {
+                            label: "Password",
+                            type: "password",
+                            bsClass: "form-control",                            
+                            onChange:this.passChange,
+                            defaultValue: this.state.editPass,
                             name: "dName",
                             
                           }
@@ -425,8 +437,8 @@ class SupplierList extends Component {
                         <>
                           <tr>
                             <td>{object.supplierID}</td>
-                            <td>{object.supplierName}</td>
-                            <td className="text-center"><Button bsStyle="warning" bsSize="xs" value={object.supplierID} onClick={this.editInfo}>Edit</Button>{' '}</td>
+                            <td>{object.supplierName}</td>                            
+                            <td className="text-center"><Button bsStyle="warning" bsSize="xs" value={String(object.supplierID)+String(','+object.password)} onClick={this.editInfo}>Edit</Button>{' '}</td>
                           </tr>
                         </>
                       ))}

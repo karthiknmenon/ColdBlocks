@@ -447,7 +447,8 @@ app.post('/editDistributor', function (req, res){
     body: JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Distributor",
             "distributorID": String(req.body.distributorId),
-            "distributorName": String(req.body.distributorName)
+            "distributorName": String(req.body.distributorName),
+            "password": String(SHA256(req.body.password))
     })
     };
     Request(options, function (err, response, body) {
@@ -479,7 +480,8 @@ app.post('/editConsumer', function (req, res){
         body: JSON.stringify({
                 "$class": "org.coldblocks.mynetwork.Consumer",
                 "consumerID": String(req.body.consumerId),
-                "consumerName": String(req.body.consumerName)
+                "consumerName": String(req.body.consumerName),
+                "password": String(SHA256(req.body.password))
         })
     };
     Request(options, function (err, response, body) {
@@ -511,7 +513,8 @@ app.post('/editSupplier', function (req, res){
         body: JSON.stringify({
                 "$class": "org.coldblocks.mynetwork.Supplier",
                 "supplierID": String(req.body.supplierId),
-                "supplierName": String(req.body.supplierName)
+                "supplierName": String(req.body.supplierName),
+                "password": String(SHA256(req.body.password))
         })
     };
     Request(options, function (err, response, body) {
@@ -543,7 +546,8 @@ app.post('/editManufacturer', function (req, res){
         body: JSON.stringify({
                 "$class": "org.coldblocks.mynetwork.Manufacturer",
                 "manufacturerID": String(req.body.manufacturerId),
-                "manufacturerName": String(req.body.manufacturerName)
+                "manufacturerName": String(req.body.manufacturerName),
+                "password": String(SHA256(req.body.password))
         })
     };
     Request(options, function (err, response, body) {
