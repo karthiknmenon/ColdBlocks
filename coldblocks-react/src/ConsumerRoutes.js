@@ -69,13 +69,13 @@ const dashboardRoutes = [
     component: NormalSupplierList,
     layout: "/consumer"
   },
-  {
-    path: "/chart",
-    name: "Data Visualization",
-    icon: "ri-bar-chart-fill",
-    component: Chart,
-    layout: "/consumer"
-  },
+  // {
+  //   path: "/chart",
+  //   name: "Data Visualization",
+  //   icon: "ri-bar-chart-fill",
+  //   component: Chart,
+  //   layout: "/consumer"
+  // },
   {
     path: "/routing",
     name: "Optimal Routing",
