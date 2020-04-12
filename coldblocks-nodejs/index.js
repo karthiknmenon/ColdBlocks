@@ -1082,6 +1082,77 @@ app.post('/',
     }
 );
 
+app.post('/blockAuth', (req,res)=>{
+    // console.log("block auth"+req.query.username+" "+req.query.password)
+    if(req.body.username=="admin"){
+        res.send("success")
+    } else if(/S[0-9]*/.test(String(req.body.username))){   
+        console.log(req.body.username)     
+        axios.get(restUrl + 'api/Supplier/'+req.body.username).then(function (response) {
+            jsonResponse = response.data;
+            // console.log(response.data)
+            // res.send(response.data);
+            console.log("Password: "+response.data.password)
+            console.log("Password Query: "+req.body.password)
+            if(response.data.password==String(req.body.password)){
+                res.send("success")
+            }
+            else{
+                res.send("failure")
+            }
+        }).then(function (response) {
+            // showID();
+            console.log("API for auth event")
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    else if(/C[0-9]*/.test(String(req.body.username))){   
+        console.log(req.body.username)     
+        axios.get(restUrl + 'api/Consumer/'+req.body.username).then(function (response) {
+            jsonResponse = response.data;
+            // console.log(response.data)
+            // res.send(response.data);
+            console.log("Password: "+response.data.password)
+            console.log("Password Query: "+req.body.password)
+            if(response.data.password==String(req.body.password)){
+                res.send("success")
+            }
+            else{
+                res.send("failure")
+            }
+        }).then(function (response) {
+            // showID();
+            console.log("API for auth event")
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    else if(/D[0-9]*/.test(String(req.body.username))){   
+        console.log(req.body.username)     
+        axios.get(restUrl + 'api/Distributor/'+req.body.username).then(function (response) {
+            jsonResponse = response.data;
+            // console.log(response.data)
+            // res.send(response.data);
+            console.log("Password: "+response.data.password)
+            console.log("Password Query: "+req.body.password)
+            if(response.data.password==String(req.body.password)){
+                res.send("success")
+            }
+            else{
+                res.send("failure")
+            }
+        }).then(function (response) {
+            // showID();
+            console.log("API for auth event")
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }else{
+        res.send("failure")
+    }
+})
+
 // Show-ID function 
 
 // function showID() {

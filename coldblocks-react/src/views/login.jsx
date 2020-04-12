@@ -46,7 +46,12 @@ class Login extends Component {
       password: String(this.state.password),
       username: String(this.state.username)
     };
-    axios.post(nodeURL+`/?username=`+user.username+`&password=`+user.password+``)
+    axios.post(nodeURL+`/blockAuth`, 
+    { headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
+    { data: user})
     .then(res => {
       if(res.data=="success"){
         if(user.username=="admin"){
@@ -56,13 +61,13 @@ class Login extends Component {
             //     url: reactURL+'/admin/dashboard'
             // })
         }
-        else if(user.username==/S[0-9]*/){
+        else if(/S[0-9]*/.test(String(user.username))){
           history.push('/supplier/dashboard');
           //   this.setState({
           //     url: reactURL+'/supplier/dashboard'
           // })
         }
-        else if(user.username==/D[0-9]*/){
+        else if(/D[0-9]*/.test(String(user.username))){
           history.push('/distributor/dashboard');
           //   this.setState({
           //     url: reactURL+'/distributor/dashboard'
