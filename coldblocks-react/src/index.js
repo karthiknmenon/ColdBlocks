@@ -12,6 +12,8 @@ import * as serviceWorker from './serviceWorker'
 import SupplierLayout from "layouts/Supplier.jsx";
 import AdminLayout from "layouts/Admin.jsx";
 import ConsumerLayout from "layouts/Consumer.jsx";
+import DistributorLayout from "layouts/Distributor";
+import ManufacturerLayout from "layouts/Manufacturer";
 import Dashboard from "views/Dashboard"
 
 ReactDOM.render(
@@ -22,6 +24,8 @@ ReactDOM.render(
       {/* <Route path="/admin/dashboard" render={props => <AdminLayout {...props} />} /> */}
       <Route path="/supplier" render={props => <SupplierLayout {...props} />} />
       <Route path="/consumer" render={props => <ConsumerLayout {...props} />} />
+      <Route path="/distributor" render={props => <DistributorLayout {...props} />} />
+      <Route path="/manufacturer" render={props => <ManufacturerLayout {...props} />} />
       <Route path="/" component={Login}/>
       {/* <Login></Login> */}
     </Switch>

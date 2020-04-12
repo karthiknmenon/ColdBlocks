@@ -5,8 +5,8 @@
 // //
 //
 const reactURL = "http://localhost:3001";
-// const nodeURL = "http://localhost:4000"
-const nodeURL = "https://fd5158a1.ngrok.io"
+const nodeURL = "http://localhost:4000"
+// const nodeURL = "https://fd5158a1.ngrok.io"
 
 var defaultWidth =
   window.screen.width > 768

@@ -1091,6 +1091,26 @@ app.post('/blockAuth', (req,res)=>{
         }).catch(function (error) {
             console.log(error);
         });
+    } else if(/M[0-9]*/.test(String(req.body.username))){   
+        console.log(req.body.username)     
+        axios.get(restUrl + 'api/Manufacturer/'+req.body.username).then(function (response) {
+            jsonResponse = response.data;
+            // console.log(response.data)
+            // res.send(response.data);
+            console.log("Password: "+response.data.password)
+            console.log("Password Query: "+req.body.password)
+            if(response.data.password==String(SHA256(req.body.password))){
+                res.send("success")
+            }
+            else{
+                res.send("failure")
+            }
+        }).then(function (response) {
+            // showID();
+            console.log("API for auth event")
+        }).catch(function (error) {
+            console.log(error);
+        });
     }else{
         res.send("failure")
     }
