@@ -17,6 +17,7 @@ class ManufacturerList extends Component {
       apiData:{},
       mID:{},
       mName:{},
+      password:'',
       fetchId: '',
       fetchName: '',
       loading:true,
@@ -45,7 +46,11 @@ class ManufacturerList extends Component {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
                     mID: event.target.value });
-
+  }
+  passChange = event => {
+    console.log("Invoked passChange Event handleChange: "+event.target.value);
+    this.setState({
+                    password: event.target.value });
   }
   fetchHandleChange = event => {
     this.setState({
@@ -61,7 +66,7 @@ class ManufacturerList extends Component {
         console.log("edit details")
         const user = {
           manufacturerId: String(this.state.editId),
-          manufacturerName: String(this.state.mName)
+          manufacturerName: String(this.state.mName)          
         }
         console.log("user data being sent : "+user.distributorName)
         this.setState({loading: true}, ()=>{
@@ -93,7 +98,8 @@ class ManufacturerList extends Component {
     else{
         const user = {
           mID: String(this.state.mID),
-          mName: String(this.state.mName)
+          mName: String(this.state.mName),
+          password : String(this.state.password)
         };
         this.setState({loading: true}, ()=>{
           console.log("loader until fetch new data")
@@ -307,7 +313,7 @@ class ManufacturerList extends Component {
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
-                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      ncols={["col-md-3", "col-md-3", "col-md-3", "col-md-3"]}
                       properties={[
                         {
                           label: "Company (disabled)",
@@ -334,6 +340,15 @@ class ManufacturerList extends Component {
                           placeholder: "Manufacturer Name",
                           onChange:this.nameChange,
                           name: "mName",
+                          required : true
+                        },
+                        {
+                          label: "Password",
+                          type: "text",
+                          bsClass: "form-control",
+                          placeholder: "Password",
+                          onChange:this.passChange,
+                          name: "password",
                           required : true
                         }
                       ]}

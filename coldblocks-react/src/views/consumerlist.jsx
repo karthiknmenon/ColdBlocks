@@ -17,6 +17,7 @@ class ConsumerList extends Component {
       apiData:{},
       cName: '',
       cId: '',
+      password: '',
       postD: 0,
       fetchId: '',
       fetchName: '',
@@ -43,6 +44,11 @@ class ConsumerList extends Component {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
                     cId: event.target.value });
+  }
+  passChange = event => {
+    console.log("Invoked passChange Event handleChange: "+event.target.value);
+    this.setState({
+                    password: event.target.value });
   }
   fetchHandleChange = event => {
     console.log("Invoked fetch ID change: "+event.target.value);
@@ -91,7 +97,8 @@ class ConsumerList extends Component {
     else{
       const user = {
         cId: String(this.state.cId),
-        cName: String(this.state.cName)
+        cName: String(this.state.cName),
+        password: String(this.state.password)
       };
       this.setState({loading: true}, ()=>{
         console.log("loader until fetch new data")
@@ -324,7 +331,7 @@ class ConsumerList extends Component {
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
-                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      ncols={["col-md-3", "col-md-3", "col-md-3", "col-md-3"]}
                       properties={[
                         {
                           label: "Company (disabled)",
@@ -351,6 +358,15 @@ class ConsumerList extends Component {
                           placeholder: "Consumer Name",
                           onChange:this.nameChange,
                           name: "cName",
+                          required : true
+                        },
+                        {
+                          label: "Password",
+                          type: "password",
+                          bsClass: "form-control",
+                          placeholder: "Password",
+                          onChange:this.passChange,
+                          name: "password",
                           required : true
                         }
                       ]}

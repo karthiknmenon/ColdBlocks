@@ -19,6 +19,7 @@ asset TransitPackage identified by packageID {
   o String packageID regex=/[A-Z][0-9]/
   o String location
   o String temperature
+  o String thresholdTemperature
   o String destination
   o String holder
   o String status
@@ -28,18 +29,22 @@ asset TransitPackage identified by packageID {
 participant Supplier identified by supplierID {
   o String supplierID regex=/[S][0-9]/
   o String supplierName
+  o String password
 }
 participant Manufacturer identified by manufacturerID {
   o String manufacturerID regex=/[M][0-9]/
   o String manufacturerName
+  o String password
 }
 participant Distributor identified by distributorID {
   o String distributorID regex=/[D][0-9]/
   o String distributorName
+  o String password
 }
 participant Consumer identified by consumerID {
   o String consumerID regex=/[C][0-9]/
   o String consumerName
+  o String password
 }
 
 // Events associated with package

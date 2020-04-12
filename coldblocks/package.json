@@ -3,7 +3,7 @@
     "composer": "^0.20.9"
   },
   "name": "coldblocks",
-  "version": "1.0.9",
+  "version": "1.1.1",
   "description": "ColdBlocks blockchain",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/coldblocks.bna",

@@ -18,6 +18,7 @@ class PackageList extends Component {
       packageDestination:'',
       packageHolder:'',
       packageId:'',
+      thresholdTemperature:'',
       loading:true,
       fetchDetails: {}
     }
@@ -43,6 +44,11 @@ class PackageList extends Component {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
                     packageId: event.target.value });
+  }
+  thresholdTemperatureChange = event => {
+    console.log("Invoked temp Event handleChange: "+event.target.value);
+    this.setState({
+                    thresholdTemperature: event.target.value },()=>{console.log("callback"+this.state.thresholdTemperature)});
   }
   fetchHandleChange = event => {
     console.log("Invoked fetch ID change: "+event.target.value);
@@ -86,10 +92,11 @@ class PackageList extends Component {
       packageId: String(this.state.packageId),
       packageHolder: String(this.state.packageHolder),
       packageDestination: String(this.state.packageDestination),
+      thresholdTemperature : String(this.state.thresholdTemperature),
       packageStatus: 1,
       packageLocation: "undefined"
     };
-
+    console.log("object"+JSON.stringify(user))
     // console.log("package "+package.cId);
     // console.log("package "+package.cName);
     this.setState({loading: true}, ()=>{
@@ -255,16 +262,8 @@ class PackageList extends Component {
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
-                      ncols={["col-md-3","col-md-3", "col-md-3", "col-md-3"]}
+                      ncols={["col-md-3", "col-md-3", "col-md-3", "col-md-3"]}
                       properties={[
-                        {
-                          label: "Company (disabled)",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "ColdBlocks",
-                          defaultValue: "ColdBlocks",
-                          disabled:true                     
-                        },
                         {
                           label: "Package ID",
                           type: "text",
@@ -290,6 +289,15 @@ class PackageList extends Component {
                           placeholder: "Enter First Holder",
                           onChange:this.holderChange,
                           name: "packageHolder",
+                          required : true
+                        },
+                        {
+                          label: "Threshold Temperature",
+                          type: "text",
+                          bsClass: "form-control",
+                          placeholder: "Threshold Temperature",
+                          onChange:this.thresholdTemperatureChange,
+                          name: "thresholdTemperature",
                           required : true
                         }
                       ]}
@@ -362,6 +370,9 @@ class PackageList extends Component {
                           Package Temperature
                         </th>
                         <th>
+                          Threshold Temperature
+                        </th>
+                        <th>
                           Package Destination
                         </th>
                         <th>
@@ -377,6 +388,7 @@ class PackageList extends Component {
                             <td>{object.packageID}</td>
                             <td>{object.location}</td>
                             <td>{object.holder}</td>
+                            <td>{object.thresholdTemperature}</td>
                             <td>{object.temperature}</td>
                             <td>{object.destination}</td>
                             <td>{object.status}</td>

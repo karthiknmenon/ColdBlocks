@@ -18,6 +18,7 @@ class DistributorList extends Component {
       dName: '',
       dId: '',
       postD: 0,
+      password: '',
       fetchId: '',
       fetchName: '',
       loading:true,
@@ -44,6 +45,11 @@ class DistributorList extends Component {
     console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
                     dId: event.target.value });
+  }
+  passChange = event => {
+    console.log("Invoked passChange Event handleChange: "+event.target.value);
+    this.setState({
+                    password: event.target.value });
   }
   fetchHandleChange = event => {
     this.setState({
@@ -91,7 +97,8 @@ class DistributorList extends Component {
     else{
       const user = {
         dId: String(this.state.dId),
-        dName: String(this.state.dName)
+        dName: String(this.state.dName),
+        password: String(this.state.password)
       };
       this.setState({loading: true}, ()=>{
         console.log("loader until fetch new data")
@@ -306,7 +313,7 @@ class DistributorList extends Component {
                 content={
                   <form onSubmit={this.handleSubmit} >
                     <FormInputs 
-                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      ncols={["col-md-3", "col-md-3", "col-md-3", "col-md-3"]}
                       properties={[
                         {
                           label: "Company (disabled)",
@@ -333,6 +340,15 @@ class DistributorList extends Component {
                           placeholder: "Distributor Name",
                           onChange:this.nameChange,
                           name: "dName",
+                          required : true
+                        },
+                        {
+                          label: "Password",
+                          type: "passsword",
+                          bsClass: "form-control",
+                          placeholder: "Password",
+                          onChange:this.passChange,
+                          name: "password",
                           required : true
                         }
                       ]}

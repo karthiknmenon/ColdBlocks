@@ -60,7 +60,7 @@ async function TemperatureDrop(temperatureDrop) {
     // temperatureDrop.asset.status = oldStatus;
     // const oldTemperature = temperatureDrop.asset.temperature;
     if (oldStatus == "1") {
-        if (parseInt(temperatureDrop.asset.temperature) > 25) {
+        if (parseInt(temperatureDrop.asset.temperature) > temperatureDrop.asset.thresholdTemperature) {
             temperatureDrop.asset.status = "0";
         } else {
             temperatureDrop.asset.status = oldStatus;
