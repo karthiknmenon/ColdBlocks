@@ -175,6 +175,7 @@ app.get('/api/ListConsumerId', function (req, res) {
 app.post('/api/CreateConsumer', function (req, res) {
     console.log(req.body.cId);
     console.log(req.body.cName);
+    console.log(req.body.password);
     Request.post({
         "headers": {
             "content-type": "application/json",
@@ -185,7 +186,8 @@ app.post('/api/CreateConsumer', function (req, res) {
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Consumer",
             "consumerID": String(req.body.cId),
-            "consumerName": String(req.body.cName)
+            "consumerName": String(req.body.cName),
+            "password": String(req.body.password)
         })
     }, (error, response, body) => {
         if (error) {
@@ -262,7 +264,8 @@ app.post('/api/CreateDistribtuor', function (req, res) {
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Distributor",
             "distributorID": String(req.body.dId),
-            "distributorName": String(req.body.dName)
+            "distributorName": String(req.body.dName),
+            "password": String(req.body.password)
         })
     }, (error, response, body) => {
         if (error) {
@@ -337,7 +340,8 @@ app.post('/api/CreateManufacturer', function (req, res) {
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Manufacturer",
             "manufacturerID": String(req.body.mID),
-            "manufacturerName": String(req.body.mName)
+            "manufacturerName": String(req.body.mName),
+            "password": String(req.body.password),
         })
     }, (error, response, body) => {
         if (error) {
@@ -412,7 +416,8 @@ app.post('/api/CreateSupplier', function (req, res) {
         "body": JSON.stringify({
             "$class": "org.coldblocks.mynetwork.Supplier",
             "supplierID": String(req.body.sId),
-            "supplierName": String(req.body.sName)
+            "supplierName": String(req.body.sName),
+            "password": String(req.body.password)
         })
     }, (error, response, body) => {
         if (error) {
@@ -734,6 +739,7 @@ app.post('/api/CreateTransitPackage', function (req, res) {
             "location": String(req.body.packageLocation),
             "temperature": String(req.body.packageTemperature),
             "destination": String(req.body.packageDestination),
+            "thresholdTemperature": String(req.body.thresholdTemperature),
             "holder": String(req.body.packageHolder),
             "status": String(req.body.packageStatus)
         })
