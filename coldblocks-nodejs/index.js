@@ -785,26 +785,42 @@ app.post('/tempData', function (req, res) {
     var packageID = req.body.packageID;
     console.log("Package Id: " + packageID);
     // var gpsLocation = req.body.Location;
-    console.log("Location: " + gpsLocation);
-    // // set threshold temperature || put If condition if hardcoded
-        sendWhatsapp(packageID, temp, gpsLocation);
-        // console.log(temp);
-        // send API Post for TemperatureDrop Event
-        Request.post({
-            "headers": {
-                "content-type": "application/json"
-            },
-            "url": restUrl + "api/TemperatureDrop",
-            "body": JSON.stringify({
-                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
-                "newTemperature": String(req.body.Temperature),
-                "newLocation": String(gpsLocation)
-            })
-        }, (error, response, body) => {
-            if (error) {
-                return console.dir(error);
+    console.log("Location: " + gpsLocation);    
+        var thresholdTemperature;
+        axios.get(restUrl + 'api/TransitPackage/' + packageID).then(function (response) {
+            thresholdTemperature = response.data.thresholdTemperature;
+            console.log("response.data.status:" + response.data.thresholdTemperature)
+    
+        }).then(function (response) {
+            console.log("then")            
+            if(temp > thresholdTemperature){
+                // // set threshold temperature || put If condition if hardcoded
+                sendWhatsapp(packageID, temp, gpsLocation);
+                console.log(temp);
+                console.log("Threshold temperature: "+thresholdTemperature)
+                // send API Post for TemperatureDrop Event 
+                Request.post({
+                    "headers": {
+                        "content-type": "application/json"
+                    },
+                    "url": restUrl + "api/TemperatureDrop",
+                    "body": JSON.stringify({
+                        "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
+                        "newTemperature": String(req.body.Temperature),
+                        "newLocation": String(gpsLocation)
+                    })
+                }, (error, response, body) => {
+                    if (error) {
+                        return console.dir(error);
+                    }
+                });   
             }
-        });    
+            else{
+                console.log("no need for Temperature Drop Event")
+            }                
+        }).catch(function (error) {
+            console.log(error);
+        });
 });
 
 // Timed Updates for package using PUT 
@@ -835,6 +851,7 @@ app.post('/updatePackageDetails', function (req, res) {
     var oldHolder;
     var oldDestination;
     var Oldstatus;
+    var thresholdTemperature;
 
     axios.get(restUrl + 'api/TransitPackage/' + packageID).then(function (response) {
         jsonResponse = response.data;
@@ -862,7 +879,7 @@ app.post('/updatePackageDetails', function (req, res) {
                 "packageID": String(packageID),
                 "location": String(gpsLocation),
                 "temperature": String(req.body.Temperature),
-                "thresholdTemperature": String(req.body.thresholdTemperature),
+                "thresholdTemperature": String(thresholdTemperature),
                 "destination": String(oldDestination),
                 "holder": String(oldHolder),
                 "status": String(Oldstatus)
