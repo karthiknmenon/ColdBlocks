@@ -213,6 +213,11 @@ class Login extends Component {
                 </Col>
                 <Col lg={3}></Col>
             </Row>
+            <Row>
+              <Col xs={12} className="text-center">
+                    <p className="text-muted">ColdDash - A Curated Dashboad for ColdBlocks</p>                    
+              </Col>
+            </Row>
         </Grid>
       </div>
     );

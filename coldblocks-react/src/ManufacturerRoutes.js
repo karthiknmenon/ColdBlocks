@@ -3,7 +3,7 @@ import Dashboard from "views/Dashboard.jsx";
 import NormalPackageList from "views/NormalPackageList.jsx";
 import AdminTransactions from "views/adminTransactions";
 import Maps from "views/Maps.jsx";
-import ColdAR from "views/camera";
+import ColdAR from "views/NormalCamera";
 import Chart from "views/DataChart";
 import vrp from "views/vrp";
 import 'remixicon/fonts/remixicon.css'

@@ -23,10 +23,10 @@ class ColdAR extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
   
-  handleScan = () => {
-    this.setState({
+  handleScan = (data) => {
+    if(data){this.setState({
       show: true
-    })
+    })}
   }
   handleError = err => {
     console.error(err)
@@ -74,57 +74,7 @@ class ColdAR extends React.Component {
               </Button>
           </Modal.Footer>
         </Modal>
-      <Grid fluid>
-        <Row>
-          <Col md={12}>
-            <Card
-                category="Generate QR-Code for HolderChange Event. Download and Print the QR-Code on the Package. QR-Code changes dynamically on input of Package-ID"
-                content={
-                  <>   
-                    <form onSubmit={this.handleSubmit} name="editInfo" >
-                      <FormInputs 
-                        ncols={["col-md-6", "col-md-6"]}
-                        properties={[
-                          {
-                            label: "Company",
-                            type: "text",
-                            disabled: true,
-                            defaultValue : "ColdBlocks",
-                            bsClass: "form-control",                                                               
-                          },
-                          {
-                            label: "Package ID",
-                            type: "text",
-                            bsClass: "form-control",
-                            placeholder: "Package ID",
-                            onChange:this.idChange,
-                            name: "packageId",                            
-                          },
-                        ]}
-                        />       
-                        <div className="clearfix" />
-                        {/* <Button bsStyle="success" fill type="submit" >
-                          Submit
-                        </Button> */}
-                    </form>
-                    <hr />
-                    <div  className="text-center">
-                      <QRCode
-                        id="123456"
-                        value={"https://bb404505.ngrok.io/qrHolderChange?packageID="+this.state.pId}
-                        size={290}
-                        level={"H"}
-                        includeMargin={true}
-                      /> <br />
-                      <Button bsStyle="success" fill onClick={this.downloadQR}>
-                          Download QR
-                      </Button>                                                  
-                    </div>                             
-                </>
-                }
-              />
-          </Col>
-        </Row>
+      <Grid fluid>       
           <Row>
             <Col md={12}>
               <Card
