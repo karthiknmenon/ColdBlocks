@@ -388,8 +388,8 @@ class PackageList extends Component {
                             <td>{object.packageID}</td>
                             <td>{object.location}</td>
                             <td>{object.holder}</td>
-                            <td>{object.thresholdTemperature}</td>
                             <td>{object.temperature}</td>
+                            <td>{object.thresholdTemperature}</td>
                             <td>{object.destination}</td>
                             <td>{object.status}</td>
                           </tr>

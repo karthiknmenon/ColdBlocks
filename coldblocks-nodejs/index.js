@@ -786,12 +786,9 @@ app.post('/tempData', function (req, res) {
     console.log("Package Id: " + packageID);
     // var gpsLocation = req.body.Location;
     console.log("Location: " + gpsLocation);
-
-    // set threshold temperature
-    if (temp > 25) {
+    // // set threshold temperature || put If condition if hardcoded
         sendWhatsapp(packageID, temp, gpsLocation);
         // console.log(temp);
-
         // send API Post for TemperatureDrop Event
         Request.post({
             "headers": {
@@ -807,55 +804,7 @@ app.post('/tempData', function (req, res) {
             if (error) {
                 return console.dir(error);
             }
-        });
-    }
-
-    // Delete code once timely update works
-    // else {
-    //     var oldHolder;
-    //     var oldDestination;
-    //     var Oldstatus;
-    //     // send API Post for TemperatureDrop Event
-    //     axios.get(restUrl + 'api/TransitPackage/' + packageID).then(function (response) {
-    //         jsonResponse = response.data;
-    //         console.log("response from axios of put:" + jsonResponse);
-    //         oldHolder = response.data.holder;
-    //         console.log("response.data.holder:" + response.data.holder)
-    //         oldDestination = response.data.destination;
-    //         console.log("response.data.destination:" + response.data.destination)
-    //         Oldstatus = response.data.status;
-    //         console.log("response.data.status:" + response.data.status)
-    //         // response.send(response.data);
-
-    //     }).then(function (response) {
-    //         console.log("then")
-
-    //         // Update values of package using PUT
-    //         const options = {
-    //             url: restUrl + 'api/TransitPackage/' + packageID,
-    //             method: 'PUT',
-    //             headers: {
-    //                 'content-type': 'application/json',
-    //             },
-    //             body: JSON.stringify({
-    //                 "$class": "org.coldblocks.mynetwork.TransitPackage",
-    //                 "packageID": String(packageID),
-    //                 "location": String(gpsLocation),
-    //                 "temperature": String(req.body.Temperature),
-    //                 "destination": String(oldDestination),
-    //                 "holder": String(oldHolder),
-    //                 "status": String(Oldstatus)
-    //             })
-    //         };
-
-    //         Request(options, function (err, res, body) {
-    //             // let json = JSON.parse(body);
-    //             console.log("PUT method");
-    //         })
-    //     }).catch(function (error) {
-    //         console.log(error);
-    //     });
-    // }
+        });    
 });
 
 // Timed Updates for package using PUT 
@@ -896,6 +845,8 @@ app.post('/updatePackageDetails', function (req, res) {
         console.log("response.data.destination:" + response.data.destination)
         Oldstatus = response.data.status;
         console.log("response.data.status:" + response.data.status)
+        thresholdTemperature = response.data.thresholdTemperature;
+        console.log("response.data.status:" + response.data.thresholdTemperature)
 
     }).then(function (response) {
         console.log("then")
@@ -911,6 +862,7 @@ app.post('/updatePackageDetails', function (req, res) {
                 "packageID": String(packageID),
                 "location": String(gpsLocation),
                 "temperature": String(req.body.Temperature),
+                "thresholdTemperature": String(req.body.thresholdTemperature),
                 "destination": String(oldDestination),
                 "holder": String(oldHolder),
                 "status": String(Oldstatus)
