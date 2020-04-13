@@ -23,8 +23,8 @@ const client = require('twilio')(accountSid, authToken);
 // const passport = require('passport');
 
 // connecting mongo to node 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/MyDatabase');
+// const mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/MyDatabase');
 
 
 const app = express();
@@ -1037,7 +1037,7 @@ app.get("/qrHolderChange", (req, res) => {
 // Auth
 app.post('/blockAuth', (req,res)=>{
     // console.log("block auth"+req.query.username+" "+req.query.password)
-    
+
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

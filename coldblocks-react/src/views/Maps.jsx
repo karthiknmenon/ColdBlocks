@@ -16,20 +16,6 @@ import {
 // const maps_api = process.env.REACT_APP_MAPS_API_KEY
 // const maps_url = "https://maps.googleapis.com/maps/api/js?key="+maps_api
 const maps_url = "https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
-const CustomMap = withScriptjs(
-  withGoogleMap(props => (
-    <GoogleMap
-      defaultZoom={13}
-      defaultCenter={{ lat: 10.5545, lng: 76.2247 }}
-      defaultOptions={{
-        scrollwheel: false,
-        zoomControl: true
-      }}
-    >
-      <Marker position={{ lat: 10.5545, lng: 76.2247 }} />
-    </GoogleMap>
-  ))
-);
 
 function Maps({ ...prop }) {
   const [packageId, setPackageId] = useState(
@@ -50,6 +36,20 @@ function Maps({ ...prop }) {
       setLocation(res.data[0].location)
     })
   }
+  const CustomMap = withScriptjs(
+    withGoogleMap(props => (
+      <GoogleMap
+        defaultZoom={13}
+        defaultCenter={location || { lat: 10.5545, lng: 76.2247 }}
+        defaultOptions={{
+          scrollwheel: false,
+          zoomControl: true
+        }}
+      >
+        <Marker position={location || { lat: 10.5545, lng: 76.2247 }} />
+      </GoogleMap>
+    ))
+  );
   return (
     <div className="content">
     <Row>
