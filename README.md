@@ -3,7 +3,8 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4fec8e8a-53cb-401c-98e2-f96498406be5/deploy-status)](https://app.netlify.com/sites/colddash/deploys)
 
 # Specification
-ColdBlocks is a temperature guided route optimization algorithm which uses blockchain for secure transactions throughout the Cold Chain Network. ColdBlocks is based on the following technologies - 
+ColdBlocks is a temperature guided route optimization algorithm which uses blockchain for secure transactions throughout the Cold Chain Network.
+ColdBlocks is based on the following technologies - 
 * __IoT__
     Using temperature sensors and GPS sensors along with node MCU ESP8266 module to provide WiFi connectivity. The data from these sensors is sent directly to a remote server. 
 * __Blockchain__
@@ -11,7 +12,7 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
 * __coldAR__
     __Status Check__ for customers by just scanning a qr-code.
 * __Route Optimization__
-    Route Optimization based on __CVRP__ is implemented using Python and op-2 algorithm. Google or-tools is used for the same using Gooogle Maps API and Google Directions API.
+    Route Optimization based on __VRP__ is implemented using Python and op-2 algorithm. Google or-tools is used for the same using Gooogle Maps API and Google Directions API.
 * __Progressive Web App__ using angularJS and reactJS for admin and other actors of the use case.
 * __Android App__ for QR-Code scanning.
 
@@ -32,16 +33,19 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     * node version - 8.16.1
 * CardName - admin@coldblocks
 * BusinessNetwork - coldblocks
-* Network Version - 1.0.9
-* BNA file - coldblocks@1.0.9.bna
+* Network Version - 1.1.1
+* BNA file - coldblocks@1.1.1.bna
 * Netword Card - networkadmin.card
 ### &nbsp;&nbsp;&nbsp;&nbsp;2. Back-End 
 * nodeJS backend 
 * twilio for __WhatsApp__ integration
-* open-cage API for reverse mapping of coordinates into location
+* open-cage API for __reverse geo encoding__ of coordinates into location
 * ngrok for public url 
 ### &nbsp;&nbsp;&nbsp;&nbsp;3. Front-End Application 
 * PWA using angularJS for admin-UI and reactJS for user-UI
+* react-google-maps for live mapping of package location on to maps
+* Downloadable QR-Code for HolderChange event on admin's login
+* Link : ```https://colddash.netlify.com```
 ### &nbsp;&nbsp;&nbsp;&nbsp;4. Route Optimization 
 * Route optimization is done using an op-2 algorithm which is  implemented using Python
 * The data is then hosted on a port in the machine using Flask
@@ -50,7 +54,6 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     * pip3 Version - v20.0.2 
     * Flask Version - v1.1.1
     * Google ortools
-
 ### &nbsp;&nbsp;&nbsp;&nbsp;5. AR for Status Check
 * AR.js
 * three.js
@@ -101,6 +104,5 @@ ColdBlocks is a temperature guided route optimization algorithm which uses block
     * `curl 127.0.0.1:5000\`
     * Path `/sendLocation` to POST Addresses and path `/` to GET Optimal Path
 
-Icon Library - Remix Icons
 
 :v: :fist:
