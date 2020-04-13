@@ -135,7 +135,7 @@ class Dashboard extends Component {
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col md={6}>
+            <Col md={12}>
                   <UserCard
                     bgImage="https://images.unsplash.com/photo-1548695607-9c73430ba065?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1484&q=80"
                     avatar={avatar}
@@ -161,7 +161,10 @@ class Dashboard extends Component {
                   }
                   />
                 </Col>
-                <Col lg={6}>
+                
+              </Row>
+              <Row>
+              <Col lg={6}>
                 <Card
                     title="Package Status"
                     category="Query Status of a Package by its packageID"                
@@ -205,9 +208,7 @@ class Dashboard extends Component {
                     }
                   />
                 </Col>
-              </Row>
-              <Row>
-                <Col lg={12}>
+                <Col lg={6}>
                 <Card
                     title="Package Data"
                     category="The table below lists all packages along with basic package data such as Package ID and Package Status."
