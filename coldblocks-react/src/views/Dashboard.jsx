@@ -143,9 +143,22 @@ class Dashboard extends Component {
                     userName={this.state.userId}
                     description={
                       <span className="text-muted">
-                          15 years of experience in local marketing and distribution.
+                          ColdBlocks is a route optimization algorithm with blockchain and IoT for secure transactions in a cold chain network.
                       </span>
                     }
+                    socials={
+                      <div>
+                          <Button simple>
+                              <a href="https://www.github.com/mojojojo20/coldblocks"><i className="fa fa-github"></i></a>
+                          </Button>
+                          <Button simple>
+                              <a href="https://colddash.netlify.com"><i className="fa fa-globe"></i></a>
+                          </Button>
+                          <Button simple>
+                              <a href="mailto:coldblocksv1.0@gmail.com"><i className="fa fa-envelope"></i></a>
+                          </Button>
+                      </div>
+                  }
                   />
                 </Col>
                 <Col lg={6}>

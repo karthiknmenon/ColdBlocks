@@ -800,25 +800,41 @@ app.post('/tempData', function (req, res) {
             console.log("then")            
             if(temp > thresholdTemperature){
                 // // set threshold temperature || put If condition if hardcoded
-                sendWhatsapp(packageID, temp, gpsLocation);
-                console.log(temp);
-                console.log("Threshold temperature: "+thresholdTemperature)
-                // send API Post for TemperatureDrop Event 
-                Request.post({
-                    "headers": {
-                        "content-type": "application/json"
-                    },
-                    "url": restUrl + "api/TemperatureDrop",
-                    "body": JSON.stringify({
-                        "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
-                        "newTemperature": String(req.body.Temperature),
-                        "newLocation": String(gpsLocation)
-                    })
-                }, (error, response, body) => {
-                    if (error) {
-                        return console.dir(error);
+                var realStatus;
+                axios.get(restUrl + 'api/queries/PackageId?packageid=' + packageID).then(function (response) {
+                    jsonResponse = response.data;
+                    // console.log(response.data)
+                    realStatus = response.data[0].status;
+                }).then(function (response) {
+                    // showID();
+                    console.log("fetched status:+ "+realStatus)
+                    if(String(realStatus)=="1"){
+                        sendWhatsapp(packageID, temp, gpsLocation);
+                        console.log(temp);
+                        console.log("Threshold temperature: "+thresholdTemperature)
+                        // send API Post for TemperatureDrop Event 
+                        Request.post({
+                            "headers": {
+                                "content-type": "application/json"
+                            },
+                            "url": restUrl + "api/TemperatureDrop",
+                            "body": JSON.stringify({
+                                "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + packageID,
+                                "newTemperature": String(req.body.Temperature),
+                                "newLocation": String(gpsLocation)
+                            })
+                        }, (error, response, body) => {
+                            if (error) {
+                                return console.dir(error);
+                            }
+                        });   
                     }
-                });   
+                    else{
+                        console.log("Already tampered")
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });                
             }
             else{
                 console.log("no need for Temperature Drop Event")
