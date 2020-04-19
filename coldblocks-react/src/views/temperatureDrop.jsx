@@ -37,21 +37,27 @@ class TemperatureDrop extends Component {
     .then((data) => {
         var length = data.length;
         var i = 0;
-        console.log(this.state.pId)
+        console.log(this.state.pId)        
+        var flag = 0;
         while(i<length){
+            // console.log(i+" "+data[i].asset.slice(49))
             if(String(data[i].asset.slice(49))==String(this.state.pId)){
-                this.setState({ fShow: true, loading: false }, ()=>{
-                    console.log("Set State for fShow")
-                });                             
-                break;
+              this.setState({ fShow: true, loading: false }, ()=>{
+                console.log("Set State for fShow")
+              });   
+              flag = 0;                          
+              break;
             } else{
-                this.setState({ show: true, loading: false }, ()=>{
-                    console.log("Set State for Show")
-                }); 
-                break; 
-            }
+              flag = 1;
+            }            
             i += 1;
       }
+      // flag to check if packageID entered exists in TemperatureDrop REST API
+      if(flag==1){
+        this.setState({ show: true, loading: false }, ()=>{
+            console.log("Set State for Show")
+        }); 
+    }
       // console.log(data);
     })
     .catch(console.log)
