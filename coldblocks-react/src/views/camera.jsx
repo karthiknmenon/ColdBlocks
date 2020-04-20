@@ -162,7 +162,7 @@ class ColdAR extends React.Component {
                     <br />
                     
                     {/* <p className="text-muted text-center">{this.state.result}</p>                     */}
-                      <Button bsStyle="success" fill onClick={this.handleSubmit}>
+                      <Button bsStyle="success" fill onClick={this.handleSubmit} style={{cursor: "pointer"}}>
                             Submit
                       </Button>                      
                     
