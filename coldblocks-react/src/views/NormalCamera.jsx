@@ -16,7 +16,7 @@ class ColdAR extends React.Component {
   constructor(){
     super();
     this.state = {
-      result: 'No result',
+      result: '',
       show: false,
       pId: '',
     }
@@ -41,7 +41,8 @@ class ColdAR extends React.Component {
   handleClose() {
     this.setState({ show: false });    
   }
-  handleSubmit = () => {
+  handleSubmit = event => {
+    event.preventDefault()
     axios.get(String(this.state.result))
     .then(res => {
         // console.log(res)

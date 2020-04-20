@@ -16,7 +16,7 @@ class ColdAR extends React.Component {
   constructor(){
     super();
     this.state = {
-      result: 'No result',
+      result: '',
       show: false,
       pId: '',
     }
@@ -40,7 +40,9 @@ class ColdAR extends React.Component {
     console.error(err)
   }
   handleSubmit = event => {
-    axios.get('http://localhost:4000/qrHolderChange?packageID=H010')
+    event.preventDefault()
+    axios.get(String(this.state.result))
+    // axios.get('http://localhost:4000/qrHolderChange?packageID=H010')
     .then(res => {
         // console.log(res)
         var data = res.data
