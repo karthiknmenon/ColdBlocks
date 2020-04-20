@@ -83,10 +83,15 @@ class TemperatureDrop extends Component {
       while(i<length){
             data[i].asset=data[i].asset.slice(49);
             // data[i].timestamp=data[i].timestamp.slice(12,19)+', '+data[i].timestamp.slice(0,10);
-            data[i].timestamp = new Date(data[i].timestamp)
-            data[i].timestamp = String(data[i].timestamp).slice(0,25)
+            data[i].timestamp = new Date(data[i].timestamp)            
           // console.log("inside while status: 0")          
             i += 1;
+      }
+      data = data.sort((a, b) => b.timestamp - a.timestamp)
+      var j=0;
+      while(j<data.length){
+        data[j].timestamp = String(data[j].timestamp).slice(0,25)
+        j+=1;
       }
       this.setState({ apiData: data })
       console.log(data);
