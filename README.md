@@ -15,8 +15,12 @@ ColdBlocks is based on the following technologies -
     Route Optimization based on __VRP__ is implemented using Python and Google or-tools, Gooogle Maps API and Google Directions API.
 * __Progressive Web App__ using angularJS and reactJS for admin and other actors of the use case.
 * __Android App__ for QR-Code scanning.
-
-
+ColdBlocks was developed as part of our final year project during B.tech. 
+###### Say __Hi__ to our contributors - 
+###### &nbsp;&nbsp;&nbsp;&nbsp; [Karthik Menon](https://github.com/mojojojo20) :computer: :bug: :rocket:
+###### &nbsp;&nbsp;&nbsp;&nbsp; [Denil John Titus](https://github.com/deniltitus) :book: :open_file_folder:
+###### &nbsp;&nbsp;&nbsp;&nbsp; [Jim Thomas](https://github.com/jimthomas1997) :computer: :bar_chart:
+###### &nbsp;&nbsp;&nbsp;&nbsp; [Kevin Thomas](https://github.com/iamkt23) :electric_plug: :book:
 
 ## Hardware Requirements
 * nodeMCU ESP8266 Module for Wifi Connectivity
@@ -106,6 +110,3 @@ ColdBlocks is based on the following technologies -
     * `python3 vrp.py`
     * `curl 127.0.0.1:5000\`
     * Path `/sendLocation` to POST Addresses and path `/` to GET Optimal Path
-
-
-:v: :fist:
