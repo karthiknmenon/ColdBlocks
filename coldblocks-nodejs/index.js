@@ -1009,11 +1009,11 @@ app.post("/getUserCred", (req, res) => {
 })
 var qrOldHolder;
 app.get("/qrHolderChange", (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    // res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log("inside qr holder change for cred:" + req.query.packageID);
-    axios.get('/api/ListPackagesById?packageId=' + req.query.packageID).then(function (response) {
+    axios.get('http://localhost:4000/api/ListPackagesById?packageId=' + req.query.packageID).then(function (response) {
         jsonResponse = response.data;
         var qrOldHolder = response.data[0]["holder"];
         console.log("qr old holder:" + qrOldHolder)
@@ -1021,9 +1021,9 @@ app.get("/qrHolderChange", (req, res) => {
     }).then(function (response) {
         console.log("qr .get");
         Request.post({
-            "headers": {
-                "content-type": "application/json"
-            },
+            // "headers": {
+            //     "content-type": "application/json"
+            // },
             "url": restUrl + "api/HolderChange",
             "body": JSON.stringify({
                 "$class": "org.coldblocks.mynetwork.HolderChange",
@@ -1034,15 +1034,16 @@ app.get("/qrHolderChange", (req, res) => {
         }, (error, response, body) => {
             if (error) {
                 return console.dir(error);
-            } else {
-                if (JSON.parse(body).hasOwnProperty('error')) {
-                    res.send("error")
-                } else {
-                    console.log("Success");
-                    res.send("success")
-                    console.dir(JSON.parse(body));
-                }
             }
+            // } else {
+            //     if (JSON.parse(body).hasOwnProperty('error')) {
+            //         res.send("error")
+            //     } else {
+            //         console.log("Success");
+            //         res.send("success")
+            //         console.dir(JSON.parse(body));
+            //     }
+            // }
         });
     }).catch(function (error) {
         console.log(error);

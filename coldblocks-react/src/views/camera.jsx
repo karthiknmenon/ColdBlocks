@@ -147,6 +147,9 @@ class ColdAR extends React.Component {
                       style={{ width: '100%'}}
                     />
                     <p className="text-muted text-center">{this.state.result}</p>
+                    <Button bsStyle="success" fill onClick={this.state.result} >
+                          Submit
+                    </Button>  
                   </>
                   }
                 />
