@@ -23,11 +23,18 @@ class ColdAR extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
   
-  handleScan = (data) => {
-    if(data=="success")
-    {this.setState({
-      show: true
-    })}
+  // handleScan = (data) => {
+  //   if(data=="success")
+  //   {this.setState({
+  //     show: true
+  //   })}
+  // }
+  handleScan = data => {
+    if (data) {
+      this.setState({
+        result: data
+      })
+    }
   }
   handleError = err => {
     console.error(err)
@@ -139,7 +146,7 @@ class ColdAR extends React.Component {
                       onScan={this.handleScan}
                       style={{ width: '100%'}}
                     />
-                    {/* <p className="text-muted text-center">{this.state.result}</p> */}
+                    <p className="text-muted text-center">{this.state.result}</p>
                   </>
                   }
                 />
