@@ -41,7 +41,7 @@ class ColdAR extends React.Component {
   }
   handleSubmit = event => {
     event.preventDefault()
-    axios.get(String(this.state.result))
+    axios.get(String(this.state.result+'&userId='+localStorage.getItem('userId')))
     // axios.get('http://localhost:4000/qrHolderChange?packageID=H010')
     .then(res => {
         // console.log(res)

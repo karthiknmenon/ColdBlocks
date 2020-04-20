@@ -1013,6 +1013,7 @@ app.get("/qrHolderChange", (req, res) => {
     // res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
     // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log("inside qr holder change for cred:" + req.query.packageID);
+    var userLogin = req.query.userId;
     axios.get('http://localhost:4000/api/ListPackagesById?packageId=' + req.query.packageID).then(function (response) {
         jsonResponse = response.data;
         var qrOldHolder = response.data[0]["holder"];
@@ -1029,7 +1030,7 @@ app.get("/qrHolderChange", (req, res) => {
                 "$class": "org.coldblocks.mynetwork.HolderChange",
                 "asset": "resource:org.coldblocks.mynetwork.TransitPackage#" + req.query.packageID,
                 "oldHolder": String(qrOldHolder),
-                "newHolder": String(ousername)
+                "newHolder": String(userLogin)
             })
         }, (error, response, body) => {
             if (error) {

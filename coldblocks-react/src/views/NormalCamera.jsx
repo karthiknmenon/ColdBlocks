@@ -43,7 +43,7 @@ class ColdAR extends React.Component {
   }
   handleSubmit = event => {
     event.preventDefault()
-    axios.get(String(this.state.result))
+    axios.get(String(this.state.result+'&userId='+localStorage.getItem('userId')))
     .then(res => {
         // console.log(res)
         var data = res.data
