@@ -1021,9 +1021,9 @@ app.get("/qrHolderChange", (req, res) => {
     }).then(function (response) {
         console.log("qr .get");
         Request.post({
-            // "headers": {
-            //     "content-type": "application/json"
-            // },
+            "headers": {
+                "content-type": "application/json"
+            },
             "url": restUrl + "api/HolderChange",
             "body": JSON.stringify({
                 "$class": "org.coldblocks.mynetwork.HolderChange",

@@ -39,8 +39,8 @@ class ColdAR extends React.Component {
   handleError = err => {
     console.error(err)
   }
-  handleSubmit = () => {
-    axios.get(this.state.result)
+  handleSubmit = event => {
+    axios.get('http://localhost:4000/qrHolderChange?packageID=H010')
     .then(res => {
         // console.log(res)
         var data = res.data
@@ -158,10 +158,12 @@ class ColdAR extends React.Component {
                       style={{ width: '100%'}}
                     />
                     <br />
+                    
                     {/* <p className="text-muted text-center">{this.state.result}</p>                     */}
-                      <Button bsStyle="success" fill onClick={this.handleSubmit} >
+                      <Button bsStyle="success" fill onClick={this.handleSubmit}>
                             Submit
                       </Button>                      
+                    
                   </>
                   }
                 />

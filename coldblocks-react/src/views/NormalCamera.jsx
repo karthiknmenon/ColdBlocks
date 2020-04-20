@@ -42,7 +42,7 @@ class ColdAR extends React.Component {
     this.setState({ show: false });    
   }
   handleSubmit = () => {
-    axios.get(this.state.result)
+    axios.get(String(this.state.result))
     .then(res => {
         // console.log(res)
         var data = res.data
@@ -107,10 +107,9 @@ class ColdAR extends React.Component {
                       style={{ width: '100%'}}
                     />
                     <br />
-                    {/* <p className="text-muted text-center">{this.state.result}</p>                     */}
-                      <Button bsStyle="success" fill onClick={this.handleSubmit}>
+                    <Button bsStyle="success" fill onClick={this.handleSubmit}>
                             Submit
-                      </Button>                      
+                    </Button>  
                   </>
                   }
                 />
