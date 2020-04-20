@@ -141,14 +141,8 @@ jspm_packages/
 
 # Temporary folders
 temp/
-
-<<<<<<< HEAD
-# End of https://www.gitignore.io/api/node,angular
-
-# python files
-__pycache__/
-=======
 # pycache
 __pycache__/
 # End of https://www.gitignore.io/api/node,angular
->>>>>>> master
+
+

@@ -3,7 +3,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4fec8e8a-53cb-401c-98e2-f96498406be5/deploy-status)](https://app.netlify.com/sites/colddash/deploys)
 
 # Specification
-ColdBlocks is a temperature guided route optimization algorithm which uses blockchain for secure transactions throughout the Cold Chain Network.
+ColdBlocks is a decentralized record management system to store electronic transaction records giving priority to the __Quality Assurance (QA), security and real time data availability__. It aims to enhance the working of the current cold chain network.   
 ColdBlocks is based on the following technologies - 
 * __IoT__
     Using temperature sensors and GPS sensors along with node MCU ESP8266 module to provide WiFi connectivity. The data from these sensors is sent directly to a remote server. 
@@ -12,7 +12,7 @@ ColdBlocks is based on the following technologies -
 * __coldAR__
     __Status Check__ for customers by just scanning a qr-code.
 * __Route Optimization__
-    Route Optimization based on __VRP__ is implemented using Python and op-2 algorithm. Google or-tools is used for the same using Gooogle Maps API and Google Directions API.
+    Route Optimization based on __VRP__ is implemented using Python and Google or-tools, Gooogle Maps API and Google Directions API.
 * __Progressive Web App__ using angularJS and reactJS for admin and other actors of the use case.
 * __Android App__ for QR-Code scanning.
 
@@ -81,9 +81,12 @@ ColdBlocks is based on the following technologies -
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;4. react front-end (UI for Suppliers, Manufacturers, Distributors & Consumers)
 * `cd coldblocks-react`
-    * `npm install` (to install all packages)    
+    * `npm install` (to install all packages)  
+    * Change __nodeURL__ in variables.jsx with the new server URL.
     * `npm start`
-* Auth Implemented using mongoDB (old version)
+    * Basic Auth Credentials - 
+        * __username__ : admin
+        * __password__ : admin
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;5. coldblocks-AR
 * `git clone https://github.com/mojojojo20/ColdBlocks-AR.git`
@@ -99,7 +102,7 @@ ColdBlocks is based on the following technologies -
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;7. Route Optimization - 
 * `cd coldblocks-route`
-    * Requires __Google Maps API, Directions API__    
+    * Requires __Google Maps API, Directions API, Google or-tools__  
     * `python3 vrp.py`
     * `curl 127.0.0.1:5000\`
     * Path `/sendLocation` to POST Addresses and path `/` to GET Optimal Path
