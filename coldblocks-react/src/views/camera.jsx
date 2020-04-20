@@ -112,7 +112,7 @@ class ColdAR extends React.Component {
                     <div  className="text-center">
                       <QRCode
                         id="123456"
-                        value={"https://bb404505.ngrok.io/qrHolderChange?packageID="+this.state.pId}
+                        value={nodeURL+"/qrHolderChange?packageID="+this.state.pId}
                         size={290}
                         level={"H"}
                         includeMargin={true}

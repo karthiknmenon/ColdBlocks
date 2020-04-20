@@ -229,7 +229,7 @@ class PackageList extends Component {
             <p className="text-danger">Transaction Failed</p>
           </Modal.Body>
           <Modal.Footer>
-              <Button variant="secondary" onClick={this.handleClose}>
+              <Button variant="secondary" onClick={this.fHandleClose}>
                 Close
               </Button>
           </Modal.Footer>
