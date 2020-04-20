@@ -141,7 +141,7 @@ class TemperatureDrop extends Component {
                     <p className="text-danger">The Package is not of Optimal Quality</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose}>
+                    <Button variant="secondary" onClick={this.fHandleClose}>
                         Close
                     </Button>
                 </Modal.Footer>
