@@ -157,7 +157,8 @@ class ColdAR extends React.Component {
                       onScan={this.handleScan}
                       style={{ width: '100%'}}
                     />
-                    <p className="text-muted text-center">{this.state.result}</p>                    
+                    <br />
+                    {/* <p className="text-muted text-center">{this.state.result}</p>                     */}
                       <Button bsStyle="success" fill onClick={this.handleSubmit} >
                             Submit
                       </Button>                      
