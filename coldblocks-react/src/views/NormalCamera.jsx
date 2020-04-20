@@ -111,6 +111,7 @@ class ColdAR extends React.Component {
                     <Button bsStyle="success" fill pullRight onClick={this.handleSubmit} style={{cursor: "pointer", zIndex:"100"}}>
                             Submit
                     </Button>  
+                    <br />
                   </>
                   }
                 />
