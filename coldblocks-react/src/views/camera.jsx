@@ -39,6 +39,17 @@ class ColdAR extends React.Component {
   handleError = err => {
     console.error(err)
   }
+  handleSubmit = () => {
+    axios.get(this.state.result)
+    .then(res => {
+        // console.log(res)
+        var data = res.data
+        console.log(data)        
+        this.setState({
+          show: true
+        })
+    }) 
+  }
   handleClose() {
     this.setState({ show: false });    
   }
@@ -146,12 +157,10 @@ class ColdAR extends React.Component {
                       onScan={this.handleScan}
                       style={{ width: '100%'}}
                     />
-                    <p className="text-muted text-center">{this.state.result}</p>
-                    <a href={this.state.result}>
-                      <Button bsStyle="success" fill >
+                    <p className="text-muted text-center">{this.state.result}</p>                    
+                      <Button bsStyle="success" fill onClick={this.handleSubmit} >
                             Submit
-                      </Button>  
-                    </a>
+                      </Button>                      
                   </>
                   }
                 />
