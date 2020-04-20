@@ -140,7 +140,7 @@ class Dashboard extends Component {
                     bgImage="https://images.unsplash.com/photo-1548695607-9c73430ba065?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1484&q=80"
                     avatar={avatar}
                     name={this.state.userName}
-                    userName={this.state.userId}
+                    userName="ColdBlocks"
                     description={
                       <span className="text-muted">
                           ColdBlocks is a route optimization algorithm with blockchain and IoT for secure transactions in a cold chain network.

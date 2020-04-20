@@ -67,7 +67,7 @@ class ColdAR extends React.Component {
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    var fileName = String(localStorage.getItem('username')) + String('-'+Math.floor(Math.random() * 101));
+    var fileName = String(localStorage.getItem('username')+String("-"+this.state.pId)) + String('--'+Math.floor(Math.random() * 101));
     downloadLink.download = fileName+".png";
     document.body.appendChild(downloadLink);
     downloadLink.click();
