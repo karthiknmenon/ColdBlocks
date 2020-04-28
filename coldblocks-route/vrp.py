@@ -3,15 +3,19 @@ from __future__ import division
 from __future__ import print_function
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
+
 # Flask modules for front-end connectivity
 from flask import jsonify, Flask, make_response,request, render_template
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
 import config
+
 # json to send response
 import json
+
 # ast to convert string response of data-matrix to list
 import ast 
+
 # For Distance API
 import urllib
 
@@ -39,6 +43,7 @@ def print_solution(data, manager, routing, solution):
     total_distance = 0
     for vehicle_id in range(data['num_vehicles']):
         index = routing.Start(vehicle_id)
+
         # plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
         plan_output = ''
         route_distance = 0
@@ -100,6 +105,7 @@ def create_distance_matrix(data):
 def send_request(origin_addresses, dest_addresses, API_key):
   # print(origin_addresses)
   # print("-")
+  
   #  Build and send request for the given origin and destination addresses.
   def build_address_str(addresses):
     # Build a pipe-separated string of addresses
@@ -226,4 +232,3 @@ def getMatrix():
 
 if __name__ == '__main__':
     app.run(debug= True)
-
