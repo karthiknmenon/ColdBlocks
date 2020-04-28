@@ -110,3 +110,5 @@ ColdBlocks was developed as part of our final year project during B.tech.
     * `python3 vrp.py`
     * `curl 127.0.0.1:5000\`
     * Path `/sendLocation` to POST Addresses and path `/` to GET Optimal Path
+
+> __Disclaimer__ Please Note that this is a research project. 
