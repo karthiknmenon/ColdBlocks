@@ -439,7 +439,7 @@ app.post('/api/CreateSupplier', function (req, res) {
 // API To Edit Distributor Details 
 app.post('/editDistributor', function (req, res){
     const options = {
-    url: 'http://localhost:3000/api/Distributor/'+req.body.distributorId,
+    url: restUrl+'api/Distributor/'+req.body.distributorId,
     method: 'PUT',
     headers: {
         'content-type': 'application/json',
@@ -472,7 +472,7 @@ app.post('/editDistributor', function (req, res){
 app.post('/editConsumer', function (req, res){
     console.log(req.body.consumerId)
     const options = {
-        url: 'http://localhost:3000/api/Consumer/'+req.body.consumerId,
+        url: restUrl+'api/Consumer/'+req.body.consumerId,
         method: 'PUT',
         headers: {
             'content-type': 'application/json',
@@ -505,7 +505,7 @@ app.post('/editConsumer', function (req, res){
 app.post('/editSupplier', function (req, res){
     console.log(req.body.supplierId)
     const options = {
-        url: 'http://localhost:3000/api/Supplier/'+req.body.supplierId,
+        url: restUrl+'api/Supplier/'+req.body.supplierId,
         method: 'PUT',
         headers: {
             'content-type': 'application/json',
@@ -538,7 +538,7 @@ app.post('/editSupplier', function (req, res){
 app.post('/editManufacturer', function (req, res){
     console.log(req.body.manufacturerId)
     const options = {
-        url: 'http://localhost:3000/api/Manufacturer/'+req.body.manufacturerId,
+        url: restUrl+'api/Manufacturer/'+req.body.manufacturerId,
         method: 'PUT',
         headers: {
             'content-type': 'application/json',
@@ -1232,7 +1232,7 @@ app.post('/blockAuth', (req,res)=>{
 // Update values of package when tampered using PUT
 
 // const options = {
-//     url: 'http://localhost:3000/api/TransitPackage/A103',
+//     url: restUrl+'api/TransitPackage/A103',
 //     method: 'PUT',
 //     headers: {
 //         'content-type': 'application/json',
