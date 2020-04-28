@@ -7,6 +7,9 @@ Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app 
 
 Run `yarn build` or `npm build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `serve -s build` for a production build.
 
+
+###### Link to dashboard [ColdDash]{https://colddash.netlify.com}
+
 # Specification
 ColdBlocks is a decentralized record management system to store electronic transaction records giving priority to the __Quality Assurance (QA), security and real time data availability__. It aims to enhance the working of the current cold chain network.   
 ColdBlocks is based on the following technologies - 
