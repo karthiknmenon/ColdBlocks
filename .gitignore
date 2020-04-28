@@ -7,8 +7,11 @@
 *.scss
 ### Angular ###
 ## Angular ##
+
 # compiled output
+# for coldblocks-hardware
 hardware/
+
 dist/
 tmp/
 app/**/*.js
@@ -21,6 +24,7 @@ bower_components/
 # Hide APIs
 .env
 config.py
+
 # IDEs and editors
 .idea/
 
@@ -141,8 +145,10 @@ jspm_packages/
 
 # Temporary folders
 temp/
+
 # pycache
 __pycache__/
+
 # End of https://www.gitignore.io/api/node,angular
 
 
