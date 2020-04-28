@@ -10,10 +10,10 @@ class Footer extends Component {
           <nav className="pull-left">
             <ul>
               <li>
-                <a href="#">Company</a>
+                <a href="https://colddash.netlify.com">Company</a>
               </li>
               <li>
-                <a href="#">Docs</a>
+                <a href="https://colddocs.netlify.com">Docs</a>
               </li>
             </ul>
           </nav>
