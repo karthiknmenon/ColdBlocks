@@ -2,7 +2,6 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4fec8e8a-53cb-401c-98e2-f96498406be5/deploy-status)](https://app.netlify.com/sites/colddash/deploys)
 
-###### Link to dashboard [ColdDash]{https://colddash.netlify.com}
 # Specification
 ColdBlocks is a decentralized record management system to store electronic transaction records giving priority to the __Quality Assurance (QA), security and real time data availability__. It aims to enhance the working of the current cold chain network.   
 ColdBlocks is based on the following technologies - 
