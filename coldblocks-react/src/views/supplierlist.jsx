@@ -36,28 +36,33 @@ class SupplierList extends Component {
       editShow:false
 		};
   }
-  
-  nameChange = event => {
-    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-    this.setState({ sName: event.target.value });
-
-  }
-  passChange = event => {
-    console.log("Invoked passChange Event handleChange: "+event.target.value);
+  handleChange = event => {
+    const {name, value} = event.target;
     this.setState({
-                    password: event.target.value });
-  }
-  idChange = event => {
-    console.log("Invoked idChange Event handleChange: "+event.target.value);
-    this.setState({
-                    sId: event.target.value });
-
-  }
-  fetchHandleChange = event => {
-    this.setState({
-        fetchId : event.target.value
+        [name]: value
     })
   }
+  // nameChange = event => {
+  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+  //   this.setState({ sName: event.target.value });
+
+  // }
+  // passChange = event => {
+  //   console.log("Invoked passChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   password: event.target.value });
+  // }
+  // idChange = event => {
+  //   console.log("Invoked idChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   sId: event.target.value });
+
+  // }
+  // fetchHandleChange = event => {
+  //   this.setState({
+  //       fetchId : event.target.value
+  //   })
+  // }
  
   handleSubmit = event => {
     event.preventDefault();
@@ -293,17 +298,17 @@ class SupplierList extends Component {
                             type: "text",
                             bsClass: "form-control",
                             placeholder: "Supplier Name",
-                            onChange:this.nameChange,
-                            name: "dName",
+                            onChange:this.handleChange,
+                            name: "sName",
                             
                           },
                           {
                             label: "Password",
                             type: "password",
                             bsClass: "form-control",                            
-                            onChange:this.passChange,
+                            onChange:this.handleChange,
                             defaultValue: this.state.editPass,
-                            name: "dName",
+                            name: "password",
                             
                           }
                         ]}
@@ -339,7 +344,7 @@ class SupplierList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Supplier ID",
-                          onChange:this.idChange,
+                          onChange:this.handleChange,
                           name: "sId",
                           required : true
                         },
@@ -348,7 +353,7 @@ class SupplierList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Supplier Name",
-                          onChange:this.nameChange,
+                          onChange:this.handleChange,
                           name: "sName",
                           required : true
                         },
@@ -357,7 +362,7 @@ class SupplierList extends Component {
                           type: "password",
                           bsClass: "form-control",
                           placeholder: "Password",
-                          onChange:this.passChange,
+                          onChange:this.handleChange,
                           name: "password",
                           required : true
                         }
@@ -387,8 +392,9 @@ class SupplierList extends Component {
                         {
                           label: "Supplier ID",
                           type: "text",
+                          name:'fetchId',
                           bsClass: "form-control",
-                          onChange: this.fetchHandleChange,
+                          onChange: this.handleChange,
                           placeholder: "Enter Supplier ID",                             
                         },
                       ]}

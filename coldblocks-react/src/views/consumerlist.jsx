@@ -37,20 +37,28 @@ class ConsumerList extends Component {
       editShow:false
 		};
   }
-  nameChange = event => {
-    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-    this.setState({ cName: event.target.value });
-  }
-  idChange = event => {
-    console.log("Invoked idChange Event handleChange: "+event.target.value);
+  
+  handleChange = event => {
+    const {name, value} = event.target;
     this.setState({
-                    cId: event.target.value });
+        [name]: value
+    })
+  
   }
-  passChange = event => {
-    console.log("Invoked passChange Event handleChange: "+event.target.value);
-    this.setState({
-                    password: event.target.value });
-  }
+  // nameChange = event => {
+  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+  //   this.setState({ cName: event.target.value });
+  // }
+  // idChange = event => {
+  //   console.log("Invoked idChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   cId: event.target.value });
+  // }
+  // passChange = event => {
+  //   console.log("Invoked passChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   password: event.target.value });
+  // }
   fetchHandleChange = event => {
     console.log("Invoked fetch ID change: "+event.target.value);
     this.setState({
@@ -313,8 +321,8 @@ class ConsumerList extends Component {
                             type: "text",
                             bsClass: "form-control",
                             placeholder: "Consumer Name",
-                            onChange:this.nameChange,
-                            name: "dName",
+                            onChange:this.handleChange,
+                            name: "cName",
                             
                           },
                           {
@@ -322,7 +330,7 @@ class ConsumerList extends Component {
                             type: "password",
                             bsClass: "form-control",
                             defaultValue: this.state.editPass,
-                            onChange:this.passChange,
+                            onChange:this.handleChange,
                             name: "password",
                             
                           }
@@ -359,7 +367,7 @@ class ConsumerList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Consumer ID",
-                          onChange:this.idChange,
+                          onChange:this.handleChange,
                           name: "cId",
                           required : true
                         },
@@ -368,7 +376,7 @@ class ConsumerList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Consumer Name",
-                          onChange:this.nameChange,
+                          onChange:this.handleChange,
                           name: "cName",
                           required : true
                         },
@@ -377,7 +385,7 @@ class ConsumerList extends Component {
                           type: "password",
                           bsClass: "form-control",
                           placeholder: "Password",
-                          onChange:this.passChange,
+                          onChange:this.handleChange,
                           name: "password",
                           required : true
                         }
@@ -405,8 +413,9 @@ class ConsumerList extends Component {
                         {
                           label: "Consumer ID",
                           type: "text",
+                          name: "fetchId",
                           bsClass: "form-control",
-                          onChange: this.fetchHandleChange,
+                          onChange: this.handleChange,
                           placeholder: "Enter Consumer ID",                             
                         },
                       ]}

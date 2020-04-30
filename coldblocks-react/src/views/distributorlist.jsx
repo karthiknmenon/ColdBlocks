@@ -37,26 +37,31 @@ class DistributorList extends Component {
       editShow:false
 		};
   }
-
-  nameChange = event => {
-    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-    this.setState({ dName: event.target.value });
-  }
-  idChange = event => {
-    console.log("Invoked idChange Event handleChange: "+event.target.value);
+  handleChange = event => {
+    const {name, value} = event.target;
     this.setState({
-                    dId: event.target.value });
-  }
-  passChange = event => {
-    console.log("Invoked passChange Event handleChange: "+event.target.value);
-    this.setState({
-                    password: event.target.value });
-  }
-  fetchHandleChange = event => {
-    this.setState({
-        fetchId : event.target.value
+        [name]: value
     })
   }
+  // nameChange = event => {
+  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+  //   this.setState({ dName: event.target.value });
+  // }
+  // idChange = event => {
+  //   console.log("Invoked idChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   dId: event.target.value });
+  // }
+  // passChange = event => {
+  //   console.log("Invoked passChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   password: event.target.value });
+  // }
+  // fetchHandleChange = event => {
+  //   this.setState({
+  //       fetchId : event.target.value
+  //   })
+  // }
   handleSubmit = event => {
     event.preventDefault();
     console.log("edit Id: "+this.state.editId)
@@ -295,7 +300,7 @@ class DistributorList extends Component {
                             type: "text",
                             bsClass: "form-control",
                             placeholder: "Distributor Name",
-                            onChange:this.nameChange,
+                            onChange:this.handleChange,
                             name: "dName",
                             
                           },
@@ -304,7 +309,7 @@ class DistributorList extends Component {
                             type: "password",
                             bsClass: "form-control",
                             defaultValue: this.state.editPass,
-                            onChange:this.passChange,
+                            onChange:this.handleChange,
                             name: "password",
                             
                           }
@@ -341,7 +346,7 @@ class DistributorList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Distributor ID",
-                          onChange:this.idChange,
+                          onChange:this.handleChange,
                           name: "dId",
                           required : true
                         },
@@ -350,7 +355,7 @@ class DistributorList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Distributor Name",
-                          onChange:this.nameChange,
+                          onChange:this.handleChange,
                           name: "dName",
                           required : true
                         },
@@ -359,7 +364,7 @@ class DistributorList extends Component {
                           type: "passsword",
                           bsClass: "form-control",
                           placeholder: "Password",
-                          onChange:this.passChange,
+                          onChange:this.handleChange,
                           name: "password",
                           required : true
                         }
@@ -390,7 +395,8 @@ class DistributorList extends Component {
                           label: "Distributor ID",
                           type: "text",
                           bsClass: "form-control",
-                          onChange: this.fetchHandleChange,
+                          name: 'fetchId',
+                          onChange: this.handleChange,
                           placeholder: "Enter Distributor ID",                             
                         },
                       ]}

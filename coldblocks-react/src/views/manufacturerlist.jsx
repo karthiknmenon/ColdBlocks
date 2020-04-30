@@ -36,23 +36,28 @@ class ManufacturerList extends Component {
       editShow:false
 		};
   }
-
-  nameChange = event => {
-    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-    this.setState({ mName: event.target.value });
-
-  }
-
-  idChange = event => {
-    console.log("Invoked idChange Event handleChange: "+event.target.value);
+  handleChange = event => {
+    const {name, value} = event.target;
     this.setState({
-                    mID: event.target.value });
+        [name]: value
+    })
   }
-  passChange = event => {
-    console.log("Invoked passChange Event handleChange: "+event.target.value);
-    this.setState({
-                    password: event.target.value });
-  }
+  // nameChange = event => {
+  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+  //   this.setState({ mName: event.target.value });
+
+  // }
+
+  // idChange = event => {
+  //   console.log("Invoked idChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   mID: event.target.value });
+  // }
+  // passChange = event => {
+  //   console.log("Invoked passChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   password: event.target.value });
+  // }
   fetchHandleChange = event => {
     this.setState({
         fetchId : event.target.value
@@ -277,14 +282,14 @@ class ManufacturerList extends Component {
           <Modal.Body>
             <Row className="text-center">
             <i className="ri-edit-box-line ri-5x text-dark"></i>
-            <p className="text-muted">Edit Distributor Information</p>
+            <p className="text-muted">Edit Manufacturer Information</p>
             </Row>
             <form onSubmit={this.handleSubmit} name="editInfo" >
                       <FormInputs 
                         ncols={["col-md-4", "col-md-4","col-md-4"]}
                         properties={[
                           {
-                            label: "Distributor ID",
+                            label: "Manufacturer ID",
                             type: "text",
                             bsClass: "form-control",
                             defaultValue:this.state.editId,
@@ -294,17 +299,16 @@ class ManufacturerList extends Component {
                             label: "Name",
                             type: "text",
                             bsClass: "form-control",
-                            placeholder: "Distributor Name",
-                            onChange:this.nameChange,
-                            name: "dName",
-                            
+                            placeholder: "Manufacturer Name",
+                            onChange:this.handleChange,
+                            name: "mName",                            
                           },
                           {
                             label: "Password",
                             type: "password",
                             bsClass: "form-control",
                             defaultValue: this.state.editPass,                            
-                            onChange:this.passChange,
+                            onChange:this.handleChange,
                             name: "password",
                             
                           }
@@ -341,7 +345,7 @@ class ManufacturerList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Manufacturer ID",
-                          onChange:this.idChange,
+                          onChange:this.handleChange,
                           name: "mID",
                           required : true
                         },
@@ -350,16 +354,16 @@ class ManufacturerList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Manufacturer Name",
-                          onChange:this.nameChange,
+                          onChange:this.handleChange,
                           name: "mName",
                           required : true
                         },
                         {
                           label: "Password",
-                          type: "text",
+                          type: "password",
                           bsClass: "form-control",
                           placeholder: "Password",
-                          onChange:this.passChange,
+                          onChange:this.handleChange,
                           name: "password",
                           required : true
                         }
@@ -379,19 +383,20 @@ class ManufacturerList extends Component {
         <Row>
             <Col md={4}>
               <Card
-                title="Query Consumer"
-                category="Query Consumer wrt Consumer ID"
+                title="Query Manufacturer"
+                category="Query Manufacturer wrt Manufacturer ID"
                 content={
                   <form onSubmit={this.fetchHandleSubmit} >
                     <FormInputs 
                       ncols={["col-md-12"]}
                       properties={[
                         {
-                          label: "Consumer ID",
+                          label: "Manufacturer ID",
                           type: "text",
+                          name:'fetchId',
                           bsClass: "form-control",
-                          onChange: this.fetchHandleChange,
-                          placeholder: "Enter Consumer ID",                             
+                          onChange: this.handleChange,
+                          placeholder: "Enter Manufacturer ID",                             
                         },
                       ]}
                     />       
