@@ -32,30 +32,36 @@ class PackageList extends Component {
       fetchShow: false,
 		};
   }
-  destinationChange = event => {
-    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-    this.setState({ packageDestination: event.target.value });
-  }
-  holderChange = event => {
-    console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-    this.setState({ packageHolder: event.target.value });
-  }
-  idChange = event => {
-    console.log("Invoked idChange Event handleChange: "+event.target.value);
+  handleChange = event => {
+    const {name, value} = event.target;
     this.setState({
-                    packageId: event.target.value });
-  }
-  thresholdTemperatureChange = event => {
-    console.log("Invoked temp Event handleChange: "+event.target.value);
-    this.setState({
-                    thresholdTemperature: event.target.value },()=>{console.log("callback"+this.state.thresholdTemperature)});
-  }
-  fetchHandleChange = event => {
-    console.log("Invoked fetch ID change: "+event.target.value);
-    this.setState({
-            fetchId: event.target.value
+        [name]: value
     })
   }
+  // destinationChange = event => {
+  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+  //   this.setState({ packageDestination: event.target.value });
+  // }
+  // holderChange = event => {
+  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+  //   this.setState({ packageHolder: event.target.value });
+  // }
+  // idChange = event => {
+  //   console.log("Invoked idChange Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   packageId: event.target.value });
+  // }
+  // thresholdTemperatureChange = event => {
+  //   console.log("Invoked temp Event handleChange: "+event.target.value);
+  //   this.setState({
+  //                   thresholdTemperature: event.target.value },()=>{console.log("callback"+this.state.thresholdTemperature)});
+  // }
+  // fetchHandleChange = event => {
+  //   console.log("Invoked fetch ID change: "+event.target.value);
+  //   this.setState({
+  //           fetchId: event.target.value
+  //   })
+  // }
 
   // To query wrt ID 
   fetchHandleSubmit =  async event => {
@@ -269,7 +275,7 @@ class PackageList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Enter Package ID",  
-                          onChange:this.idChange,
+                          onChange:this.handleChange,
                           name: "packageId",
                           required : true                    
                         },
@@ -278,7 +284,7 @@ class PackageList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Enter Final Destination",
-                          onChange:this.destinationChange,
+                          onChange:this.handleChange,
                           name: "packageDestination",
                           required : true
                         },
@@ -287,7 +293,7 @@ class PackageList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Enter First Holder",
-                          onChange:this.holderChange,
+                          onChange:this.handleChange,
                           name: "packageHolder",
                           required : true
                         },
@@ -296,7 +302,7 @@ class PackageList extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Threshold Temperature",
-                          onChange:this.thresholdTemperatureChange,
+                          onChange:this.handleChange,
                           name: "thresholdTemperature",
                           required : true
                         }
@@ -324,8 +330,9 @@ class PackageList extends Component {
                         {
                           label: "Package ID",
                           type: "text",
+                          name: 'fetchId',
                           bsClass: "form-control",
-                          onChange: this.fetchHandleChange,
+                          onChange: this.handleChange,
                           placeholder: "Enter Package ID",                             
                         },
                       ]}
