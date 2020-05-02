@@ -25,10 +25,14 @@ class AdminTransactions extends Component {
     .then((data) => {
       var length = data.length;
       console.log(length)
+      // console.log(data)
       var i = 0;
       while(i<length){
           data[i].transactionType = String(data[i].transactionType)
           if(data[i].transactionType.match(/org\.coldblocks\.mynetwork\.TemperatureDrop/g)){
+            data[i].transactionType=data[i].transactionType.slice(25);
+          }
+          if(data[i].transactionType.match(/org\.coldblocks\.mynetwork\.HolderChange/g)){
             data[i].transactionType=data[i].transactionType.slice(25);
           }
           else{
