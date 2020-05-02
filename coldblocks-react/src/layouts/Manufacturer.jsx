@@ -10,7 +10,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
 import { style } from "variables/Variables.jsx";
 
-import routes from "ManufacturerRoutes";
+import {manufacturerRoutes} from "routes.js";
 
 import image from "assets/img/sidebar-3.jpg";
 
@@ -56,8 +56,8 @@ class Supplier extends Component {
       autoDismiss: 15
     });
   };
-  getRoutes = routes => {
-    return routes.map((prop, key) => {
+  getRoutes = manufacturerRoutes => {
+    return manufacturerRoutes.map((prop, key) => {
       if (prop.layout === "/manufacturer") {
         return (
           <Route
@@ -77,13 +77,13 @@ class Supplier extends Component {
     });
   };
   getBrandText = path => {
-    for (let i = 0; i < routes.length; i++) {
+    for (let i = 0; i < manufacturerRoutes.length; i++) {
       if (
         this.props.location.pathname.indexOf(
-          routes[i].layout + routes[i].path
+          manufacturerRoutes[i].layout + manufacturerRoutes[i].path
         ) !== -1
       ) {
-        return routes[i].name;
+        return manufacturerRoutes[i].name;
       }
     }
     return "Brand";
@@ -155,7 +155,7 @@ class Supplier extends Component {
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />
-        <Sidebar {...this.props} routes={routes} image={this.state.image}
+        <Sidebar {...this.props} routes={manufacturerRoutes} image={this.state.image}
         color={this.state.color}
         hasImage={this.state.hasImage}/>
         <div id="main-panel" className="main-panel" ref="mainPanel">
@@ -163,7 +163,7 @@ class Supplier extends Component {
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
-          <Switch>{this.getRoutes(routes)}</Switch>
+          <Switch>{this.getRoutes(manufacturerRoutes)}</Switch>
           <Footer />
           <FixedPlugin
             handleImageClick={this.handleImageClick}
