@@ -149,6 +149,8 @@ temp/
 # pycache
 __pycache__/
 
+# Scrapped Files after refactoring code
+scrappedFiles/
 # End of https://www.gitignore.io/api/node,angular
 
 
