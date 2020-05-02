@@ -1,5 +1,5 @@
 {
-  "name": "light-bootstrap-dashboard-react",
+  "name": "colddash-by-coldblocks",
   "version": "1.3.0",
   "private": true,
   "proxy": "http://localhost:4000",
@@ -40,9 +40,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
-    "compile-sass": "node-sass src/assets/sass/light-bootstrap-dashboard-react.scss src/assets/css/light-bootstrap-dashboard-react.css",
-    "minify-sass": "node-sass src/assets/sass/light-bootstrap-dashboard-react.scss src/assets/css/light-bootstrap-dashboard-react.min.css --output-style compressed",
-    "map-sass": "node-sass src/assets/sass/light-bootstrap-dashboard-react.scss src/assets/css/light-bootstrap-dashboard-react.css --source-map true"
+    "compile-sass": "node-sass src/assets/sass/main.scss src/assets/css/main.css",
+    "minify-sass": "node-sass src/assets/sass/main.scss src/assets/css/main.min.css --output-style compressed",
+    "map-sass": "node-sass src/assets/sass/main.scss src/assets/css/main.css --source-map true"
   },
   "browserslist": {
     "production": [
