@@ -4,10 +4,10 @@
 
 :truck: :snowflake:
 
-#Problem Statement 
+# Problem Statement 
 Cold Chain Logistics company lack the an organised system for __Quality Assurance__ and __Tracking__ which provides __real time data availability__ and __end-to-end data transparency.__ End Consumers have no means of determining the __quality of the product during transportation__ and have to rely on expiry date mentioned on the product.
 
-#Solution
+# Solution
 __ColdBlocks__ is a product that enables secure transactions in a cold chain network using __blockchain__. It provides real time data availability and end to end transparency using __IoT__, the goal of the product is to allow the cold chain network to carefully check the status of the product during transportation and to maintain a secure log of transactions. It also allows the end consumers of the product to check if the product was transported in optimal temperature during transportation or not. 
 
 # Specification
