@@ -51,7 +51,7 @@ ColdBlocks was developed as part of our final year project during B.tech.
 * Downloadable QR-Code for HolderChange event on admin's login
 * Link : ```https://colddash.netlify.com```
 ### &nbsp;&nbsp;&nbsp;&nbsp;4. Route Optimization 
-* Route optimization is done using an op-2 algorithm which is  implemented using Python
+* is implemented using Python and __Google or-tools, Gooogle Maps API and Google Directions API__.
 * The data is then hosted on a port in the machine using Flask
 * Version Requirements
     * Python Version - v3.5.6
