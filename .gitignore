@@ -6,6 +6,7 @@
 *.sass.map
 *.scss.map
 *.scss
+sass/
 
 ### Angular ###
 ## Angular ##
