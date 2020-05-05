@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/animate.min.css";
-import "./assets/css/main.css";
+import "./assets/css/main-style.css";
 import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 import Login from "./views/login";
