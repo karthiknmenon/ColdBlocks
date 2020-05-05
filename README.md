@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4fec8e8a-53cb-401c-98e2-f96498406be5/deploy-status)](https://app.netlify.com/sites/colddash/deploys)
 
-:truck: :snowflake:
+:truck: :snowflake: :thermometer:
 
 # Problem Statement 
 Cold Chain Logistics company lack the an organised system for __Quality Assurance__ and __Tracking__ which provides __real time data availability__ and __end-to-end data transparency.__ End Consumers have no means of determining the __quality of the product during transportation__ and have to rely on expiry date mentioned on the product.
@@ -54,9 +54,9 @@ ColdBlocks was developed as part of our final year project during B.tech.
 * open-cage API for __reverse geo encoding__ of coordinates into location
 * ngrok for public url 
 ### &nbsp;&nbsp;&nbsp;&nbsp;3. Front-End Application 
-* PWA using angularJS for admin-UI and reactJS for user-UI
+* PWA using angularJS for admin-UI and reactJS for both admin and authorised users
 * react-google-maps for live mapping of package location on to maps
-* Downloadable QR-Code for HolderChange event on admin's login
+* Downloadable and Dynamic QR-Code generator for HolderChange event on admin's login
 * Link : ```https://colddash.netlify.com```
 ### &nbsp;&nbsp;&nbsp;&nbsp;4. Route Optimization 
 * is implemented using Python and __Google or-tools, Gooogle Maps API and Google Directions API__.
@@ -72,19 +72,22 @@ ColdBlocks was developed as part of our final year project during B.tech.
 
 # Setup and Installation
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To download and setup - 
+<br />
 &nbsp;&nbsp;&nbsp;&nbsp; `git clone https://github.com/mojojojo20/ColdBlocks.git` <br/>
 &nbsp;&nbsp;&nbsp;&nbsp; `cd ColdBlocks`
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;1. composer-rest-server
 * `cd coldblocks`
     * Use Hyperledger documentation for installation and setup of Hyperledger Composer and Fabric
-    * `composer-rest-server -c admin@coldblocks -n never -u true -w true`
+    * Start the network and install the BNA.
+    * Start the composer REST server using, `composer-rest-server -c admin@coldblocks -n never -u true -w true`
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;2. node Backend
 * `cd coldblocks-nodejs`
     * `npm install` (to install all packages)  
     * `npm run dev`
 * Use ngrok to generate a remote server link
+* Use the __generated ngrok URL as nodeURL__ in reactJS front-end and as the __HostURL__ in hardware code.
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;3. angular front-end (UI for admin)
 * `cd coldblocks-angular`
@@ -99,6 +102,7 @@ ColdBlocks was developed as part of our final year project during B.tech.
     * Basic Auth Credentials - 
         * __username__ : admin
         * __password__ : admin
+    * Credentials for all other users can be set through the admin login. All passwords are SHA256 encrypted.
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;5. coldblocks-AR
 * `git clone https://github.com/mojojojo20/ColdBlocks-AR.git`
