@@ -36,17 +36,10 @@ class AdminTransactions extends Component {
             data[i].transactionType=data[i].transactionType.slice(25);
           }
           else{
-            data[i].transactionType=data[i].transactionType.slice(32);
-            // data[i].transactionType=data[i].transactionType;
+            data[i].transactionType=data[i].transactionType.slice(32);            
           }
-          
-          // if(data[i].participantInvoking)
-          // {data[i].participantInvoking=data[i].participantInvoking.slice(54);}
-
-          data[i].transactionTimestamp = new Date(data[i].transactionTimestamp)
-          // data[i].transactionTimestamp = String(data[i].transactionTimestamp).slice(0,25)
-          // console.log("inside while status: 0")          
-            i += 1;
+          data[i].transactionTimestamp = new Date(data[i].transactionTimestamp)        
+          i += 1;
       }
       data = data.sort((a, b) => b.transactionTimestamp - a.transactionTimestamp)
       var j=0;
@@ -89,8 +82,7 @@ class AdminTransactions extends Component {
                 data[i].transactionType=data[i].transactionType.slice(25);
               }
               else{
-                data[i].transactionType=data[i].transactionType.slice(32);
-                // data[i].transactionType=data[i].transactionType;
+                data[i].transactionType=data[i].transactionType.slice(32);                
               }
               if(data[i].transactionType==e){
                 var newStr = {transactionType: e, participantInvoking : data[i].participantInvoking, transactionTimestamp : new Date (data[i].transactionTimestamp)}            
@@ -103,8 +95,7 @@ class AdminTransactions extends Component {
         while(j<sortedNewStr.length){
           sortedNewStr[j].transactionTimestamp = String(sortedNewStr[j].transactionTimestamp);
           j+=1;
-        }
-        // this.setState({apiData: newStr })
+        }        
         console.log(sortedNewStr)
         this.setState({loading: false, apiData: sortedNewStr}, ()=>{
           console.log("loader stops")
