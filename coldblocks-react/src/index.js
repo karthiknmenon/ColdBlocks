@@ -8,12 +8,12 @@ import "./assets/css/main.css";
 import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 import Login from "./views/login";
-import * as serviceWorker from './serviceWorker'
 import SupplierLayout from "layouts/Supplier.jsx";
 import AdminLayout from "layouts/Admin.jsx";
 import ConsumerLayout from "layouts/Consumer.jsx";
 import DistributorLayout from "layouts/Distributor";
 import ManufacturerLayout from "layouts/Manufacturer";
+import * as serviceWorker from './serviceWorker'
 
 ReactDOM.render(
   
