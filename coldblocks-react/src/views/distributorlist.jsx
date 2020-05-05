@@ -37,31 +37,14 @@ class DistributorList extends Component {
       editShow:false
 		};
   }
+  
   handleChange = event => {
     const {name, value} = event.target;
     this.setState({
         [name]: value
     })
   }
-  // nameChange = event => {
-  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-  //   this.setState({ dName: event.target.value });
-  // }
-  // idChange = event => {
-  //   console.log("Invoked idChange Event handleChange: "+event.target.value);
-  //   this.setState({
-  //                   dId: event.target.value });
-  // }
-  // passChange = event => {
-  //   console.log("Invoked passChange Event handleChange: "+event.target.value);
-  //   this.setState({
-  //                   password: event.target.value });
-  // }
-  // fetchHandleChange = event => {
-  //   this.setState({
-  //       fetchId : event.target.value
-  //   })
-  // }
+
   handleSubmit = event => {
     event.preventDefault();
     console.log("edit Id: "+this.state.editId)
@@ -136,6 +119,7 @@ class DistributorList extends Component {
   }
     
   }
+
   // To query wrt ID 
   fetchHandleSubmit =  async event => {
     event.preventDefault();
@@ -203,9 +187,6 @@ class DistributorList extends Component {
     this.setState({ editShow: false });
     this.fetchData();
 	}
-	// handleShow() {
-	// 	this.setState({ show: true });
-  // }
 
   render() {
     const {apiData} = this.state;

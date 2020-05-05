@@ -8,8 +8,6 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import avatar from "../assets/img/default-avatar.png";
 import { nodeURL } from "variables/Variables.jsx";
-// import Modal from '../SSComponents/Modal';
-
 class Dashboard extends Component {
 
 
@@ -28,8 +26,7 @@ class Dashboard extends Component {
     const { history } = this.props;
     const tokenD = localStorage.getItem('token');
     if(tokenD=="false"){
-      history.push("/")
-      // window.location = reactURL;
+      history.push("/")      
     }
     const userN = localStorage.getItem('username');
     const userD = localStorage.getItem('password');
@@ -44,19 +41,16 @@ class Dashboard extends Component {
           var i = 0;
           while(i<length){
             if(data[i].status==0){
-                data[i].status="Tampered";
-              // console.log("inside while status: 0")          
+                data[i].status="Tampered";                     
             }
             else{
               data[i].status="Ok";
             }
             i+=1;
-          }
-          // console.log("data"+(data[0]))
+          }          
           this.setState({ apiData: data }, ()=>{
             console.log("callback for setState");
-          })
-          // console.log(data);
+          })          
         })
         .catch(console.log)
     }
@@ -71,19 +65,16 @@ class Dashboard extends Component {
         var i = 0;
         while(i<length){
           if(data[i].status==0){
-              data[i].status="Tampered";
-            // console.log("inside while status: 0")          
+              data[i].status="Tampered";                  
           }
           else{
             data[i].status="Ok";
           }
           i+=1;
-        }
-        // console.log("data"+(data[0]))
+        }        
         this.setState({ apiData: data }, ()=>{
           console.log("callback for setState");
-        })
-        // console.log(data);
+        })        
       })
       .catch(console.log)
     }
@@ -195,9 +186,6 @@ class Dashboard extends Component {
                           }
                         ]}
                       />       
-                      {/* <Button bsStyle="success" pullRight fill type="submit" onClick={() => this.displayModal()}>
-                        Submit
-                      </Button> */}
                       <Button bsStyle="success" pullRight fill type="submit">
                         Submit
                       </Button>
