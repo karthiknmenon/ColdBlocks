@@ -1,12 +1,9 @@
+// Define all variables here
+// update nodeURL and reactURL here
 
-//
-// //
-// // // For notifications
-// //
-//
 const reactURL = "http://localhost:3001";
-// const nodeURL = "http://localhost:4000"
-const nodeURL = "https://f92ba8b8.ngrok.io"
+const nodeURL = "http://localhost:4000"
+// const nodeURL = "https://f92ba8b8.ngrok.io"
 
 var defaultWidth =
   window.screen.width > 768
@@ -250,7 +247,6 @@ var style = {
 };
 module.exports = {
   style,
-  // dataPie,
   reactURL,
   nodeURL,
 };
