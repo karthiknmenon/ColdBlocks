@@ -37,21 +37,7 @@ class Chart extends Component {
           })
           console.log("Tampered: "+this.state.statusTampered)
     })
-    // axios.get(nodeURL+`/api/chartStatus`)
-    // .then(res => {
-    //       console.log("res.data: "+res.data)
-    //       console.log(this.state.status)
-    // })
-    // axios.get(nodeURL+`/api/getCStatus`)
-    //   .then(res => {
-    //         console.log("res.data: "+res.data)
-    //         this.setState({
-    //           status : res.data
-    //         }, ()=>{
-    //           console.log("callback for setState of status");
-    //         })
-    //         console.log(this.state.status)
-    //   })
+
     axios.get(nodeURL+`/api/getTemp`)
       .then(res => {
             console.log("res.data: "+res.data)
@@ -62,6 +48,7 @@ class Chart extends Component {
             })
             console.log(this.state.temp)
       })
+
     axios.get(nodeURL+`/api/getLabel`)
       .then(res => {
             console.log("res for datelabel: "+res)
@@ -73,6 +60,7 @@ class Chart extends Component {
             })
             console.log(this.state.temp)
       })
+
     axios.get(nodeURL+`/api/getPackageInfo`)
       .then(res => {
             console.log("res for datelabel: "+res)
@@ -85,14 +73,9 @@ class Chart extends Component {
             console.log(this.state.temp)
       })
   }
+
   createLegend() {
     var legend = [];
-    // for (var i = 0; i < json["names"].length; i++) {
-    //   var type = "fa fa-circle text-" + json["types"][i];
-    //   legend.push(<i className={type} key={i} />);
-    //   legend.push(" ");
-    //   legend.push(json["names"][i]);
-    // }
     legend = [<i className="fa fa-circle text-danger" key="1" />, ,"Tampered", <i className="fa fa-circle text-info" key="2" />, ,"Ok"];
     return legend;
   }
