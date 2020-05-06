@@ -60,7 +60,7 @@ class HolderChange extends Component {
               console.log(JSON.stringify(data))
               // data = JSON.stringify(data)
               this.setState({
-              fetchShow: true, fetchDetails : 'Location: '+data[0].location+", Holder: "+data[0].holder+", Temperature: "+data[0].temperature+", Destination: "+data[0].destination
+              fetchShow: true, fetchDetails : 'Location: '+data[0].location+", Holder: "+data[0].holder+", Temperature: "+data[0].temperature
             }, () => {console.log("fetch Details "+JSON.stringify(this.state.fetchDetails))}) 
           }
           
@@ -73,17 +73,17 @@ class HolderChange extends Component {
     this.setState({loading: true}, ()=>{
       console.log("loader until fetch new data")
     })
-
-    await axios.get(`http://localhost:3000/api/HolderChange`, 
+    await axios.get(nodeURL+`/api/HolderChange`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
               'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS'}})
     .then(res => {      
+      // console.log(res.data)
       this.setState({
         holderData : _.filter(res.data, {"asset" : String("resource:org.coldblocks.mynetwork.TransitPackage#"+this.state.packageId)})
       }, () => console.log("holderData: "+this.state.holderData))
-      if(res.data){ 
+      if(this.state.holderData!=''){ 
         this.setState({ show: true }, ()=>{
         console.log("Set State for Show")
         });  
@@ -218,6 +218,8 @@ class HolderChange extends Component {
           <Modal.Body className="text-center">
             <i className="ri-emotion-unhappy-line ri-10x text-danger"></i>
             <p className="text-danger">Transaction Failed</p>
+            <p className="text-dark">Either the entered packageID <strong>does not exist</strong> or the package 
+              <strong> hasn't left the warehouse!</strong></p>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={this.fHandleClose}>
