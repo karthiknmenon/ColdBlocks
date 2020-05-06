@@ -1127,6 +1127,32 @@ app.post('/blockAuth', (req,res)=>{
     }
 })
 
+
+// HolderChange List 
+app.get("/api/HolderChange", (req, res) => {    
+    console.log("API for HolderChange List")    
+    axios.get(restUrl+'api/HolderChange').then(function (response) {
+        jsonResponse = response.data;               
+        res.send(response.data);
+    })
+    .catch(function (error) {
+        if (error) {
+            return console.dir(error);        
+        } else {
+            if (JSON.parse(body).hasOwnProperty('error')) {
+                res.send("error")
+            } else {
+                console.log("Success");
+                res.send("success")
+                console.dir(JSON.parse(body));
+            }
+        }
+    });    
+})
+
+
+// Stale Code
+
 // code for auth using passport.js
 
 
