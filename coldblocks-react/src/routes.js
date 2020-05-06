@@ -8,6 +8,7 @@ import PackageList from "views/packagelist.jsx";
 import AdminTransactions from "views/adminTransactions";
 import QueryPackage from "views/queryPackage"
 import TemperatureDrop from "views/temperatureDrop";
+import HolderChange from "views/HolderChange";
 import Maps from "views/Maps.jsx";
 import AdminColdAR from "views/camera";
 import Chart from "views/DataChart";
@@ -86,6 +87,13 @@ const dashboardRoutes = [
     name: "Supplier Data",
     icon: "ri-user-4-fill",
     component: SupplierList,
+    layout: "/admin"
+  },
+  {
+    path: "/holderchange",
+    name: "Holder Change",
+    icon: "ri-service-fill",
+    component: HolderChange,
     layout: "/admin"
   },
   {
