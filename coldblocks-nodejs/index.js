@@ -4,9 +4,11 @@ const axios = require('axios');
 var bodyParser = require('body-parser');
 var Request = require('request');
 var aes256 = require('aes256');
-var QRCode = require('qrcode');
 var cors = require('cors');
 const SHA256 = require("crypto-js/sha256");
+
+// For QR-Code in terminal
+// var QRCode = require('qrcode');
 
 // for GPS coordinates
 const opencage = require('opencage-api-client');
@@ -19,14 +21,6 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
-// passport.js for auth
-// const passport = require('passport');
-
-// connecting mongo to node 
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/MyDatabase');
-
-
 const app = express();
 
 app.use(bodyParser.urlencoded({
@@ -36,10 +30,6 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use(cors());
-
-// app.use(passport.initialize());
-
-// app.use(passport.session());
 
 // URL to composer-rest-server
 
@@ -72,15 +62,7 @@ opencage.geocode({
     console.log('error', error.message);
 });
 
-// QR Code Generator for Holder Change
-QRCode.toString('https://aba5dedf.ngrok.io/qrHolderChange?packageID=H003', {
-    type: 'terminal'
-}, function (err, url) {
-    console.log(url)
-
-});
-
-// function to send messages via whatsapp
+// function to send messages via WhatsApp using Twilio
 
 function sendWhatsapp(packageID, temp, gpsLocation) {
     client.messages.create({
@@ -92,10 +74,6 @@ function sendWhatsapp(packageID, temp, gpsLocation) {
 
 app.get("/", (req, res) => {
     res.send("Server Running");
-})
-
-app.get("/", (req, res) => {
-    res.send("Server running");
 })
 
 // Admin to view all transactions
@@ -1152,6 +1130,15 @@ app.post('/blockAuth', (req,res)=>{
 // code for auth using passport.js
 
 
+// passport.js for auth
+// const passport = require('passport');
+
+// connecting mongo to node 
+// const mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/MyDatabase');
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 // app.get('/success', (req, res) => res.send("Welcome " + req.query.username + "!!"));
 // app.get('/error', (req, res) => res.send("error logging in"));
 
@@ -1329,5 +1316,13 @@ app.post('/blockAuth', (req,res)=>{
 //     status = status.reverse();
 //     res.send(status);
 // })
+
+// QR Code Generator for Holder Change
+// QRCode.toString('https://aba5dedf.ngrok.io/qrHolderChange?packageID=H003', {
+//     type: 'terminal'
+// }, function (err, url) {
+//     console.log(url)
+
+// });
 
 app.listen(4000);
