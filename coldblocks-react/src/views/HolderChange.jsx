@@ -81,7 +81,7 @@ class HolderChange extends Component {
     .then(res => {      
       // console.log(res.data)
       this.setState({
-        holderData : _.filter(res.data, {"asset" : String("resource:org.coldblocks.mynetwork.TransitPackage#"+this.state.packageId)})
+        holderData : _.orderBy(_.filter(res.data, {"asset" : String("resource:org.coldblocks.mynetwork.TransitPackage#"+this.state.packageId)}),['timestamp'],['desc'])
       }, () => console.log("holderData: "+this.state.holderData))
       if(this.state.holderData!=''){ 
         this.setState({ show: true }, ()=>{
