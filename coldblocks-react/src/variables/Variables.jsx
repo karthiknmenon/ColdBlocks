@@ -2,8 +2,8 @@
 // update nodeURL and reactURL here
 
 const reactURL = "http://localhost:3001";
-const nodeURL = "http://localhost:4000"
-// const nodeURL = "https://f92ba8b8.ngrok.io"
+// const nodeURL = "http://localhost:4000"
+const nodeURL = "https://c19834a3.ngrok.io"
 
 var defaultWidth =
   window.screen.width > 768
