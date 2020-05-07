@@ -992,13 +992,13 @@ app.get("/qrHolderChange", (req, res) => {
     // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log("inside qr holder change for cred:" + req.query.packageID);
     var userLogin = req.query.userId;
-    axios.get('http://localhost:4000/api/ListPackagesById?packageId=' + req.query.packageID).then(function (response) {
+    axios.get('/api/ListPackagesById?packageId=' + req.query.packageID).then(function (response) {
         jsonResponse = response.data;
         var qrOldHolder = response.data[0]["holder"];
         console.log("qr old holder:" + qrOldHolder)
         res.send(response.data);
     }).then(function (response) {
-        console.log("qr .get");
+        console.log("qr .get"+qrOldHolder);
         Request.post({
             "headers": {
                 "content-type": "application/json"
