@@ -10,7 +10,8 @@ import * as ReactBootstrap from 'react-bootstrap';
 import 'remixicon/fonts/remixicon.css'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner'
-class PackageList extends Component {
+import _ from "lodash"
+class HolderChange extends Component {
   constructor() {
     super()
     this.state = {
@@ -19,6 +20,7 @@ class PackageList extends Component {
       packageHolder:'',
       packageId:'',
       thresholdTemperature:'',
+      holderData : '',
       loading:true,
       fetchDetails: {}
     }
@@ -38,7 +40,7 @@ class PackageList extends Component {
         [name]: value
     })
   }
-  
+
   // To query wrt ID 
   fetchHandleSubmit =  async event => {
     event.preventDefault();
@@ -58,43 +60,30 @@ class PackageList extends Component {
               console.log(JSON.stringify(data))
               // data = JSON.stringify(data)
               this.setState({
-              fetchShow: true, fetchDetails : 'Location: '+data[0].location+", Holder: "+data[0].holder+", Temperature: "+data[0].temperature+", Destination: "+data[0].destination
+              fetchShow: true, fetchDetails : 'Location: '+data[0].location+", Holder: "+data[0].holder+", Temperature: "+data[0].temperature
             }, () => {console.log("fetch Details "+JSON.stringify(this.state.fetchDetails))}) 
           }
           
       })  
-    }
+  }
  
   handleSubmit =  async event => {
     event.preventDefault();
-    
-    // console.log("state "+this.state.cId);
-    // console.log("state "+this.state.cName);
-    const user = {
-      packageId: String(this.state.packageId),
-      packageHolder: String(this.state.packageHolder),
-      packageDestination: String(this.state.packageDestination),
-      thresholdTemperature : String(this.state.thresholdTemperature),
-      packageStatus: 1,
-      packageLocation: "undefined"
-    };
-    console.log("object"+JSON.stringify(user))
-    // console.log("package "+package.cId);
-    // console.log("package "+package.cName);
+    // console.log("object"+JSON.stringify(user))
     this.setState({loading: true}, ()=>{
       console.log("loader until fetch new data")
     })
-
-    await axios.post(nodeURL+`/api/CreateTransitPackage`, 
+    await axios.get(nodeURL+`/api/HolderChange`, 
     { headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
-              'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',}},
-    { data: user})
-    .then(res => {
-      // console.log(res);
-      console.log(".then for post"+res.data);  
-      if(res.data=="success"){ 
+              'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS'}})
+    .then(res => {      
+      // console.log(res.data)
+      this.setState({
+        holderData : _.orderBy(_.filter(res.data, {"asset" : String("resource:org.coldblocks.mynetwork.TransitPackage#"+this.state.packageId)}),['timestamp'],['desc'])
+      }, () => console.log("holderData: "+this.state.holderData))
+      if(this.state.holderData!=''){ 
         this.setState({ show: true }, ()=>{
         console.log("Set State for Show")
         });  
@@ -108,10 +97,6 @@ class PackageList extends Component {
     .catch(function (error) {
       console.log(error);
     })    
-    this.setState({postD:1},
-      ()=>{
-        console.log("post callback called"+this.state.postD);
-      })
   }
   fetchData(){
     fetch(nodeURL+'/api/ListPackages')
@@ -174,7 +159,7 @@ class PackageList extends Component {
     this.fetchData();
   }
   render() {
-    const {apiData} = this.state;
+    const {apiData, holderData} = this.state;
     var Modal = ReactBootstrap.Modal;
     return (
       <div className="content">
@@ -188,8 +173,32 @@ class PackageList extends Component {
             <Modal.Title id="contained-modal-title-vcenter">Transaction Success</Modal.Title>
           </Modal.Header>
           <Modal.Body className="text-center">
-            <i className="ri-emotion-laugh-line ri-10x text-success"></i>
-            <p className="text-success">Transaction Was Completed Successfully</p>
+            <i className="ri-service-fill ri-10x text-success"></i>
+            <p className="text-dark">Holder Change Flow for package <span className="font-weight-bold">{this.state.packageId}</span> during its route is
+            
+            <Table hover>
+                <thead>
+                    <tr>
+                        <th className="text-center">Old Holder</th>
+                        <th className="text-center">New Holder</th>
+                        <th className="text-center">TimeStamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                                    
+                    {Array.isArray(holderData) && holderData.map(object => (                
+                        <>
+                          <tr>
+                            <td>{object.oldHolder}</td>
+                            <td>{object.newHolder}</td>
+                            <td>{String(new Date(object.timestamp)).slice(0,25)}</td>
+                          </tr>
+                        </>
+                    ))}
+                  
+                </tbody>
+            </Table>                        
+            </p>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={this.handleClose}>
@@ -209,6 +218,8 @@ class PackageList extends Component {
           <Modal.Body className="text-center">
             <i className="ri-emotion-unhappy-line ri-10x text-danger"></i>
             <p className="text-danger">Transaction Failed</p>
+            <p className="text-dark">Either the entered packageID <strong>does not exist</strong> or the package 
+              <strong> hasn't left the warehouse!</strong></p>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={this.fHandleClose}>
@@ -237,64 +248,44 @@ class PackageList extends Component {
           </Modal.Footer>
         </Modal>
         <Grid fluid>
-        <Row>
-            <Col md={12}>
-              <Card
-                title="Add Package"
-                content={
-                  <form onSubmit={this.handleSubmit} >
-                    <FormInputs 
-                      ncols={["col-md-3", "col-md-3", "col-md-3", "col-md-3"]}
-                      properties={[
-                        {
-                          label: "Package ID",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Enter Package ID",  
-                          onChange:this.handleChange,
-                          name: "packageId",
-                          required : true                    
-                        },
-                        {
-                          label: "Destination",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Enter Final Destination",
-                          onChange:this.handleChange,
-                          name: "packageDestination",
-                          required : true
-                        },
-                        {
-                          label: "Holder",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Enter First Holder",
-                          onChange:this.handleChange,
-                          name: "packageHolder",
-                          required : true
-                        },
-                        {
-                          label: "Threshold Temperature",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Threshold Temperature",
-                          onChange:this.handleChange,
-                          name: "thresholdTemperature",
-                          required : true
-                        }
-                      ]}
-                    />       
-                    <Button bsStyle="success" pullRight fill type="submit">
-                      Submit
-                    </Button>
-                    <div className="clearfix" />
-                  </form>
-                }
-              />
-            </Col>
-          </Row>
           <Row>
-          <Col md={4}>
+            <Col md={12}>
+                <Card
+                  title="Query Holder List"
+                  category="Query Holder List wrt Package ID"
+                  content={
+                    <form onSubmit={this.handleSubmit} >
+                      <FormInputs 
+                        ncols={["col-md-6","col-md-6"]}
+                        properties={[
+                          {
+                            label: "Company",
+                            type: "text",                            
+                            bsClass: "form-control",                        
+                            disabled: true,
+                            placeholder: "ColdBlocks",                             
+                          },
+                          {
+                            label: "Package ID",
+                            type: "text",
+                            name: 'packageId',
+                            bsClass: "form-control",
+                            onChange: this.handleChange,
+                            placeholder: "Enter Package ID",                             
+                          },
+                        ]}
+                      />       
+                      <Button bsStyle="success" pullRight fill type="submit">
+                        Submit
+                      </Button>
+                      <div className="clearfix" />
+                    </form>
+                  }
+                />
+              </Col>
+            </Row>
+            <Row>
+            <Col md={4}>
               <Card
                 title="Query Package"
                 category="Query Pacakge wrt Package ID"
@@ -392,4 +383,4 @@ class PackageList extends Component {
   }
 }
 
-export default PackageList;
+export default HolderChange;

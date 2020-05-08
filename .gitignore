@@ -13,6 +13,7 @@ sass/
 
 # compiled output
 # for coldblocks-hardware
+
 hardware/
 
 dist/

@@ -26,14 +26,12 @@ class Login extends Component {
   }
 
   
-  nameChange = event => {
-    // console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
+  nameChange = event => {    
     this.setState({ username: event.target.value });
 
   }
   
-  passChange = event => {
-    // console.log("Invoked passChange Event handleChange: "+event.target.value);
+  passChange = event => {    
     this.setState({
                     password: event.target.value });
 
@@ -56,48 +54,29 @@ class Login extends Component {
       if(res.data=="success"){
         if(user.username=="admin"){
           console.log("admin");
-          localStorage.setItem('username', user.username);
-          localStorage.setItem('password', user.password);
+          localStorage.setItem('username', user.username);          
           localStorage.setItem('token', "true");
-          history.push('/admin/dashboard');
-            //   this.setState({
-            //     url: reactURL+'/admin/dashboard'
-            // })
+          history.push('/admin/dashboard');           
         }
         else if(/S[0-9]*/.test(String(user.username))){
-          localStorage.setItem('username', user.username);
-          localStorage.setItem('password', user.password);
+          localStorage.setItem('username', user.username);          
           localStorage.setItem('token', "true");
           history.push('/supplier/dashboard');
-          //   this.setState({
-          //     url: reactURL+'/supplier/dashboard'
-          // })
+
         }
         else if(/D[0-9]*/.test(String(user.username))){
-          localStorage.setItem('username', user.username);
-          localStorage.setItem('password', user.password);
+          localStorage.setItem('username', user.username);          
           localStorage.setItem('token', "true");
           history.push('/distributor/dashboard');
-          //   this.setState({
-          //     url: reactURL+'/distributor/dashboard'
-          // })
-        }
-        // if(user.username=="C01"){
-        else{
-          localStorage.setItem('username', user.username);
-      localStorage.setItem('password', user.password);
-      localStorage.setItem('token', "true");
-          history.push('/consumer/dashboard');
-          //   this.setState({
-          //     url: reactURL+'/consumer/dashboard'
-          // })
-        }
 
-      //  save auth info in local storage
-      // localStorage.setItem('username', user.username);
-      // localStorage.setItem('password', user.password);
-      // localStorage.setItem('token', "true");
-      // window.location = this.state.url;  
+        }
+        
+        else{
+          localStorage.setItem('username', user.username);          
+          localStorage.setItem('token', "true");
+          history.push('/consumer/dashboard');
+
+        }
 
       // save auth info for holder-change
       axios.post(nodeURL + "/getUserCred",
@@ -116,11 +95,7 @@ class Login extends Component {
 
       else{
 
-          history.push('/');
-
-          //   this.setState({
-          //     url: reactURL    
-          // })            
+          history.push('/');      
 
           // call pop-up
           this.setState({ _notificationSystem: this.refs.notificationSystem });
@@ -139,9 +114,7 @@ class Login extends Component {
           });
           console.log("inside else")
         }
-        
-        // res.redirect(this.state.url)              
-        // console.log(" inside else  url: "+this.state.url);
+
         })
         .catch(function (error) {
           console.log(error);

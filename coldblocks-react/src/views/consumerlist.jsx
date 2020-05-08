@@ -24,8 +24,7 @@ class ConsumerList extends Component {
       loading:true,
       editId:'',
       editPass: ''
-    }
-    // this.handleShow = this.handleShow.bind(this);
+    }    
 		this.handleClose = this.handleClose.bind(this);
 		this.fHandleClose = this.fHandleClose.bind(this);
     this.fetchHandleClose = this.fetchHandleClose.bind(this);
@@ -45,20 +44,7 @@ class ConsumerList extends Component {
     })
   
   }
-  // nameChange = event => {
-  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-  //   this.setState({ cName: event.target.value });
-  // }
-  // idChange = event => {
-  //   console.log("Invoked idChange Event handleChange: "+event.target.value);
-  //   this.setState({
-  //                   cId: event.target.value });
-  // }
-  // passChange = event => {
-  //   console.log("Invoked passChange Event handleChange: "+event.target.value);
-  //   this.setState({
-  //                   password: event.target.value });
-  // }
+
   fetchHandleChange = event => {
     console.log("Invoked fetch ID change: "+event.target.value);
     this.setState({
@@ -142,6 +128,7 @@ class ConsumerList extends Component {
         })   
     }
   }
+
   // To query wrt ID 
   fetchHandleSubmit =  async event => {
   event.preventDefault();
@@ -165,6 +152,7 @@ class ConsumerList extends Component {
              
     })  
   }
+
   fetchData(){
     fetch(nodeURL+'/api/ListConsumers')
     .then(res => res.json())
@@ -174,6 +162,7 @@ class ConsumerList extends Component {
     })
     .catch(console.log)
   }
+
   // for PUT request to update
   editInfo = event => {
     console.log(event.target.value)
@@ -182,13 +171,13 @@ class ConsumerList extends Component {
         editId: event.target.value.slice(0,splitIndex), editShow: true, editPass: event.target.value.slice(splitIndex+1)
       }, () => {console.log("editID: "+this.state.editId+" edit Pass:"+this.state.editPass)})
   }
+
   componentDidMount() {
     // console.log("hi");
     fetch(nodeURL+'/api/ListConsumers')
     .then(res => res.json())
     .then((data) => {
-      this.setState({ loading: false,apiData: data })
-      // console.log(data);
+      this.setState({ loading: false,apiData: data })      
     })
     .catch(console.log)
   }
@@ -428,8 +417,6 @@ class ConsumerList extends Component {
                 }
               />
             </Col>
-          {/* </Row>
-          <Row> */}
             <Col md={8}>
               
               <Card

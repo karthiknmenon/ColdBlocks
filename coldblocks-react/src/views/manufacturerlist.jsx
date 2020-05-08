@@ -36,28 +36,14 @@ class ManufacturerList extends Component {
       editShow:false
 		};
   }
+
   handleChange = event => {
     const {name, value} = event.target;
     this.setState({
         [name]: value
     })
   }
-  // nameChange = event => {
-  //   console.log("Ivnoked nameChange Event handleChange: "+event.target.value);
-  //   this.setState({ mName: event.target.value });
 
-  // }
-
-  // idChange = event => {
-  //   console.log("Invoked idChange Event handleChange: "+event.target.value);
-  //   this.setState({
-  //                   mID: event.target.value });
-  // }
-  // passChange = event => {
-  //   console.log("Invoked passChange Event handleChange: "+event.target.value);
-  //   this.setState({
-  //                   password: event.target.value });
-  // }
   fetchHandleChange = event => {
     this.setState({
         fetchId : event.target.value
@@ -66,8 +52,6 @@ class ManufacturerList extends Component {
  
   handleSubmit = event => {
     event.preventDefault();
-    // console.log("edit Id: "+this.state.editId)
-    // console.log(event.target.name)
     if(event.target.name=="editInfo"){
         console.log("edit details")
         const user = {
@@ -79,7 +63,7 @@ class ManufacturerList extends Component {
         this.setState({loading: true}, ()=>{
           console.log("loader until fetch new data")
         })
-        axios.post(`http://localhost:4000/editManufacturer`,
+        axios.post(nodeURL+`/editManufacturer`,
         { headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
@@ -203,9 +187,6 @@ class ManufacturerList extends Component {
     this.setState({ editShow: false });
     this.fetchData();
 	}
-	// handleShow() {
-	// 	this.setState({ show: true });
-  // }
   
   render() {
     const {apiData} = this.state;
