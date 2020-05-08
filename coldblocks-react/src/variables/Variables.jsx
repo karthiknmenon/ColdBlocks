@@ -1,9 +1,15 @@
 // Define all variables here
 // update nodeURL and reactURL here
 
+// reactJS front-end URL
 const reactURL = "http://localhost:3001";
-// const nodeURL = "http://localhost:4000"
-const nodeURL = "https://c19834a3.ngrok.io"
+
+// nodeJS back-end URL / ngrok URL
+const nodeURL = "http://localhost:4000"
+// const nodeURL = "https://c19834a3.ngrok.io"
+
+// python-flask URL
+const flaskURL = "http://127.0.0.1:5000"
 
 var defaultWidth =
   window.screen.width > 768
@@ -249,4 +255,5 @@ module.exports = {
   style,
   reactURL,
   nodeURL,
+  flaskURL
 };

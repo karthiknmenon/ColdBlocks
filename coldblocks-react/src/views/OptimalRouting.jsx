@@ -8,6 +8,7 @@ import axios from 'axios';
 import { nodeURL } from "variables/Variables.jsx";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner'
+import {flaskURL} from "variables/Variables"
 
 class vrp extends Component {
   constructor() {
@@ -44,7 +45,7 @@ class vrp extends Component {
     this.setState({
         loading: true
     })
-    await axios.post('http://127.0.0.1:5000/sendLocation', 
+    await axios.post(flaskURL+'/sendLocation', 
     { headers: {    
               "Access-Control-Allow-Origin": "*",
               "Content-Type" : "application/json",
@@ -62,7 +63,7 @@ class vrp extends Component {
     })    
   }
   componentDidMount() {
-    axios.get('http://127.0.0.1:5000/sendLocation')
+    axios.get(flaskURL+'/sendLocation')
       .then(res => {
         this.setState({ apiData: res.data })
       })
@@ -70,7 +71,7 @@ class vrp extends Component {
   }
   fetchRoute= event => {
     this.setState({loading: true})
-    axios.post('http://127.0.0.1:5000/')
+    axios.post(flaskURL+'/')
       .then(res => {
         this.setState({ loading:false, apiData: res.data, show:false })
       })

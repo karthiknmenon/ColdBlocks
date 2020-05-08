@@ -3,7 +3,7 @@ import Dashboard from "views/Dashboard.jsx";
 import ConsumerList from "views/consumerlist.jsx";
 import DistributorList from "views/distributorlist.jsx";
 import SupplierList from "views/supplierlist.jsx";
-import ManufacturerList from "views/manufacturerlist.jsx";
+import ManufacturerList from "views/ManufacturerList.jsx";
 import PackageList from "views/packagelist.jsx";
 import AdminTransactions from "views/adminTransactions";
 import QueryPackage from "views/queryPackage"
@@ -12,7 +12,8 @@ import HolderChange from "views/HolderChange";
 import Maps from "views/Maps.jsx";
 import AdminColdAR from "views/camera";
 import Chart from "views/DataChart";
-import vrp from "views/vrp";
+import OptimalRouting from "views/OptimalRouting";
+
 // Other Actor Routes
 import NormalPackageList from "views/NormalPackageList.jsx";
 import ColdAR from "views/NormalCamera";
@@ -114,7 +115,7 @@ const dashboardRoutes = [
     path: "/routing",
     name: "Optimal Routing",
     icon: "ri-route-fill",
-    component: vrp,
+    component: OptimalRouting,
     layout: "/admin"
   },
   {
@@ -196,7 +197,7 @@ const supplierRoutes = [
     path: "/routing",
     name: "Optimal Routing",
     icon: "ri-route-fill",
-    component: vrp,
+    component: OptimalRouting,
     layout: "/supplier"
   },
   {
@@ -278,7 +279,7 @@ const consumerRoutes = [
     path: "/routing",
     name: "Optimal Routing",
     icon: "ri-route-fill",
-    component: vrp,
+    component: OptimalRouting,
     layout: "/consumer"
   },
   {
@@ -359,7 +360,7 @@ const distributorRoutes = [
     path: "/routing",
     name: "Optimal Routing",
     icon: "ri-route-fill",
-    component: vrp,
+    component: OptimalRouting,
     layout: "/distributor"
   },
   {
@@ -441,7 +442,7 @@ const manufacturerRoutes = [
     path: "/routing",
     name: "Optimal Routing",
     icon: "ri-route-fill",
-    component: vrp,
+    component: OptimalRouting,
     layout: "/manufacturer"
   },
   {
