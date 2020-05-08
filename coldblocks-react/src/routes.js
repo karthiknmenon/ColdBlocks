@@ -3,7 +3,7 @@ import Dashboard from "views/Dashboard.jsx";
 import ConsumerList from "views/consumerlist.jsx";
 import DistributorList from "views/distributorlist.jsx";
 import SupplierList from "views/supplierlist.jsx";
-import ManufacturerList from "views/ManufacturerList.jsx";
+import ManufacturerList from "views/manufacturerlist.jsx";
 import PackageList from "views/packagelist.jsx";
 import AdminTransactions from "views/adminTransactions";
 import QueryPackage from "views/queryPackage"
