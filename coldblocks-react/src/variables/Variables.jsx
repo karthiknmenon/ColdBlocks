@@ -5,8 +5,8 @@
 const reactURL = "http://localhost:3001";
 
 // nodeJS back-end URL / ngrok URL
-const nodeURL = "http://localhost:4000"
-// const nodeURL = "https://c19834a3.ngrok.io"
+// const nodeURL = "http://localhost:4000"
+const nodeURL = "https://86fdca6c.ngrok.io"
 
 // python-flask URL
 const flaskURL = "http://127.0.0.1:5000"
