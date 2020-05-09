@@ -6,11 +6,15 @@ const reactURL = "http://localhost:3001";
 
 // nodeJS back-end URL / ngrok URL
 // const nodeURL = "http://localhost:4000"
-const nodeURL = "https://86fdca6c.ngrok.io"
+const nodeURL = "https://3e7c1fa9.ngrok.io"
 
 // python-flask URL
 const flaskURL = "http://127.0.0.1:5000"
-
+// Data for Pie Chart
+var legendSales = {
+  names: ["Open", "Click", "Click Second Time"],
+  types: ["info", "danger", "warning"]
+};
 var defaultWidth =
   window.screen.width > 768
     ? (window.screen.width * 1) / 3
@@ -255,5 +259,6 @@ module.exports = {
   style,
   reactURL,
   nodeURL,
-  flaskURL
+  flaskURL,
+  legendSales
 };
