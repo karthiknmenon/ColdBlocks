@@ -81,6 +81,7 @@ ColdBlocks was developed as part of our final year project during B.tech.
     * Use Hyperledger documentation for installation and setup of Hyperledger Composer and Fabric
     * Start the network and install the BNA.
     * Start the composer REST server using, `composer-rest-server -c admin@coldblocks -n never -u true -w true`
+    * To clear test data in development environment, run `composer network reset -c admin@coldblocks`    
 
 ### &nbsp;&nbsp;&nbsp;&nbsp;2. node Backend
 * `cd coldblocks-nodejs`
