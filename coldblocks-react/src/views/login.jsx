@@ -69,8 +69,13 @@ class Login extends Component {
           localStorage.setItem('token', "true");
           history.push('/distributor/dashboard');
 
-        }
-        
+        }        
+        else if(/M[0-9]*/.test(String(user.username))){
+          localStorage.setItem('username', user.username);          
+          localStorage.setItem('token', "true");
+          history.push('/manufacturer/dashboard');
+
+        }        
         else{
           localStorage.setItem('username', user.username);          
           localStorage.setItem('token', "true");
