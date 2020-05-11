@@ -13,6 +13,7 @@ class TemperatureDrop extends Component {
     super()
     this.state = {
       apiData:{},
+      dropData:{},
       pId : '',
       loading:true
     }
@@ -25,7 +26,7 @@ class TemperatureDrop extends Component {
     };
   }
   idChange = event => {
-    console.log("Invoked idChange Event handleChange: "+event.target.value);
+    // console.log("Invoked idChange Event handleChange: "+event.target.value);
     this.setState({
                     pId: event.target.value });
 
@@ -36,14 +37,20 @@ class TemperatureDrop extends Component {
     .then(res => res.json())
     .then((data) => {
         var length = data.length;
-        var i = 0;
-        console.log(this.state.pId)        
+        var i = 0;           
         var flag = 0;
+        if(length==0){
+          this.setState({ show: true, loading: false }, ()=>{
+            console.log("Set State for Show")
+          }); 
+        }
         while(i<length){
             // console.log(i+" "+data[i].asset.slice(49))
             if(String(data[i].asset.slice(49))==String(this.state.pId)){
-              this.setState({ fShow: true, loading: false }, ()=>{
-                console.log("Set State for fShow")
+              this.setState({ fShow: true, loading: false, dropData :data[i].newTemperature,
+                        dropLocation: data[i].newLocation, dropTimestamp : data[i].timestamp
+              }, ()=>{
+                console.log("Set State for fShow" + this.state.dropData)                
               });   
               flag = 0;                          
               break;
@@ -52,6 +59,7 @@ class TemperatureDrop extends Component {
             }            
             i += 1;
       }
+
       // flag to check if packageID entered exists in TemperatureDrop REST API
       if(flag==1){
         this.setState({ show: true, loading: false }, ()=>{
@@ -81,10 +89,8 @@ class TemperatureDrop extends Component {
       console.log(length)
       var i = 0;
       while(i<length){
-            data[i].asset=data[i].asset.slice(49);
-            // data[i].timestamp=data[i].timestamp.slice(12,19)+', '+data[i].timestamp.slice(0,10);
-            data[i].timestamp = new Date(data[i].timestamp)            
-          // console.log("inside while status: 0")          
+            data[i].asset=data[i].asset.slice(49);            
+            data[i].timestamp = new Date(data[i].timestamp)                                
             i += 1;
       }
       data = data.sort((a, b) => b.timestamp - a.timestamp)
@@ -104,9 +110,6 @@ class TemperatureDrop extends Component {
   fHandleClose() {
     this.setState({ fShow: false });
 	}
-	// handleShow() {
-	// 	this.setState({ show: true });
-  // }
 
   render() {
     const {apiData} = this.state;
@@ -144,6 +147,8 @@ class TemperatureDrop extends Component {
                 <Modal.Body className="text-center">
                     <i className="ri-emotion-unhappy-line ri-10x text-danger"></i>
                     <p className="text-danger">The Package is not of Optimal Quality</p>
+                    <p className="text-dark">The Package was transported at temperature : {this.state.dropData} at location : {this.state.dropLocation}  at {String(new Date(this.state.dropTimestamp))}
+                    </p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.fHandleClose}>
