@@ -13,9 +13,9 @@ import {
   Marker
 } from "react-google-maps";
 
-// const maps_api = process.env.REACT_APP_MAPS_API_KEY
-// const maps_url = "https://maps.googleapis.com/maps/api/js?key="+maps_api
-const maps_url = "https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
+const maps_api = process.env.REACT_APP_MAPS_API_KEY
+const maps_url = "https://maps.googleapis.com/maps/api/js?key="+maps_api
+// const maps_url = "https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
 
 function Maps({ ...prop }) {
   const [packageId, setPackageId] = useState(
