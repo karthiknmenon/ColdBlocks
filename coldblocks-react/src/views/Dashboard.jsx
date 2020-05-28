@@ -140,13 +140,13 @@ class Dashboard extends Component {
                     socials={
                       <div>
                           <Button simple>
-                              <a href="https://www.github.com/mojojojo20/coldblocks"><i className="fa fa-github"></i></a>
+                              <a href="https://www.github.com/mojojojo20/coldblocks"><i className="fa fa-2x fa-github"></i></a>
                           </Button>
                           <Button simple>
-                              <a href="https://colddash.netlify.com"><i className="fa fa-globe"></i></a>
+                              <a href="https://colddash.netlify.com"><i className="fa fa-2x fa-globe"></i></a>
                           </Button>
                           <Button simple>
-                              <a href="mailto:coldblocksv1.0@gmail.com"><i className="fa fa-envelope"></i></a>
+                              <a href="mailto:coldblocksv1.0@gmail.com"><i className="fa fa-2x fa-envelope"></i></a>
                           </Button>
                       </div>
                   }
