@@ -19,6 +19,7 @@ import ast
 # For Distance API
 import urllib
 
+
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "http://localhost:3001"}})
 api = Api(app)
@@ -116,7 +117,7 @@ def send_request(origin_addresses, dest_addresses, API_key):
     address_str += addresses[-1].replace(" ", "+")
     return address_str
 
-  request = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial'
+  request = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial'  
   origin_address_str = build_address_str(origin_addresses)
   dest_address_str = build_address_str(dest_addresses)
   request = request + '&origins=' + origin_address_str + '&destinations=' + \
