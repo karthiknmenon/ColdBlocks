@@ -10,6 +10,8 @@ import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import QrReader from 'react-qr-reader';
 import QRCode from "qrcode.react"
+import { style } from "variables/Variables.jsx";
+import NotificationSystem from "react-notification-system";
 import axios from "axios";
 import {reactURl, nodeURL} from "../variables/Variables"
 class ColdAR extends React.Component {
@@ -18,7 +20,8 @@ class ColdAR extends React.Component {
     this.state = {
       result: '',
       show: false,
-      pId: '',
+      _notificationSystem: null,
+      pId: '',      
     }
     this.handleClose = this.handleClose.bind(this);
   }
@@ -33,7 +36,25 @@ class ColdAR extends React.Component {
     if (data) {
       this.setState({
         result: data
-      })
+      }, () =>
+        {
+            console.log(this.state.result)
+            this.setState({ _notificationSystem: this.refs.notificationSystem })
+            var _notificationSystem = this.refs.notificationSystem;
+            var level = "success"
+            _notificationSystem.addNotification({
+              title: <span data-notify="icon" className="ri-error-warning-fill" />,
+              message: (
+                <div>
+                  QR-Code Scanned. Press submit to continue !
+                </div>
+              ),
+              level: level,
+              position: "bl",
+              autoDismiss: 15
+            });
+        }
+      )
     }
   }
   handleError = err => {
@@ -73,9 +94,13 @@ class ColdAR extends React.Component {
     downloadLink.click();
     document.body.removeChild(downloadLink);
   };
+  componentDidMount(){
+    // this.setState({ _notificationSystem: this.refs.notificationSystem });        
+  }
   render() {
     return (
-      <div className="content">
+      <div className="content">        
+      <NotificationSystem ref="notificationSystem" style={style} />
         <Modal show={this.state.show} onHide={this.handleClose}
               {...this.props}
               size="lg"
