@@ -61,7 +61,7 @@ class DistributorList extends Component {
         console.log("loader until fetch new data")
       })
       console.log("edit URL: "+ reactURL+`/api/Distributor/`+this.state.editId)
-      axios.post(`http://localhost:4000/editDistributor/`,
+      axios.post(nodeURL+`/editDistributor/`,
       { headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
