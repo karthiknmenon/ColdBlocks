@@ -41,7 +41,7 @@ const nodeURL = 'https://a4011f90e6e9.ngrok.io';
 // open-cage API for reverse geo-encoding
 opencage.geocode({
     // hard-code latitude and longitude
-    q: '10.5545, 76.2247',
+    q: '9.993485, 76.358201',
     language: 'en'
 }).then(data => {
     // console.log(JSON.stringify(data));
