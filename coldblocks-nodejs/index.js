@@ -36,7 +36,7 @@ app.use(cors());
 const restUrl = 'http://localhost:3000/';
 
 // URL to node server / replace with ngrok URL when deployed
-const nodeURL = 'https://93262941ab7e.ngrok.io';
+const nodeURL = 'https://2f415efe8cfc.ngrok.io';
 
 // open-cage API for reverse geo-encoding
 opencage.geocode({
