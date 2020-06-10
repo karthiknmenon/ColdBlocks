@@ -15,7 +15,8 @@
 		console.log(query);
 		var split = query.split('=')
 		console.log(split[1])
-		var blockchainUrl = 'https://a3af6471.ngrok.io/api/ListPackagesById?packageId=' + split[1]
+		deployedURL=''
+		var blockchainUrl = deployedURL+'/api/ListPackagesById?packageId=' + split[1]
 
 		var status;
 		var displayText;
